@@ -2,9 +2,6 @@
 
 namespace App\Services\ZisazBot;
 
-
-
-
 abstract class ZisazBot {
 
     abstract public function displayItem();
