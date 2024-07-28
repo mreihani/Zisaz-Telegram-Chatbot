@@ -13,11 +13,31 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('chat_id')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('username')->nullable();
+            $table->string('email')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('actions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('subaction_id')->nullable();
+            $table->string('subaction_type')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('beam_and_block_roofs', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('action_id');
+            $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
+            $table->string('a')->nullable();
+            $table->string('h')->nullable();
+            $table->string('c')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +47,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('beam_and_block_roofs');
+        Schema::dropIfExists('actions');
         Schema::dropIfExists('users');
     }
 };

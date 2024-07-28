@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\ZisazBot\Sections\ConstructionCalculation;
+namespace App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation;
 
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 
-class ConstructionCalculation extends ZisazBot {
+class BeamAndBlockRoofCalculation extends ZisazBot {
 
     public $telegram;
     public $user;
@@ -18,17 +18,11 @@ class ConstructionCalculation extends ZisazBot {
     public function displayItem() {
        
         $text = '
-            محاسبات زیربنا، هزینه و  مشارکت در ساخت  
+            مساحت کل سقف را به متر مربع وارد نمایید
         ';
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('محاسبه زیربنا', '', '/getconstcalcarea')), 
-            // Second row
-            array($this->telegram->buildInlineKeyBoardButton('محاسبه هزینه ساخت', '', '/getconstcalcexpenses')), 
-            // Third row
-            array($this->telegram->buildInlineKeyBoardButton('نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
-            // Fourth row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
         );
 

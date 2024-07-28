@@ -7,12 +7,15 @@ use App\Services\ZisazBot\ZisazBot;
 class StartSection extends ZisazBot {
 
     public $telegram;
+    public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
+        $this->user = $this->setUser($telegram);
     }
 
     public function displayItem() {
+       
         $chat_id = $this->telegram->ChatID();
 
         if(!cache()->has("chat_id_{$chat_id}")) {
