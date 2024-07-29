@@ -44,4 +44,12 @@ abstract class ZisazBot {
 
         return $user;
     }
+
+    public function initializeAction($model) {
+        $this->user->actions()->updateOrCreate([
+            'subaction_type' => get_class($model)
+        ],[
+            'updated_at' => now()
+        ]);
+    }
 } 

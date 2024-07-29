@@ -4,7 +4,7 @@ namespace App\Services\ZisazBot\Sections;
 
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
-use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
+use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 
 class UserPrompts extends ZisazBot {
 
@@ -16,22 +16,19 @@ class UserPrompts extends ZisazBot {
         $this->user = !empty($telegram->ChatID()) ? User::where('chat_id', $telegram->ChatID())->first() : null;
     }
 
-    public function checkUserPromt() {
-        $action = $this->user->actions()->create([
-            'subaction_id' => null
-        ]);
+    public function checkUserPrompt() {
+
+        $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
+
+        if(empty($latestAction)) {
+            return;
+        }
         
-        // $beamAndBlockRoof = BeamAndBlockRoof::create([
-        //     'a' => !empty(trim($this->telegram->Text())) ? trim($this->telegram->Text()) : null,
-        // ]);
-
-        $action->beamAndBlockRoof()->create([
-            'a' => !empty(trim($this->telegram->Text())) ? trim($this->telegram->Text()) : null,
-        ]);
-
-        $action->update([
-            'subaction_id' => $beamAndBlockRoof->id,
-            'subaction_type' => 'App\Models\Action\BeamAndBlockRoof'
-        ]);
+        if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
+            $beamAndBlockRoofCalculation->getUserPrompts($latestAction);
+        }
+        
+       
     }
 } 

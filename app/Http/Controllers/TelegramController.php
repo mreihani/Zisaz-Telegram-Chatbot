@@ -8,6 +8,7 @@ use App\Services\TelegramBotPhp\Telegram;
 use App\Services\ZisazBot\Sections\MainMenu;
 use App\Services\ZisazBot\Sections\UserPrompts;
 use App\Services\ZisazBot\Sections\StartSection;
+use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
@@ -19,13 +20,12 @@ class TelegramController extends Controller
         $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
         $incoming_text = $telegram->Text();
         $isCommand = false;
-        
+
         // start command
         if($incoming_text == '/start') {
             $isCommand = true;
             $startSection = new StartSection($telegram);
             $startSection->displayItem();
-            return;
         }
 
         // get menu command
@@ -33,7 +33,6 @@ class TelegramController extends Controller
             $isCommand = true;
             $mainMenuSection = new MainMenu($telegram);
             $mainMenuSection->displayItem();
-            return;
         }
 
         // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
@@ -41,7 +40,6 @@ class TelegramController extends Controller
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();
-            return;
         }
 
         // محاسبه زیربنا 
@@ -49,7 +47,6 @@ class TelegramController extends Controller
             $isCommand = true;
             $constCalcArea = new ConstCalcArea($telegram);
             $constCalcArea->displayItem();
-            return;
         }
         // محاسبه هزینه ساخت 
         // نسبت منصفانه مشارکت در ساخت 
@@ -59,14 +56,22 @@ class TelegramController extends Controller
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
             $beamAndBlockRoofCalculation->displayItem();
-            return;
         }
-
+        if($incoming_text == '/beamandblockroofsendpamameteratext') {
+            $isCommand = true;
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
+            $beamAndBlockRoofCalculation->sendPamameterAText();
+        }
+        if($incoming_text == '/beamandblockroofdownloadresults') {
+            $isCommand = true;
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
+            $beamAndBlockRoofCalculation->displayFinalResults();
+        }
+       
         // محاسبه متن ها و ورودی های کاربر
-        // if(!$isCommand) {
-        //     $userPrompts = new UserPrompts($telegram);
-        //     $userPrompts->checkUserPromt();
-        //     return;
-        // }
+        if(!$isCommand) {
+            $userPrompts = new UserPrompts($telegram);
+            $userPrompts->checkUserPrompt();
+        }
     }
 }

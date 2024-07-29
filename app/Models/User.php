@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Action\Action;
 use Laravel\Sanctum\HasApiTokens;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,5 +43,11 @@ class User extends Authenticatable
 
     public function actions() {
         return $this->hasMany(Action::class);
+    }
+
+    // Mutator to trim all columns before saving
+    public function setAttribute($key, $value)
+    {
+        $this->attributes[$key] = Purify::clean(trim($value));
     }
 }

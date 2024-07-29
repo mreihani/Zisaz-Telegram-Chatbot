@@ -25,5 +25,4 @@ Route::prefix('telegram/webhooks')->group(function() {
     });
 });
 
-
 //https://api.telegram.org/bot6488918893:AAEdVK7H9e_t68YnWGHZpbdu1vY8XT5oH9A/setWebhook?url=https://jaban.ir/api/telegram/webhooks/inbound

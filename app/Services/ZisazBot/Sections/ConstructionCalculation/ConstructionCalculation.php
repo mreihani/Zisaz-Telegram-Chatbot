@@ -35,5 +35,8 @@ class ConstructionCalculation extends ZisazBot {
         $keyb = $this->telegram->buildInlineKeyBoard($option);
 
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
+
+        // set and update action
+        // $this->initializeAction(new ());
     }
 } 
