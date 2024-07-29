@@ -22,7 +22,7 @@ class UserPrompts extends ZisazBot {
             return;
         }
 
-        $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
+        $latestAction = $this->getLastActionObject($this->telegram);
 
         if(empty($latestAction)) {
             return;

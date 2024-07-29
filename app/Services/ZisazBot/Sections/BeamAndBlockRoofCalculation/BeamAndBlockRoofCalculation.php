@@ -47,7 +47,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
         $text = $this->telegram->Text();
 
-        $latestAction = $this->getLastActionObject();
+        $latestAction = $this->getLastActionObject($this->telegram);
 
         if(is_null($latestAction)) {
             return;
@@ -96,7 +96,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
     public function sendPamameterAText() {
 
         // first check if user has already submitted all the requirements or not, if not, it will ask for the first parameter
-        $latestAction = $this->getLastActionObject();
+        $latestAction = $this->getLastActionObject($this->telegram);
         if(is_null($latestAction)) {
             return;
         }
@@ -185,17 +185,15 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
 
-    private function getLastActionObject() {
-        $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
+    // private function getLastActionObject() {
+    //     $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
     
-        if(empty($latestAction)) {
-            return null;
-        }
+    //     if(empty($latestAction)) {
+    //         return null;
+    //     }
     
-        return $latestAction;
-    }
-
-
+    //     return $latestAction;
+    // }
 
 } 
 

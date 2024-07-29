@@ -60,4 +60,17 @@ abstract class ZisazBot {
             'updated_at' => now()
         ]);
     }
+
+    // get the latest action object
+    public function getLastActionObject($telegram) {
+
+        $user = $this->getUser($telegram);
+        $latestAction = $user->actions()->orderBy('updated_at', 'desc')->first();
+    
+        if(empty($latestAction)) {
+            return null;
+        }
+    
+        return $latestAction;
+    }
 } 
