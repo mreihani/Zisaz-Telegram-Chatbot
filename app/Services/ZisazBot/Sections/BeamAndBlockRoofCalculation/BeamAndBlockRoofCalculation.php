@@ -13,7 +13,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
-        $this->user = !empty($telegram->ChatID()) ? User::where('chat_id', $telegram->ChatID())->first() : null;
+        $this->user = $this->getUser($telegram);
     }
 
     public function displayItem() {
@@ -47,9 +47,9 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
         $text = $this->telegram->Text();
 
-        $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
+        $latestAction = $this->getLastActionObject();
 
-        if(empty($latestAction)) {
+        if(is_null($latestAction)) {
             return;
         }
 
@@ -89,20 +89,30 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
             $this->displayFinalResults();
         } else {
-            //$this->displayFinalResults();
+            // $this->displayFinalResults();
         }
     }
 
     public function sendPamameterAText() {
+
+        // first check if user has already submitted all the requirements or not, if not, it will ask for the first parameter
+        $latestAction = $this->getLastActionObject();
+        if(is_null($latestAction)) {
+            return;
+        }
+        $beamAndBlockRoof = $latestAction->beamAndBlockRoof->first();
+        if(!empty($beamAndBlockRoof->a) && !empty($beamAndBlockRoof->h) && !empty($beamAndBlockRoof->c)) {
+            $this->displayFinalResults();
+            return; 
+        }
+
+        // second, after checked for not having any previous submission, it asks for the first item to enter
         $text = 'مساحت کل سقف را وارد کنید';
-        
         $option = array( 
             // First row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
         );
-
         $keyb = $this->telegram->buildInlineKeyBoard($option);
-
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
 
@@ -174,5 +184,18 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
+
+    private function getLastActionObject() {
+        $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
+    
+        if(empty($latestAction)) {
+            return null;
+        }
+    
+        return $latestAction;
+    }
+
+
+
 } 
 

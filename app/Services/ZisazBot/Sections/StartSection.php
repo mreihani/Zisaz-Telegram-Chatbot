@@ -11,7 +11,7 @@ class StartSection extends ZisazBot {
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
-        $this->user = $this->setUser($telegram);
+        $this->user = $this->getUser($telegram);
     }
 
     public function displayItem() {

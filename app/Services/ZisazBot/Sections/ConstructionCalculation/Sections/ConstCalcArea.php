@@ -12,7 +12,7 @@ class ConstCalcArea extends ZisazBot {
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
-        $this->user = !empty($telegram->ChatID()) ? User::where('chat_id', $telegram->ChatID())->first() : null;
+        $this->user = $this->getUser($telegram);
     }
 
     public function displayItem() {

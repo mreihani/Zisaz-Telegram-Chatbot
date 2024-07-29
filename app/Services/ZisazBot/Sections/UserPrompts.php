@@ -13,10 +13,14 @@ class UserPrompts extends ZisazBot {
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
-        $this->user = !empty($telegram->ChatID()) ? User::where('chat_id', $telegram->ChatID())->first() : null;
+        $this->user = $this->getUser($telegram);
     }
 
     public function checkUserPrompt() {
+
+        if(empty($this->user)) {
+            return;
+        }
 
         $latestAction = $this->user->actions()->orderBy('updated_at', 'desc')->first();
 
@@ -26,7 +30,7 @@ class UserPrompts extends ZisazBot {
         
         if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
-            $beamAndBlockRoofCalculation->getUserPrompts($latestAction);
+            $beamAndBlockRoofCalculation->getUserPrompts();
         }
         
        

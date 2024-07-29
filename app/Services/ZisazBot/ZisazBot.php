@@ -34,18 +34,21 @@ abstract class ZisazBot {
         }
     }
 
-    public function setUser($telegram) {
-        if(empty($telegram->ChatID())) {
-           return;
+    public function getUser($telegram) {
+        if($telegram === null || empty($telegram->ChatID())) {
+            return null;
         }
 
-        $user = User::updateOrCreate([
-            'chat_id' => $telegram->ChatID()
-        ],[
-            'firstname' => !empty($telegram->FirstName()) ? $telegram->FirstName() : null,
-            'lastname' => !empty($telegram->LastName()) ? $telegram->LastName() : null,
-            'username' => !empty($telegram->Username()) ? $telegram->Username() : null,
-        ]);
+        $user = User::where('chat_id', $telegram->ChatID())->first();
+
+        if(empty($user)) {
+            $user = User::create([
+                'chat_id' => $telegram->ChatID(),
+                'firstname' => !empty($telegram->FirstName()) ? $telegram->FirstName() : null,
+                'lastname' => !empty($telegram->LastName()) ? $telegram->LastName() : null,
+                'username' => !empty($telegram->Username()) ? $telegram->Username() : null,
+            ]);
+        }
 
         return $user;
     }
