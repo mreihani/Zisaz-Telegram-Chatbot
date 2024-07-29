@@ -17,8 +17,13 @@ abstract class ZisazBot {
         }
     }
 
-    public function sendMessageWithInlineKeyBoard($telegram, $keyb, $text) {
+    public function sendMessageWithInlineKeyBoard($telegram, $keyb, $text, $img = null) {
         $chat_id = $telegram->ChatID();
+
+        if(!is_null($img)) {
+            $content = array('chat_id' => $chat_id, 'photo' => $img);
+            $telegram->sendPhoto($content);
+        }
 
         if($telegram->getUpdateType() === 'callback_query') {
             $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text, 'message_id' => $telegram->MessageID());

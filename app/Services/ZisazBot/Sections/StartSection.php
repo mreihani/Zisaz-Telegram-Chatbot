@@ -67,6 +67,8 @@ class StartSection extends ZisazBot {
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
 
-        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
+        $img = curl_file_create(asset('/assets/img/start.jpg'),'image/jpg'); 
+
+        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text, $img);
     }
 } 
