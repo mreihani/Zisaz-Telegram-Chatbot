@@ -18,13 +18,14 @@ use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 */
 
 // Route::get('/', function () {
-//     $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
+    // $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
 
-//     $action = Action::find(1);
+    // $action = Action::find(1);
 
-//     dd(
-//         $action->subaction
-//     );
+    // dd(
+    //     $action->subaction
+    // );
+    
 
 //     return view('welcome');
 // });

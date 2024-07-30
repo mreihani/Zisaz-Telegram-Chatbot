@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TelegramController;
 
 /*
@@ -19,10 +20,12 @@ use App\Http\Controllers\TelegramController;
 //     return $request->user();
 // });
 
+// telegram bot route
 Route::prefix('telegram/webhooks')->group(function() {
     Route::controller(TelegramController::class)->group(function () {
         Route::post('inbound', 'inbound')->name('telegram.inbound');
     });
 });
 
+// set webhook example
 //https://api.telegram.org/bot6488918893:AAEdVK7H9e_t68YnWGHZpbdu1vY8XT5oH9A/setWebhook?url=https://jaban.ir/api/telegram/webhooks/inbound

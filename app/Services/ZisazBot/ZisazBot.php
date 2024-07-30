@@ -36,7 +36,7 @@ abstract class ZisazBot {
 
     public function getUser($telegram) {
         if($telegram === null || empty($telegram->ChatID())) {
-            return null;
+            throw new \Exception('telegram or chatId is null');
         }
 
         $user = User::where('chat_id', $telegram->ChatID())->first();
@@ -66,11 +66,13 @@ abstract class ZisazBot {
 
         $user = $this->getUser($telegram);
         $latestAction = $user->actions()->orderBy('updated_at', 'desc')->first();
-    
+        
         if(empty($latestAction)) {
-            return null;
+            throw new \Exception('Latest action object is null');
         }
     
         return $latestAction;
     }
+
+    
 } 

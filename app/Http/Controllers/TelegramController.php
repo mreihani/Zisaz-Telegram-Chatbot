@@ -11,6 +11,7 @@ use App\Services\ZisazBot\Sections\StartSection;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
+use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofParameters;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 
 class TelegramController extends Controller
@@ -59,19 +60,29 @@ class TelegramController extends Controller
         }
         if($incoming_text == '/beamandblockroofsendpamameteratext') {
             $isCommand = true;
-            $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
-            $beamAndBlockRoofCalculation->sendPamameterAText();
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
+            $beamAndBlockRoofCalculation->processParameterSubmission();
         }
         if($incoming_text == '/beamandblockroofdownloadresults') {
             $isCommand = true;
-            $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
-            $beamAndBlockRoofCalculation->displayFinalResults();
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
+            $beamAndBlockRoofCalculation->downloadResults();
+        }
+        if($incoming_text == '/beamandblockroofresetresults') {
+            $isCommand = true;
+            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
+            $beamAndBlockRoofCalculation->resetResults();
         }
        
-        // محاسبه متن ها و ورودی های کاربر
+        // دریافت ورودی های کاربر
         if(!$isCommand) {
-            $userPrompts = new UserPrompts($telegram);
-            $userPrompts->checkUserPrompt();
+            try {
+                $userPrompts = new UserPrompts($telegram);
+                $userPrompts->checkUserPrompt();
+            } catch(Exception $e) {
+                \Log::info('An error occurred: ' . $e->getMessage());
+            }
         }
+
     }
 }

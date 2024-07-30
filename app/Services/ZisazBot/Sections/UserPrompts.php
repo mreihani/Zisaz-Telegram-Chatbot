@@ -19,13 +19,13 @@ class UserPrompts extends ZisazBot {
     public function checkUserPrompt() {
 
         if(empty($this->user)) {
-            return;
+            throw new \Exception('User is empty');
         }
 
         $latestAction = $this->getLastActionObject($this->telegram);
 
         if(empty($latestAction)) {
-            return;
+            throw new \Exception('Latest action is empty');
         }
         
         if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
