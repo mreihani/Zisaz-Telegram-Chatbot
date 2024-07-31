@@ -81,7 +81,8 @@ abstract class ZisazBot {
         return $latestAction;
     }
 
-    // this is for keyboards
+    // this is from inline keyboards
+    // این متد برای ذخیره شماره پیام هایی است که تلگرام به کاربر ارسال می کند مثل دکمه های شیشه ای
     public function saveMessageId($telegram, $result) {
         $messageId = (!empty($result) && !empty($result['result']) && !empty($result['result']['message_id'])) ? $result['result']['message_id'] : null;
 
@@ -97,6 +98,7 @@ abstract class ZisazBot {
     }
 
     // this method is for user inputs
+    // این متد برای ذخیره شماره پیام هایی است که کاربر به تلگرام ارسال می کند مثل کامند ها یا تایپ می کند
     public function saveMessageIdUserPrompt($telegram) {
         $messageId = $telegram->MessageID();
 
@@ -131,6 +133,6 @@ abstract class ZisazBot {
         $telegram->deleteMessages($content);
 
         // delete all user messages
-        //$user->messages()->delete();
+        $user->messages()->whereIn('message_id', $messageIds)->delete();
     }
 } 

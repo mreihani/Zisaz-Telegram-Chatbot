@@ -17,13 +17,14 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 class TelegramController extends Controller
 {
     public function inbound(Request $request) {
-        
-        // throw new \Exception('Temporarily down!');
-        // return;
 
         $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
         $incoming_text = $telegram->Text();
         $isCommand = false;
+
+        // $telegram->deleteWebhook();
+        // https://api.telegram.org/bot6488918893:AAEdVK7H9e_t68YnWGHZpbdu1vY8XT5oH9A/setWebhook?url=https://jaban.ir/api/telegram/webhooks/inbound
+        // return;
 
         // start command
         if($incoming_text === '/start') {
