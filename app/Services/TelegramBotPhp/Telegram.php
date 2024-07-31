@@ -876,6 +876,8 @@ class Telegram
             return @$this->data['edited_message']['message_id'];
         }
 
+       // \Log::info($this->data['message']['message_id']);
+
         return $this->data['message']['message_id'];
     }
 
@@ -1649,6 +1651,11 @@ class Telegram
     public function deleteMessage(array $content)
     {
         return $this->endpoint('deleteMessage', $content);
+    }
+
+    public function deleteMessages(array $content)
+    {
+        return $this->endpoint('deleteMessages', $content);
     }
 
     /// Receive incoming messages using polling

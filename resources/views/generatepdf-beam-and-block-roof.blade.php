@@ -9,24 +9,6 @@
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
         <style>
-           .vertical-center {
-                height:100%;
-                width:100%;
-                text-align: center;  /* align the inline(-block) elements horizontally */
-                font: 0/0 a;         /* remove the gap between inline(-block) elements */
-            }
-            .vertical-center:before {    /* create a full-height inline block pseudo=element */
-                content: " ";
-                display: inline-block;
-                vertical-align: middle;    /* vertical alignment of the inline element */
-                height: 100%;
-            }
-            .vertical-center > .container {
-                max-width: 100%;
-                display: inline-block;
-                vertical-align: middle;  /* vertical alignment of the inline element */
-            }
-
             body, th, td, tr, div, span { 
                 font-family: DejaVu Sans, serif;
                 direction: rtl;  
@@ -42,6 +24,11 @@
     <body>
         <div class="jumbotron vertical-center">
             <div class="container">
+
+                <h1 class="mb-3 pb-3 text-center">
+                    جدول محاسبات سقف تیرچه و بلوک
+                </h1>
+
                 <div class="row">
                     <table class="table table-bordered">
                         <thead>

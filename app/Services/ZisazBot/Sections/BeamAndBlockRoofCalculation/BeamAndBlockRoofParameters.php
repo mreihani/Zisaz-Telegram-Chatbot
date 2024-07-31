@@ -158,11 +158,13 @@ class BeamAndBlockRoofParameters extends BeamAndBlockRoofCalculation {
 
         // Step 4: Send the file using Telegram bot
         $content = array('chat_id' => $chat_id, 'document' => $file);
-        $telegram->sendDocument($content);
+        $result = $telegram->sendDocument($content);
 
         // Step 5: Remove the temporary file
         if (file_exists($pdfPath)) {
             unlink($pdfPath);
         }
+       
+        $this->saveMessageId($telegram, $result);
     }
 }

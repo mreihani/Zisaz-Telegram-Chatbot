@@ -14,6 +14,7 @@ class UserPrompts extends ZisazBot {
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
+        $this->saveMessageIdUserPrompt($telegram);
     }
 
     public function checkUserPrompt() {
@@ -22,17 +23,13 @@ class UserPrompts extends ZisazBot {
             throw new \Exception('User is empty');
         }
 
+        // هر وقت به مشکل خوردی این ها رو غیر فعال کن
         $latestAction = $this->getLastActionObject($this->telegram);
 
-        if(empty($latestAction)) {
-            throw new \Exception('Latest action is empty');
-        }
-        
         if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
             $beamAndBlockRoofCalculation->getUserPrompts();
         }
-        
        
     }
 } 

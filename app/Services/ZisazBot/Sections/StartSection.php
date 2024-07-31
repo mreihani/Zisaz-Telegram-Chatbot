@@ -12,6 +12,7 @@ class StartSection extends ZisazBot {
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
+        $this->saveMessageIdUserPrompt($telegram);
     }
 
     public function displayItem() {
@@ -67,8 +68,8 @@ class StartSection extends ZisazBot {
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
 
-        $img = curl_file_create(asset('/assets/img/start.jpg'),'image/jpg'); 
+        //$img = curl_file_create(asset('/assets/img/start.jpg'),'image/jpg'); 
 
-        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text, $img);
+        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
 } 

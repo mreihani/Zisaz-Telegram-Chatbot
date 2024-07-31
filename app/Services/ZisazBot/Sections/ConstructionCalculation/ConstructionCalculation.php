@@ -13,6 +13,7 @@ class ConstructionCalculation extends ZisazBot {
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
+        $this->saveMessageIdUserPrompt($telegram);
     }
 
     public function displayItem() {

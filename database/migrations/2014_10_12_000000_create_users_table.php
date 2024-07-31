@@ -22,6 +22,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('message_id')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
@@ -49,6 +56,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('beam_and_block_roofs');
         Schema::dropIfExists('actions');
+        Schema::dropIfExists('messages');
         Schema::dropIfExists('users');
     }
 };

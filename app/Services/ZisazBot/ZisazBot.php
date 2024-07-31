@@ -10,11 +10,14 @@ abstract class ZisazBot {
 
         if($telegram->getUpdateType() === 'callback_query') {
             $content = array('chat_id' => $chat_id,'text' => $text, 'message_id' => $telegram->MessageID());
-            $telegram->editMessageText($content);
+            $result = $telegram->editMessageText($content);
         } else {
             $content = array('chat_id' => $chat_id,'text' => $text);
-            $telegram->sendMessage($content);
+            $result = $telegram->sendMessage($content);
         }
+
+        $this->deleteUserMessages($telegram);
+        $this->saveMessageId($telegram, $result);
     }
 
     public function sendMessageWithInlineKeyBoard($telegram, $keyb, $text, $img = null) {
@@ -22,19 +25,23 @@ abstract class ZisazBot {
 
         if(!is_null($img)) {
             $content = array('chat_id' => $chat_id, 'photo' => $img);
-            $telegram->sendPhoto($content);
+            $result = $telegram->sendPhoto($content);
         }
 
         if($telegram->getUpdateType() === 'callback_query') {
             $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text, 'message_id' => $telegram->MessageID());
-            $telegram->editMessageText($content);
+            $result = $telegram->editMessageText($content);
         } else {
             $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
-            $telegram->sendMessage($content);
+            $result = $telegram->sendMessage($content);
         }
+
+        $this->deleteUserMessages($telegram);
+        $this->saveMessageId($telegram, $result);
     }
 
     public function getUser($telegram) {
+
         if($telegram === null || empty($telegram->ChatID())) {
             throw new \Exception('telegram or chatId is null');
         }
@@ -68,11 +75,62 @@ abstract class ZisazBot {
         $latestAction = $user->actions()->orderBy('updated_at', 'desc')->first();
         
         if(empty($latestAction)) {
-            throw new \Exception('Latest action object is null');
+            throw new \Exception('Latest Action object is empty');
         }
     
         return $latestAction;
     }
 
-    
+    // this is for keyboards
+    public function saveMessageId($telegram, $result) {
+        $messageId = (!empty($result) && !empty($result['result']) && !empty($result['result']['message_id'])) ? $result['result']['message_id'] : null;
+
+        if(empty($messageId)) {
+            return;
+        }
+
+        $user = $this->getUser($telegram);
+
+        $user->messages()->updateOrCreate([
+            'message_id' => $messageId
+        ]);
+    }
+
+    // this method is for user inputs
+    public function saveMessageIdUserPrompt($telegram) {
+        $messageId = $telegram->MessageID();
+
+        if(empty($messageId)) {
+            return;
+        }
+
+        $user = $this->getUser($telegram);
+        $user->messages()->updateOrCreate([
+            'message_id' => $messageId
+        ]);
+    }
+
+    public function getUserMessageIdsArray($telegram) {
+        $user = $this->getUser($telegram);
+
+        $messageIds = $user->messages->pluck('message_id')->toArray();
+
+        return $messageIds;
+    }
+
+    public function deleteUserMessages($telegram) {
+        $chat_id = $telegram->ChatID();
+        $user = $this->getUser($telegram);
+        $messageIds = $this->getUserMessageIdsArray($telegram);
+
+        // Omit the last message_id from the array
+        array_pop($messageIds);
+
+        $content = ['chat_id' => $chat_id, 'message_ids' => json_encode($messageIds)];
+
+        $telegram->deleteMessages($content);
+
+        // delete all user messages
+        //$user->messages()->delete();
+    }
 } 

@@ -17,65 +17,56 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 class TelegramController extends Controller
 {
     public function inbound(Request $request) {
-      
+        
+        // throw new \Exception('Temporarily down!');
+        // return;
+
         $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
         $incoming_text = $telegram->Text();
         $isCommand = false;
 
         // start command
-        if($incoming_text == '/start') {
+        if($incoming_text === '/start') {
             $isCommand = true;
             $startSection = new StartSection($telegram);
             $startSection->displayItem();
-        }
-
-        // get menu command
-        if($incoming_text == '/getmenu') {
+        } elseif($incoming_text === '/getmenu') {
+            // get menu command
             $isCommand = true;
             $mainMenuSection = new MainMenu($telegram);
             $mainMenuSection->displayItem();
-        }
-
-        // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
-        if($incoming_text == '/getconstractioncalculation') {
+        } elseif($incoming_text === '/getconstractioncalculation') {
+            // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();
-        }
-
-        // محاسبه زیربنا 
-        if($incoming_text == '/getconstcalcarea') {
+        } elseif($incoming_text === '/getconstcalcarea') {
+            // محاسبه زیربنا 
             $isCommand = true;
             $constCalcArea = new ConstCalcArea($telegram);
             $constCalcArea->displayItem();
-        }
-        // محاسبه هزینه ساخت 
-        // نسبت منصفانه مشارکت در ساخت 
-
-        // سقف تیرچه و بلوک
-        if($incoming_text == '/getbeamandblockroof') {
+        } elseif($incoming_text === '/getbeamandblockroof') {
+            // محاسبه هزینه ساخت 
+            // نسبت منصفانه مشارکت در ساخت 
+    
+            // سقف تیرچه و بلوک
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
             $beamAndBlockRoofCalculation->displayItem();
-        }
-        if($incoming_text == '/beamandblockroofsendpamameteratext') {
+        } elseif($incoming_text === '/beamandblockroofsendpamameteratext') {
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
             $beamAndBlockRoofCalculation->processParameterSubmission();
-        }
-        if($incoming_text == '/beamandblockroofdownloadresults') {
+        } elseif($incoming_text === '/beamandblockroofdownloadresults') {
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
             $beamAndBlockRoofCalculation->downloadResults();
-        }
-        if($incoming_text == '/beamandblockroofresetresults') {
+        } elseif($incoming_text === '/beamandblockroofresetresults') {
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
             $beamAndBlockRoofCalculation->resetResults();
-        }
-       
-        // دریافت ورودی های کاربر
-        if(!$isCommand) {
+        } elseif(!$isCommand) {
+            // دریافت ورودی های کاربر
             try {
                 $userPrompts = new UserPrompts($telegram);
                 $userPrompts->checkUserPrompt();
@@ -83,6 +74,5 @@ class TelegramController extends Controller
                 \Log::info('An error occurred: ' . $e->getMessage());
             }
         }
-
     }
 }

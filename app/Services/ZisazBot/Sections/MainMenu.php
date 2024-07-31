@@ -7,9 +7,12 @@ use App\Services\ZisazBot\ZisazBot;
 class MainMenu extends ZisazBot {
 
     public $telegram;
+    public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
+        $this->user = $this->getUser($telegram);
+        $this->saveMessageIdUserPrompt($telegram);
     }
 
     public function displayItem() {

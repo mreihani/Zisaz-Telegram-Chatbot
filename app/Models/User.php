@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Action\Action;
+use App\Models\Message\Message;
 use Laravel\Sanctum\HasApiTokens;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Notifications\Notifiable;
@@ -40,6 +41,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
 
     public function actions() {
         return $this->hasMany(Action::class);
