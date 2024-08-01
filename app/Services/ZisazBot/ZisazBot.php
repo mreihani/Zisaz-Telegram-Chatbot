@@ -37,15 +37,17 @@ abstract class ZisazBot {
 
     public function getUser($telegram) {
 
-        if($telegram === null || empty($telegram->ChatID())) {
-            throw new \Exception('telegram or chatId is null');
+        $chat_id = $telegram->ChatID();
+
+        if($telegram === null || empty($chat_id) || $chat_id < 0) {
+            throw new \Exception('telegram chat_id is null, or zero, or a negative number!');
         }
 
-        $user = User::where('chat_id', $telegram->ChatID())->first();
+        $user = User::where('chat_id', $chat_id)->first();
 
         if(empty($user)) {
             $user = User::create([
-                'chat_id' => $telegram->ChatID(),
+                'chat_id' => $chat_id,
                 'firstname' => !empty($telegram->FirstName()) ? $telegram->FirstName() : null,
                 'lastname' => !empty($telegram->LastName()) ? $telegram->LastName() : null,
                 'username' => !empty($telegram->Username()) ? $telegram->Username() : null,

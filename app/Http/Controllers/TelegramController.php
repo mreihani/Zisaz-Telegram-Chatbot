@@ -22,9 +22,12 @@ class TelegramController extends Controller
         $incoming_text = $telegram->Text();
         $isCommand = false;
 
-        // $telegram->deleteWebhook();
         // https://api.telegram.org/bot6488918893:AAEdVK7H9e_t68YnWGHZpbdu1vY8XT5oH9A/setWebhook?url=https://jaban.ir/api/telegram/webhooks/inbound
+        // $telegram->deleteWebhook();
         // return;
+        if(trim($telegram->ChatID()) !== '103534250') {
+            return;
+        }
 
         // start command
         if($incoming_text === '/start') {
