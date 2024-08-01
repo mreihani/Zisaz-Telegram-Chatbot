@@ -26,7 +26,7 @@ class ConstCalcArea extends ZisazBot {
             array($this->telegram->buildInlineKeyBoardButton('محاسبه زیربنا', '', '/getconstcalcarea')), 
 
             // Fourth row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getconstractioncalculation')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getconstructioncalculation')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

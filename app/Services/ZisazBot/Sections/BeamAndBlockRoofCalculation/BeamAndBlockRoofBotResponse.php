@@ -6,7 +6,7 @@ use PDF;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofResult;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 
-class BeamAndBlockRoofParameters extends BeamAndBlockRoofCalculation {
+class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
 
     public $telegram;
     public $latestAction;

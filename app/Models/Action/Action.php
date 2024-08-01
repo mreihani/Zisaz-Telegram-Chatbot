@@ -5,6 +5,7 @@ namespace App\Models\Action;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Action\Construction\Construction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 
@@ -18,6 +19,10 @@ class Action extends Model
 
     public function subaction() {
         return $this->morphTo();
+    }
+
+    public function construction() {
+        return $this->hasMany(Construction::class);
     }
 
     public function beamAndBlockRoof() {

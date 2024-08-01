@@ -44,9 +44,10 @@ abstract class ZisazBot {
         }
 
         $user = User::where('chat_id', $chat_id)->first();
-
+        
         if(empty($user)) {
             $user = User::create([
+                'user_id' => !empty($telegram->UserID()) ? $telegram->UserID() : null,
                 'chat_id' => $chat_id,
                 'firstname' => !empty($telegram->FirstName()) ? $telegram->FirstName() : null,
                 'lastname' => !empty($telegram->LastName()) ? $telegram->LastName() : null,

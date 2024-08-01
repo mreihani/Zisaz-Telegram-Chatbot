@@ -22,7 +22,7 @@ class MainMenu extends ZisazBot {
 
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('1- محاسبات زیربنا، هزینه، مشارکت در ساخت', '', '/getconstractioncalculation')), 
+            array($this->telegram->buildInlineKeyBoardButton('1- محاسبات زیربنا، هزینه و مشارکت در ساخت', '', '/getconstructioncalculation')), 
             // Second row 
             array($this->telegram->buildInlineKeyBoardButton('2- سقف تیرچه و بلوک', '', '/getbeamandblockroof')), 
             // Third row

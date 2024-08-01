@@ -5,7 +5,8 @@ namespace App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation;
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
-use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofParameters;
+use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
+use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofValidation;
 
 class BeamAndBlockRoofCalculation extends ZisazBot {
 
@@ -21,7 +22,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
     public function displayItem() {
        
         $text = '
-در این بخش محاسبات مربوط به سقف تیرچه و بلوک انجام می شود. 
+در این بخش محاسبات سقف تیرچه و بلوک انجام می شود. 
             
 اطلاعات مورد نیاز:
 1- مساحت کل سقف
@@ -54,15 +55,15 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
 
             $beamAndBlockRoof = $latestAction->beamAndBlockRoof->first();
 
-            $beamAndBlockRoofParameters = new BeamAndBlockRoofParameters($this->telegram);
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+            $beamAndBlockRoofValidation = new BeamAndBlockRoofValidation($this->telegram);
 
             if(empty($beamAndBlockRoof->a) && empty($beamAndBlockRoof->h) && empty($beamAndBlockRoof->c)) {
                 
                 // user input validation for numeric values
-                $this->isNumericValidation($text, 'a');
-
+                $beamAndBlockRoofValidation->isNumericValidation($text, 'a');
                 // user input validation for positive integer values
-                $this->isPositiveInteger($text, 'a');
+                $beamAndBlockRoofValidation->isPositiveInteger($text, 'a');
 
                 $beamAndBlockRoofObj = $latestAction->beamAndBlockRoof()->create([
                     'a' => !empty($text) ? $text : null,
@@ -72,7 +73,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
                     'subaction_id' => $beamAndBlockRoofObj->id,
                 ]);
 
-                $beamAndBlockRoofParameters->sendPamameterHText();
+                $beamAndBlockRoofBotResponse->sendPamameterHText();
 
             } elseif(empty($beamAndBlockRoof->h) && empty($beamAndBlockRoof->c)) {
 
@@ -85,30 +86,28 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
                 }
 
                 // user input validation for numeric values
-                $this->isNumericValidation($text, 'h');
-
+                $beamAndBlockRoofValidation->isNumericValidation($text, 'h');
                 // user input validation for positive integer values
-                $this->isPositiveInteger($text, 'h');
+                $beamAndBlockRoofValidation->isPositiveInteger($text, 'h');
 
                 $latestAction->beamAndBlockRoof()->update([
                     'h' => !empty($text) ? $text : null,
                 ]);
 
-                $beamAndBlockRoofParameters->sendPamameterCText();
+                $beamAndBlockRoofBotResponse->sendPamameterCText();
 
             } elseif(empty($beamAndBlockRoof->c)) {
 
                 // user input validation for numeric values
-                $this->isNumericValidation($text, 'c');
-
+                $beamAndBlockRoofValidation->isNumericValidation($text, 'c');
                 // user input validation for positive integer values
-                $this->isPositiveInteger($text, 'c');
+                $beamAndBlockRoofValidation->isPositiveInteger($text, 'c');
 
                 $latestAction->beamAndBlockRoof()->update([
                     'c' => !empty($text) ? $text : null,
                 ]);
 
-                $beamAndBlockRoofParameters->displayFinalResults();
+                $beamAndBlockRoofBotResponse->displayFinalResults();
             } 
 
         } catch (\Exception $e) {
@@ -124,68 +123,6 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
         $beamAndBlockRoof->delete();
 
         return $this->displayItem();
-    }
-
-    private function isNumericValidation($text, $paramType) {
-        if(!is_numeric($text)) {
-
-            $message = '
-                ⛔خطا!
-
-مقدار وارد شده باید عدد باشد!
-            ';
-
-            $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofParameters = new BeamAndBlockRoofParameters($this->telegram);
-
-            switch ($paramType) {
-                case 'a':
-                    $beamAndBlockRoofParameters->sendPamameterAText();
-                    break;
-                case 'h':
-                    $beamAndBlockRoofParameters->sendPamameterHText();
-                    break;
-                case 'c':
-                    $beamAndBlockRoofParameters->sendPamameterCText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
-
-            throw new \Exception($message);
-        }
-    }
-
-    private function isPositiveInteger($text, $paramType) {
-        if($text < 0) {
-
-            $message = '
-                ⛔خطا!
-
-مقدار وارد شده نمی تواند منفی باشد!
-            ';
-
-            $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofParameters = new BeamAndBlockRoofParameters($this->telegram);
-
-            switch ($paramType) {
-                case 'a':
-                    $beamAndBlockRoofParameters->sendPamameterAText();
-                    break;
-                case 'h':
-                    $beamAndBlockRoofParameters->sendPamameterHText();
-                    break;
-                case 'c':
-                    $beamAndBlockRoofParameters->sendPamameterCText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
-
-            throw new \Exception($message);
-        }
     }
 } 
 

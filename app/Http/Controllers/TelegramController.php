@@ -9,9 +9,10 @@ use App\Services\ZisazBot\Sections\MainMenu;
 use App\Services\ZisazBot\Sections\UserPrompts;
 use App\Services\ZisazBot\Sections\StartSection;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
+use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
-use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofParameters;
+use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 
 class TelegramController extends Controller
@@ -39,38 +40,48 @@ class TelegramController extends Controller
             $isCommand = true;
             $mainMenuSection = new MainMenu($telegram);
             $mainMenuSection->displayItem();
-        } elseif($incoming_text === '/getconstractioncalculation') {
+
             // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
+        } elseif($incoming_text === '/getconstructioncalculation') {
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();
-        } elseif($incoming_text === '/getconstcalcarea') {
-            // محاسبه زیربنا 
+
+        } elseif($incoming_text === '/constructionsendpamameteratext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
             $isCommand = true;
-            $constCalcArea = new ConstCalcArea($telegram);
-            $constCalcArea->displayItem();
-        } elseif($incoming_text === '/getbeamandblockroof') {
+            $constructionBotResponse = new ConstructionBotResponse($telegram);
+            $constructionBotResponse->processParameterSubmission();
+        } elseif($incoming_text === '/getconstcalcexpenses') {
             // محاسبه هزینه ساخت 
             // نسبت منصفانه مشارکت در ساخت 
-    
-            // سقف تیرچه و بلوک
+
+
+
+
+            // محاسبات سقف تیرچه و بلوک
+        } elseif($incoming_text === '/getbeamandblockroof') {
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
             $beamAndBlockRoofCalculation->displayItem();
         } elseif($incoming_text === '/beamandblockroofsendpamameteratext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
             $isCommand = true;
-            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
-            $beamAndBlockRoofCalculation->processParameterSubmission();
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
+            $beamAndBlockRoofBotResponse->processParameterSubmission();
         } elseif($incoming_text === '/beamandblockroofdownloadresults') {
+            // دانلود پی دی اف
             $isCommand = true;
-            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
-            $beamAndBlockRoofCalculation->downloadResults();
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
+            $beamAndBlockRoofBotResponse->downloadResults();
         } elseif($incoming_text === '/beamandblockroofresetresults') {
+            // محاسبه مجدد
             $isCommand = true;
-            $beamAndBlockRoofCalculation = new BeamAndBlockRoofParameters($telegram);
-            $beamAndBlockRoofCalculation->resetResults();
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
+            $beamAndBlockRoofBotResponse->resetResults();
+            
+            // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
-            // دریافت ورودی های کاربر
             try {
                 $userPrompts = new UserPrompts($telegram);
                 $userPrompts->checkUserPrompt();
