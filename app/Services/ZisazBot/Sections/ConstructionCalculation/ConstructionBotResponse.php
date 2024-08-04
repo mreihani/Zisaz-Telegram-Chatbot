@@ -141,7 +141,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود هشت طبقه بالای همکف
-        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2)))) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود هشت طبقه بالای همکف
         } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
