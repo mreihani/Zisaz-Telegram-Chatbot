@@ -32,7 +32,7 @@ class UserPrompts extends ZisazBot {
             $constructionCalculation = new ConstructionCalculation($this->telegram);
             $constructionCalculation->getUserPrompts();
         }
-
+        
         // ورودی های کاربران برای سقف تیرچه و بلوک
         if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
