@@ -106,6 +106,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'm');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'm');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'm');
 
                 $latestAction->construction()->update([
                     'm' => !empty($text) ? $text : null,
@@ -120,6 +122,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'a');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'a');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'a');
 
                 $latestAction->construction()->update([
                     'a' => !empty($text) ? $text : null,
@@ -134,6 +138,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'b');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'b');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'b');
 
                 $latestAction->construction()->update([
                     'b' => !empty($text) ? $text : 10,
@@ -147,7 +153,7 @@ class ConstructionCalculation extends ZisazBot {
                 // user input validation for numeric values
                 $constructionValidation->isNumericValidation($text, 'nb');
                 // user input validation for specific number span
-                $constructionValidation->isBetween($text, 'nb', [0, 2]);
+                $constructionValidation->isBetween($text, 'nb', [0, 2]); 
 
                 $latestAction->construction()->update([
                     'nb' => !empty($text) ? $text : 0,
@@ -937,6 +943,7 @@ class ConstructionCalculation extends ZisazBot {
                 );
                 $constructionBotResponse->sendPamameterB1Text();
 
+            // بخش بالکن ها
             // موقعیت قرار گیری ملک درب از حیاط است    
             } elseif($construction->m == 1 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
 
@@ -1060,6 +1067,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'pc');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'pc');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'pc');
 
                 $construction->constructionPrices()->updateOrCreate(
                     [
@@ -1079,6 +1088,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'pm');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'pm');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'pm');
 
                 $construction->constructionPrices()->updateOrCreate(
                     [
@@ -1098,6 +1109,8 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionValidation->isNumericValidation($text, 'pa');
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'pa');
+                // user input validation for not zero
+                $constructionValidation->isNotZero($text, 'pa');
 
                 $construction->constructionPrices()->updateOrCreate(
                     [

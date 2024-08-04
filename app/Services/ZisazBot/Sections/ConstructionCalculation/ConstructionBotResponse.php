@@ -464,7 +464,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterB1Text() {
         try {
-            $text = 'عرض بالکن سمت حیاط را وارد نمایید';
+            $text = 'عرض بالکن سمت حیاط را به متر وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -479,7 +479,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterB2Text() {
         try {
-            $text = 'عرض بالکن سمت کوچه اول را وارد نمایید';
+            $text = 'عرض بالکن سمت کوچه اول را به متر وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -494,7 +494,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterB3Text() {
         try {
-            $text = 'عرض بالکن سمت کوچه دوم (کوچه کناری) را وارد نمایید';
+            $text = 'عرض بالکن سمت کوچه دوم (کوچه کناری) را به متر وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -509,7 +509,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterPCText() {
         try {
-            $text = 'هزینه ساخت هر متر مربع را وارد نمایید';
+            $text = 'هزینه ساخت هر متر مربع را به تومان وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -539,7 +539,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterPAText() {
         try {
-            $text = 'قیمت فروش آپارتمان را وارد نمایید';
+            $text = 'قیمت فروش آپارتمان را به تومان وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -554,7 +554,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterPSText() {
         try {
-            $text = 'هزینه های پروانه ساخت شهرداری را وارد نمایید';
+            $text = 'هزینه های پروانه ساخت شهرداری را به تومان وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
@@ -569,7 +569,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterPKText() {
         try {
-            $text = 'هزینه های خاص این پروژه را وارد نمایید';
+            $text = 'هزینه های خاص این پروژه را به تومان وارد نمایید';
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 

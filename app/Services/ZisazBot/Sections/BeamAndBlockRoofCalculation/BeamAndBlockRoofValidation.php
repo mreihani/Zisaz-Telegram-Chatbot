@@ -19,32 +19,36 @@ class BeamAndBlockRoofValidation extends BeamAndBlockRoofCalculation {
         $this->saveMessageIdUserPrompt($telegram);
     }
 
+    private function switchValidation($responseObject, $paramType) {
+        switch ($paramType) {
+            case 'a':
+                $beamAndBlockRoofBotResponse->sendPamameterAText();
+                break;
+            case 'h':
+                $beamAndBlockRoofBotResponse->sendPamameterHText();
+                break;
+            case 'c':
+                $beamAndBlockRoofBotResponse->sendPamameterCText();
+                break;
+            default:
+                // Handle default case or error
+                break;
+        }
+    }
+    
     public function isNumericValidation($text, $paramType) {
         if(!is_numeric($text)) {
 
             $message = '
                 ⛔خطا!
 
-مقدار وارد شده باید عدد باشد!
+                مقدار وارد شده باید عدد باشد!
             ';
 
             $this->sendMessage($this->telegram, $message);
             $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
 
-            switch ($paramType) {
-                case 'a':
-                    $beamAndBlockRoofBotResponse->sendPamameterAText();
-                    break;
-                case 'h':
-                    $beamAndBlockRoofBotResponse->sendPamameterHText();
-                    break;
-                case 'c':
-                    $beamAndBlockRoofBotResponse->sendPamameterCText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
+            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
 
             throw new \Exception($message);
         }
@@ -56,26 +60,49 @@ class BeamAndBlockRoofValidation extends BeamAndBlockRoofCalculation {
             $message = '
                 ⛔خطا!
 
-مقدار وارد شده نمی تواند منفی باشد!
+                مقدار وارد شده نمی تواند منفی باشد!
             ';
 
             $this->sendMessage($this->telegram, $message);
             $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
 
-            switch ($paramType) {
-                case 'a':
-                    $beamAndBlockRoofBotResponse->sendPamameterAText();
-                    break;
-                case 'h':
-                    $beamAndBlockRoofBotResponse->sendPamameterHText();
-                    break;
-                case 'c':
-                    $beamAndBlockRoofBotResponse->sendPamameterCText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
+            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+
+            throw new \Exception($message);
+        }
+    }
+
+    public function isBetween($text, $paramType, $spanArray) {
+        if($text < $spanArray[0] || $text > $spanArray[1]) {
+
+            $message = "
+                ⛔خطا!
+
+            مقدار وارد شده نمی تواند کوچکتر $spanArray[0] از یا بزرگتر از $spanArray[1] باشد!
+            ";
+
+            $this->sendMessage($this->telegram, $message);
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+
+            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+
+            throw new \Exception($message);
+        }
+    }
+
+    public function isNotZero($text, $paramType) {
+        if($text == 0) {
+
+            $message = '
+                ⛔خطا!
+
+            مقدار وارد شده نمی تواند صفر باشد!
+            ';
+
+            $this->sendMessage($this->telegram, $message);
+            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+
+            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
 
             throw new \Exception($message);
         }

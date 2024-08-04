@@ -18,6 +18,89 @@ class ConstructionValidation extends ConstructionCalculation {
         $this->saveMessageIdUserPrompt($telegram);
     }
 
+    private function switchValidation($responseObject, $paramType) {
+        switch ($paramType) {
+            case 'c':
+                $responseObject->sendPamameterCText();
+                break;
+            case 'm':
+                $responseObject->sendPamameterMText();
+                break;
+            case 'a':
+                $responseObject->sendPamameterAText();
+                break;
+            case 'b':
+                $responseObject->sendPamameterBText();
+                break;
+            case 'nb':
+                $responseObject->sendPamameterNBText();
+                break;
+            case 'nf':
+                $responseObject->sendPamameterNFText();
+                break;
+            case 'nb1':
+                $responseObject->sendPamameterBasement1Text();
+                break;
+            case 'nb2':
+                $responseObject->sendPamameterBasement2Text();
+                break;
+            case 'g':
+                $responseObject->sendPamameterGText();
+                break;
+            case 'f1':
+                $responseObject->sendPamameterF1Text();
+                break;
+            case 'f2':
+                $responseObject->sendPamameterF2Text();
+                break;
+            case 'f3':
+                $responseObject->sendPamameterF3Text();
+                break;
+            case 'f4':
+                $responseObject->sendPamameterF4Text();
+                break;
+            case 'f5':
+                $responseObject->sendPamameterF5Text();
+                break;
+            case 'f6':
+                $responseObject->sendPamameterF6Text();
+                break;
+            case 'f7':
+                $responseObject->sendPamameterF7Text();
+                break;
+            case 'f8':
+                $responseObject->sendPamameterF8Text();
+                break;
+            case 'b1':
+                $responseObject->sendPamameterB1Text();
+                break;
+            case 'b2':
+                $responseObject->sendPamameterB2Text();
+                break;
+            case 'b3':
+                $responseObject->sendPamameterB3Text();
+                break;
+            case 'pc':
+                $responseObject->sendPamameterPCText();
+                break;
+            case 'pm':
+                $responseObject->sendPamameterPMText();
+                break;
+            case 'pa':
+                $responseObject->sendPamameterPAText();
+                break;
+            case 'ps':
+                $responseObject->sendPamameterPSText();
+                break;
+            case 'pk':
+                $responseObject->sendPamameterPKText();
+                break;
+            default:
+                // Handle default case or error
+                break;
+        }
+    }
+
     public function isNumericValidation($text, $paramType) {
         if(!is_numeric($text)) {
 
@@ -30,183 +113,25 @@ class ConstructionValidation extends ConstructionCalculation {
             $this->sendMessage($this->telegram, $message);
             $constructionBotResponse = new ConstructionBotResponse($this->telegram);
 
-            switch ($paramType) {
-                case 'c':
-                    $constructionBotResponse->sendPamameterCText();
-                    break;
-                case 'm':
-                    $constructionBotResponse->sendPamameterMText();
-                    break;
-                case 'a':
-                    $constructionBotResponse->sendPamameterAText();
-                    break;
-                case 'b':
-                    $constructionBotResponse->sendPamameterBText();
-                    break;
-                case 'nb':
-                    $constructionBotResponse->sendPamameterNBText();
-                    break;
-                case 'nf':
-                    $constructionBotResponse->sendPamameterNFText();
-                    break;
-                case 'nb1':
-                    $constructionBotResponse->sendPamameterBasement1Text();
-                    break;
-                case 'nb2':
-                    $constructionBotResponse->sendPamameterBasement2Text();
-                    break;
-                case 'g':
-                    $constructionBotResponse->sendPamameterGText();
-                    break;
-                case 'f1':
-                    $constructionBotResponse->sendPamameterF1Text();
-                    break;
-                case 'f2':
-                    $constructionBotResponse->sendPamameterF2Text();
-                    break;
-                case 'f3':
-                    $constructionBotResponse->sendPamameterF3Text();
-                    break;
-                case 'f4':
-                    $constructionBotResponse->sendPamameterF4Text();
-                    break;
-                case 'f5':
-                    $constructionBotResponse->sendPamameterF5Text();
-                    break;
-                case 'f6':
-                    $constructionBotResponse->sendPamameterF6Text();
-                    break;
-                case 'f7':
-                    $constructionBotResponse->sendPamameterF7Text();
-                    break;
-                case 'f8':
-                    $constructionBotResponse->sendPamameterF8Text();
-                    break;
-                case 'b1':
-                    $constructionBotResponse->sendPamameterB1Text();
-                    break;
-                case 'b2':
-                    $constructionBotResponse->sendPamameterB2Text();
-                    break;
-                case 'b3':
-                    $constructionBotResponse->sendPamameterB3Text();
-                    break;
-                case 'pc':
-                    $constructionBotResponse->sendPamameterPCText();
-                    break;
-                case 'pm':
-                    $constructionBotResponse->sendPamameterPMText();
-                    break;
-                case 'pa':
-                    $constructionBotResponse->sendPamameterPAText();
-                    break;
-                case 'ps':
-                    $constructionBotResponse->sendPamameterPSText();
-                    break;
-                case 'pk':
-                    $constructionBotResponse->sendPamameterPKText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
+            $this->switchValidation($constructionBotResponse, $paramType);
 
             throw new \Exception($message);
         }
     }
 
     public function isPositiveInteger($text, $paramType) {
-        if($text <= 0) {
+        if($text < 0) {
 
             $message = '
                 ⛔خطا!
 
-            مقدار وارد شده نمی تواند صفر یا منفی باشد!
+            مقدار وارد شده نمی تواند منفی باشد!
             ';
 
             $this->sendMessage($this->telegram, $message);
             $constructionBotResponse = new ConstructionBotResponse($this->telegram);
 
-            switch ($paramType) {
-                case 'c':
-                    $constructionBotResponse->sendPamameterCText();
-                    break;
-                case 'm':
-                    $constructionBotResponse->sendPamameterMText();
-                    break;
-                case 'a':
-                    $constructionBotResponse->sendPamameterAText();
-                    break;
-                case 'b':
-                    $constructionBotResponse->sendPamameterBText();
-                    break;
-                case 'nb':
-                    $constructionBotResponse->sendPamameterNBText();
-                    break;
-                case 'nf':
-                    $constructionBotResponse->sendPamameterNFText();
-                    break;
-                case 'nb1':
-                    $constructionBotResponse->sendPamameterBasement1Text();
-                    break;
-                case 'nb2':
-                    $constructionBotResponse->sendPamameterBasement2Text();
-                    break;
-                case 'g':
-                    $constructionBotResponse->sendPamameterGText();
-                    break;
-                case 'f1':
-                    $constructionBotResponse->sendPamameterF1Text();
-                    break;
-                case 'f2':
-                    $constructionBotResponse->sendPamameterF2Text();
-                    break;
-                case 'f3':
-                    $constructionBotResponse->sendPamameterF3Text();
-                    break;
-                case 'f4':
-                    $constructionBotResponse->sendPamameterF4Text();
-                    break;
-                case 'f5':
-                    $constructionBotResponse->sendPamameterF5Text();
-                    break;
-                case 'f6':
-                    $constructionBotResponse->sendPamameterF6Text();
-                    break;
-                case 'f7':
-                    $constructionBotResponse->sendPamameterF7Text();
-                    break;
-                case 'f8':
-                    $constructionBotResponse->sendPamameterF8Text();
-                    break;
-                case 'b1':
-                    $constructionBotResponse->sendPamameterB1Text();
-                    break;
-                case 'b2':
-                    $constructionBotResponse->sendPamameterB2Text();
-                    break;
-                case 'b3':
-                    $constructionBotResponse->sendPamameterB3Text();
-                    break;
-                case 'pc':
-                    $constructionBotResponse->sendPamameterPCText();
-                    break;
-                case 'pm':
-                    $constructionBotResponse->sendPamameterPMText();
-                    break;
-                case 'pa':
-                    $constructionBotResponse->sendPamameterPAText();
-                    break;
-                case 'ps':
-                    $constructionBotResponse->sendPamameterPSText();
-                    break;
-                case 'pk':
-                    $constructionBotResponse->sendPamameterPKText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
+            $this->switchValidation($constructionBotResponse, $paramType);
 
             throw new \Exception($message);
         }
@@ -224,86 +149,25 @@ class ConstructionValidation extends ConstructionCalculation {
             $this->sendMessage($this->telegram, $message);
             $constructionBotResponse = new ConstructionBotResponse($this->telegram);
 
-            switch ($paramType) {
-                case 'c':
-                    $constructionBotResponse->sendPamameterCText();
-                    break;
-                case 'm':
-                    $constructionBotResponse->sendPamameterMText();
-                    break;
-                case 'a':
-                    $constructionBotResponse->sendPamameterAText();
-                    break;
-                case 'b':
-                    $constructionBotResponse->sendPamameterBText();
-                    break;
-                case 'nb':
-                    $constructionBotResponse->sendPamameterNBText();
-                    break;
-                case 'nf':
-                    $constructionBotResponse->sendPamameterNFText();
-                    break;
-                case 'nb1':
-                    $constructionBotResponse->sendPamameterBasement1Text();
-                    break;
-                case 'nb2':
-                    $constructionBotResponse->sendPamameterBasement2Text();
-                    break;
-                case 'g':
-                    $constructionBotResponse->sendPamameterGText();
-                    break;
-                case 'f1':
-                    $constructionBotResponse->sendPamameterF1Text();
-                    break;
-                case 'f2':
-                    $constructionBotResponse->sendPamameterF2Text();
-                    break;
-                case 'f3':
-                    $constructionBotResponse->sendPamameterF3Text();
-                    break;
-                case 'f4':
-                    $constructionBotResponse->sendPamameterF4Text();
-                    break;
-                case 'f5':
-                    $constructionBotResponse->sendPamameterF5Text();
-                    break;
-                case 'f6':
-                    $constructionBotResponse->sendPamameterF6Text();
-                    break;
-                case 'f7':
-                    $constructionBotResponse->sendPamameterF7Text();
-                    break;
-                case 'f8':
-                    $constructionBotResponse->sendPamameterF8Text();
-                    break;
-                case 'b1':
-                    $constructionBotResponse->sendPamameterB1Text();
-                    break;
-                case 'b2':
-                    $constructionBotResponse->sendPamameterB2Text();
-                    break;
-                case 'b3':
-                    $constructionBotResponse->sendPamameterB3Text();
-                    break;
-                case 'pc':
-                    $constructionBotResponse->sendPamameterPCText();
-                    break;
-                case 'pm':
-                    $constructionBotResponse->sendPamameterPMText();
-                    break;
-                case 'pa':
-                    $constructionBotResponse->sendPamameterPAText();
-                    break;
-                case 'ps':
-                    $constructionBotResponse->sendPamameterPSText();
-                    break;
-                case 'pk':
-                    $constructionBotResponse->sendPamameterPKText();
-                    break;
-                default:
-                    // Handle default case or error
-                    break;
-            }
+            $this->switchValidation($constructionBotResponse, $paramType);
+
+            throw new \Exception($message);
+        }
+    }
+
+    public function isNotZero($text, $paramType) {
+        if($text == 0) {
+
+            $message = '
+                ⛔خطا!
+
+            مقدار وارد شده نمی تواند صفر باشد!
+            ';
+
+            $this->sendMessage($this->telegram, $message);
+            $constructionBotResponse = new ConstructionBotResponse($this->telegram);
+
+            $this->switchValidation($constructionBotResponse, $paramType);
 
             throw new \Exception($message);
         }
