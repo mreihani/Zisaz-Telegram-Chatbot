@@ -150,6 +150,16 @@ class ConstructionCalculation extends ZisazBot {
             // تعداد طبقات زیر زمین    
             } elseif(is_null($construction->nb)) {
 
+                if($text == '/constructionsendpamameternb1') {
+                    $text = 0;
+                } elseif($text == '/constructionsendpamameternb2') {
+                    $text = 1;
+                } elseif($text == '/constructionsendpamameternb3') {
+                    $text = 2;
+                } else {
+                    $text = 0;
+                }
+
                 // user input validation for numeric values
                 $constructionValidation->isNumericValidation($text, 'nb');
                 // user input validation for specific number span
@@ -163,6 +173,28 @@ class ConstructionCalculation extends ZisazBot {
 
             // تعداد طبقات بالای همکف    
             } elseif(is_null($construction->nf)) {
+
+                if($text == '/constructionsendpamameternf1') {
+                    $text = 0;
+                } elseif($text == '/constructionsendpamameternf2') {
+                    $text = 1;
+                } elseif($text == '/constructionsendpamameternf3') {
+                    $text = 2;
+                } elseif($text == '/constructionsendpamameternf4') {
+                    $text = 3;
+                } elseif($text == '/constructionsendpamameternf5') {
+                    $text = 4;
+                } elseif($text == '/constructionsendpamameternf6') {
+                    $text = 5;
+                } elseif($text == '/constructionsendpamameternf7') {
+                    $text = 6;
+                } elseif($text == '/constructionsendpamameternf8') {
+                    $text = 7;
+                } elseif($text == '/constructionsendpamameternf9') {
+                    $text = 8;
+                } else {
+                    $text = 0;
+                }
 
                 // user input validation for numeric values
                 $constructionValidation->isNumericValidation($text, 'nf');

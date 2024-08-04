@@ -269,9 +269,15 @@ class ConstructionBotResponse extends ConstructionCalculation {
 
     public function sendPamameterNBText() {
         try {
-            $text = 'تعداد طبقات زیر زمین وارد نمایید';
+            $text = 'تعداد طبقات زیر زمین را انتخاب نمایید';
             $option = array( 
                 // First row
+                array($this->telegram->buildInlineKeyBoardButton('فاقد زیر زمین', '', '/constructionsendpamameternb1')), 
+                // Second row
+                array($this->telegram->buildInlineKeyBoardButton('1', '', '/constructionsendpamameternb2')), 
+                // Third row
+                array($this->telegram->buildInlineKeyBoardButton('2', '', '/constructionsendpamameternb3')), 
+                // Fourth row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -287,6 +293,24 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'تعداد طبقات بالای همکف را وارد نمایید';
             $option = array( 
                 // First row
+                array($this->telegram->buildInlineKeyBoardButton('فاقد طبقه فوقانی همکف', '', '/constructionsendpamameternf1')), 
+                // Second row
+                array($this->telegram->buildInlineKeyBoardButton('1', '', '/constructionsendpamameternf2')), 
+                // Third row
+                array($this->telegram->buildInlineKeyBoardButton('2', '', '/constructionsendpamameternf3')), 
+                // Fourth row
+                array($this->telegram->buildInlineKeyBoardButton('3', '', '/constructionsendpamameternf4')), 
+                // Fifth row
+                array($this->telegram->buildInlineKeyBoardButton('4', '', '/constructionsendpamameternf5')), 
+                // Sixth row
+                array($this->telegram->buildInlineKeyBoardButton('5', '', '/constructionsendpamameternf6')), 
+                // Seventh row
+                array($this->telegram->buildInlineKeyBoardButton('6', '', '/constructionsendpamameternf7')), 
+                // Eightgh row
+                array($this->telegram->buildInlineKeyBoardButton('7', '', '/constructionsendpamameternf8')), 
+                // Nignth row
+                array($this->telegram->buildInlineKeyBoardButton('8', '', '/constructionsendpamameternf9')), 
+                // Tenth row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
