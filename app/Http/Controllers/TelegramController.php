@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\TelegramBotService;
 use App\Services\TelegramBotPhp\Telegram;
-use App\Services\ZisazBot\Sections\MainMenu;
 use App\Services\ZisazBot\Sections\UserPrompts;
 use App\Services\ZisazBot\Sections\StartSection;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
@@ -35,14 +34,9 @@ class TelegramController extends Controller
             $isCommand = true;
             $startSection = new StartSection($telegram);
             $startSection->displayItem();
-        } elseif($incoming_text === '/getmenu') {
-            // get menu command
-            $isCommand = true;
-            $mainMenuSection = new MainMenu($telegram);
-            $mainMenuSection->displayItem();
 
             // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
-        } elseif($incoming_text === '/getconstructioncalculation') {
+        } elseif($incoming_text === '/getconstructioncalculation' || $incoming_text == '1- محاسبات زیربنا، هزینه و مشارکت در ساخت') {
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();

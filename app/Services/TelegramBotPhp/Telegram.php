@@ -1134,13 +1134,14 @@ class Telegram
      * \param $selective Boolean Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
      * \return the requested keyboard as Json.
      */
-    public function buildKeyBoard(array $options, $onetime = false, $resize = false, $selective = true)
+    public function buildKeyBoard(array $options, $onetime = false, $resize = false, $selective = true, $is_persistent = false)
     {
         $replyMarkup = [
             'keyboard'          => $options,
             'one_time_keyboard' => $onetime,
             'resize_keyboard'   => $resize,
             'selective'         => $selective,
+            'is_persistent' => $is_persistent
         ];
         $encodedMarkup = json_encode($replyMarkup, true);
 

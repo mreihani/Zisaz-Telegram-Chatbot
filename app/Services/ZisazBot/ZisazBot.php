@@ -3,6 +3,7 @@
 namespace App\Services\ZisazBot;
 
 use App\Models\User;
+use App\Models\Message\Message;
 abstract class ZisazBot {
 
     public function sendMessage($telegram, $text) {
@@ -30,6 +31,31 @@ abstract class ZisazBot {
             $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
             $result = $telegram->sendMessage($content);
         }
+
+        $this->deleteUserMessages($telegram);
+        $this->saveMessageId($telegram, $result);
+    }
+
+    public function sendMessageWithKeyBoard($telegram, $text) {
+        $chat_id = $telegram->ChatID();
+
+        $option = array( 
+            // First row
+            array($telegram->buildKeyboardButton('1- محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
+            // Second row 
+            array($telegram->buildKeyboardButton('2- سقف تیرچه و بلوک'), $telegram->buildKeyboardButton('3- دیوار چینی')), 
+            // Third row
+            array($telegram->buildKeyboardButton('4- محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('5- وزن میلگرد و خاموت')), 
+            // Fourth row
+            array($telegram->buildKeyboardButton('6- محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('7- مصالح نما و کف ساختمان')), 
+            // Fifth row
+            array($telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('پیشنهادات')), 
+        );
+
+        $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true, $is_persistent = true);
+
+        $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
+        $result = $telegram->sendMessage($content);
 
         $this->deleteUserMessages($telegram);
         $this->saveMessageId($telegram, $result);
@@ -87,11 +113,12 @@ abstract class ZisazBot {
         if(empty($messageId)) {
             return;
         }
-
+        
         $user = $this->getUser($telegram);
 
         $user->messages()->updateOrCreate([
-            'message_id' => $messageId
+            'message_id' => $messageId,
+            'text' => !empty($telegram->Text()) ? $telegram->Text() : null,
         ]);
     }
 
@@ -106,7 +133,8 @@ abstract class ZisazBot {
 
         $user = $this->getUser($telegram);
         $user->messages()->updateOrCreate([
-            'message_id' => $messageId
+            'message_id' => $messageId,
+            'text' => !empty($telegram->Text()) ? $telegram->Text() : null,
         ]);
     }
 
@@ -118,6 +146,18 @@ abstract class ZisazBot {
         return $messageIds;
     }
 
+    // این متد میاد آخرین مسجی که مربوط به کامند استارت هست رو پیدا می کنه و از آرایه کلی حذف می کنه
+    // کامند استارت مهمه چون صفحه کلید چسبان فقط با این کامند ایجاد میشه و نباید حذف بشه
+    private function getLatestStartCommandMessageId($user, $messageIds) {
+        // find /start commands and remove from messageIds, to preserve it, because if you remove start message, reply keyboard will be removed as well!
+        $startId = $user->messages()->where('text', '/start')->get()->pluck('message_id')->last();
+        $messageIds = array_filter($messageIds, function($value) use ($startId) {
+            return $value !== $startId;
+        });
+        // Reindex the array from zero
+        return $messageIds = array_values($messageIds);
+    }
+
     public function deleteUserMessages($telegram) {
         $chat_id = $telegram->ChatID();
         $user = $this->getUser($telegram);
@@ -126,6 +166,10 @@ abstract class ZisazBot {
         // Omit the last message_id from the array
         array_pop($messageIds);
 
+        // کارفرما می خواست صفحه کلید دائمی به پایین همیشه چسبیده باشه و مانع اینجا این بود که تاریخچه آخرین دستور استارت نباید پاک میشد 
+        // چون اگر آخرین کامند استارت پاک بشه همزمان با اون صفحه کلید چسبان پایین هم پاک میشه
+        $messageIds = $this->getLatestStartCommandMessageId($user, $messageIds);
+       
         $content = ['chat_id' => $chat_id, 'message_ids' => json_encode($messageIds)];
 
         $telegram->deleteMessages($content);
