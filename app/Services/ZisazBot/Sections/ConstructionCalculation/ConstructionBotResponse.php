@@ -20,174 +20,177 @@ class ConstructionBotResponse extends ConstructionCalculation {
     }
 
     public function processParameterSubmission() {
+
+        $construction = $this->construction;
+
         // نام شهر
-        if(empty($this->construction->c)) {
+        if(empty($construction) || is_null($construction->c)) {
             return $this->sendPamameterCText();
         // موقعیت قرارگیری ملک
-        } elseif(empty($this->construction->m)) {
+        } elseif(is_null($construction->m)) {
             return $this->sendPamameterMText();
         // مساحت زمین    
-        } elseif(empty($this->construction->a)) {
+        } elseif(is_null($construction->a)) {
             return $this->sendPamameterAText();
         // عرض متوسط ملک    
-        } elseif(empty($this->construction->b)) {
+        } elseif(is_null($construction->b)) {
             return $this->sendPamameterBText();
         // تعداد طبقات زیر زمین    
-        } elseif(is_null($this->construction->nb)) {
+        } elseif(is_null($construction->nb)) {
             return $this->sendPamameterNBText();
         // تعداد طبقات بالای همکف    
-        } elseif(is_null($this->construction->nf)) {
+        } elseif(is_null($construction->nf)) {
             return $this->sendPamameterNFText();
         // درصد سطح اشغال زیر زمین اول در صورت وجود یک زیر زمین    
-        } elseif($this->construction->nb == 1 && empty($this->construction->constructionBasements->b1)) {
+        } elseif($construction->nb == 1 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b1))) {
             return $this->sendPamameterBasement1Text();
         // درصد سطح اشغال زیر زمین در صورت وجود دو زیر زمین    
-        } elseif($this->construction->nb == 2 && empty($this->construction->constructionBasements->b1)) {
+        } elseif($construction->nb == 2 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b1))) {
             return $this->sendPamameterBasement1Text();
         // درصد سطح اشغال زیر زمین دوم در صورت وجود دو زیر زمین    
-        } elseif($this->construction->nb == 2 && empty($this->construction->constructionBasements->b2)) {
+        } elseif($construction->nb == 2 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b2))) {
             return $this->sendPamameterBasement2Text();
         // درصد  سطح اشغال طبقه همکف
-        } elseif(empty($this->construction->constructionFloors->g)) {
+        } elseif(empty($construction->constructionFloors) || is_null($construction->constructionFloors->g)) {
             return $this->sendPamameterGText();
         // درصد سطح اشغال طبقه اول در صورت وجود یک طبقه بالای همکف
-        } elseif($this->construction->nf == 1 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 1 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه اول در صورت وجود دو طبقه بالای همکف
-        } elseif($this->construction->nf == 2 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 2 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود دو طبقه بالای همکف
-        } elseif($this->construction->nf == 2 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 2 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه اول در صورت وجود سه طبقه بالای همکف
-        } elseif($this->construction->nf == 3 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود سه طبقه بالای همکف
-        } elseif($this->construction->nf == 3 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود سه طبقه بالای همکف
-        } elseif($this->construction->nf == 3 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه اول در صورت وجود چهار طبقه بالای همکف
-        } elseif($this->construction->nf == 4 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود چهار طبقه بالای همکف
-        } elseif($this->construction->nf == 4 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود چهار طبقه بالای همکف
-        } elseif($this->construction->nf == 4 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه چهارم در صورت وجود چهار طبقه بالای همکف
-        } elseif($this->construction->nf == 4 && empty($this->construction->constructionFloors->f4)) {
+        } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
             return $this->sendPamameterF4Text();
         // درصد سطح اشغال طبقه اول در صورت وجود پنج طبقه بالای همکف
-        } elseif($this->construction->nf == 5 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود پنج طبقه بالای همکف
-        } elseif($this->construction->nf == 5 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود پنج طبقه بالای همکف
-        } elseif($this->construction->nf == 5 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه چهارم در صورت وجود پنج طبقه بالای همکف
-        } elseif($this->construction->nf == 5 && empty($this->construction->constructionFloors->f4)) {
+        } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
             return $this->sendPamameterF4Text();
         // درصد سطح اشغال طبقه پنجم در صورت وجود پنج طبقه بالای همکف
-        } elseif($this->construction->nf == 5 && empty($this->construction->constructionFloors->f5)) {
+        } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
             return $this->sendPamameterF5Text();
         // درصد سطح اشغال طبقه اول در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه چهارم در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f4)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
             return $this->sendPamameterF4Text();
         // درصد سطح اشغال طبقه پنجم در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f5)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
             return $this->sendPamameterF5Text();
         // درصد سطح اشغال طبقه ششم در صورت وجود شش طبقه بالای همکف
-        } elseif($this->construction->nf == 6 && empty($this->construction->constructionFloors->f6)) {
+        } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
             return $this->sendPamameterF6Text();
         // درصد سطح اشغال طبقه اول در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه چهارم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f4)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
             return $this->sendPamameterF4Text();
         // درصد سطح اشغال طبقه پنجم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f5)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
             return $this->sendPamameterF5Text();
         // درصد سطح اشغال طبقه ششم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f6)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
             return $this->sendPamameterF6Text();
         // درصد سطح اشغال طبقه هفتم در صورت وجود هفت طبقه بالای همکف
-        } elseif($this->construction->nf == 7 && empty($this->construction->constructionFloors->f7)) {
+        } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f7))) {
             return $this->sendPamameterF7Text();
         // درصد سطح اشغال طبقه اول در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f1)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
             return $this->sendPamameterF1Text();
         // درصد سطح اشغال طبقه دوم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f2)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2)))) {
             return $this->sendPamameterF2Text();
         // درصد سطح اشغال طبقه سوم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f3)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
             return $this->sendPamameterF3Text();
         // درصد سطح اشغال طبقه چهارم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f4)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
             return $this->sendPamameterF4Text();
         // درصد سطح اشغال طبقه پنجم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f5)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
             return $this->sendPamameterF5Text();
         // درصد سطح اشغال طبقه ششم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f6)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
             return $this->sendPamameterF6Text();
         // درصد سطح اشغال طبقه هفتم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f7)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f7))) {
             return $this->sendPamameterF7Text();
         // درصد سطح اشغال طبقه هشتم در صورت وجود هشت طبقه بالای همکف
-        } elseif($this->construction->nf == 8 && empty($this->construction->constructionFloors->f8)) {
+        } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f8))) {
             return $this->sendPamameterF8Text();
         // موقعیت قرار گیری ملک درب از حیاط است    
-        } elseif($this->construction->m == 1 && empty($this->construction->constructionBalconies->b1)) {
+        } elseif($construction->m == 1 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
             return $this->sendPamameterB1Text();
         // موقعیت قرار گیری ملک درب از ساختمان است    
-        } elseif($this->construction->m == 2 && empty($this->construction->constructionBalconies->b1)) {
+        } elseif($construction->m == 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
             return $this->sendPamameterB1Text();
         // موقعیت قرار گیری ملک درب از ساختمان است    
-        } elseif($this->construction->m == 2 && empty($this->construction->constructionBalconies->b2)) {
+        } elseif($construction->m == 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b2))) {
             return $this->sendPamameterB2Text();
         // موقعیت قرار گیری ملک دو بر یا سر نبش است 
-        } elseif($this->construction->m > 2 && empty($this->construction->constructionBalconies->b1)) {
+        } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
             return $this->sendPamameterB1Text();
-        } elseif($this->construction->m > 2 && empty($this->construction->constructionBalconies->b2)) {
+        } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b2))) {
             return $this->sendPamameterB2Text();
-        } elseif($this->construction->m > 2 && empty($this->construction->constructionBalconies->b3)) {
+        } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b3))) {
             return $this->sendPamameterB3Text();
         // هزینه ساخت هر متر مربع
-        } elseif(empty($this->construction->constructionPrices->pc)) {
+        } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pc)) {
             return $this->sendPamameterPCText();
         // قیمت هر متر مربع زمین
-        } elseif(empty($this->construction->constructionPrices->pm)) {
+        } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pm)) {
             return $this->sendPamameterPMText();
         // قیمت فروش آپارتمان
-        } elseif(empty($this->construction->constructionPrices->pa)) {
+        } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pa)) {
             return $this->sendPamameterPAText();
         // هزینه های پروانه ساخت شهرداری
-        } elseif(empty($this->construction->constructionPrices->ps)) {
+        } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->ps)) {
             return $this->sendPamameterPSText();
         // هزینه های خاص پروژه
-        } elseif(empty($this->construction->constructionPrices->pk)) {
+        } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pk)) {
             return $this->sendPamameterPKText();
         } else {
             return $this->displayFinalResults();

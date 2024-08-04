@@ -5,6 +5,7 @@ namespace App\Services\ZisazBot\Sections\ConstructionCalculation;
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Models\Action\Construction\Construction;
+use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionValidation;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 
 class ConstructionCalculation extends ZisazBot {
@@ -69,11 +70,10 @@ class ConstructionCalculation extends ZisazBot {
             $construction = $latestAction->construction->first();
 
             $constructionBotResponse = new ConstructionBotResponse($this->telegram);
+            $constructionValidation = new ConstructionValidation($this->telegram);
 
             // نام شهر
-            if(empty($construction->c)) {
-                
-                // validation
+            if(empty($construction) || is_null($construction->c)) {
                
                 $constructionObj = $latestAction->construction()->create([
                     'c' => !empty($text) ? $text : null,
@@ -86,7 +86,7 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterMText();
                
             // موقعیت قرارگیری ملک
-            } elseif(empty($construction->m)) {
+            } elseif(is_null($construction->m)) {
 
                 if($text == '/constructionsendpamameterm1') {
                     $text = 1;
@@ -102,6 +102,11 @@ class ConstructionCalculation extends ZisazBot {
                     $text = 1;
                 }
 
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'm');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'm');
+
                 $latestAction->construction()->update([
                     'm' => !empty($text) ? $text : null,
                 ]);
@@ -109,7 +114,13 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterAText();
 
             // مساحت زمین    
-            } elseif(empty($construction->a)) {
+            } elseif(is_null($construction->a)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'a');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'a');
+
                 $latestAction->construction()->update([
                     'a' => !empty($text) ? $text : null,
                 ]);
@@ -117,7 +128,13 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterBText();
 
             // عرض متوسط ملک    
-            } elseif(empty($construction->b)) {
+            } elseif(is_null($construction->b)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b');
+
                 $latestAction->construction()->update([
                     'b' => !empty($text) ? $text : 10,
                 ]);
@@ -126,6 +143,12 @@ class ConstructionCalculation extends ZisazBot {
 
             // تعداد طبقات زیر زمین    
             } elseif(is_null($construction->nb)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'nb');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'nb', [0, 2]);
+
                 $latestAction->construction()->update([
                     'nb' => !empty($text) ? $text : 0,
                 ]);
@@ -134,6 +157,12 @@ class ConstructionCalculation extends ZisazBot {
 
             // تعداد طبقات بالای همکف    
             } elseif(is_null($construction->nf)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'nf');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'nf', [0, 8]);
+
                 $latestAction->construction()->update([
                     'nf' => !empty($text) ? $text : 0,
                 ]);
@@ -146,52 +175,76 @@ class ConstructionCalculation extends ZisazBot {
                 }
 
             // درصد سطح اشغال زیر زمین اول در صورت وجود یک زیر زمین    
-            } elseif($construction->nb == 1 && empty($construction->constructionBasements->b1)) {
+            } elseif($construction->nb == 1 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'nb1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'nb1', [0, 100]);
+
                 $construction->constructionBasements()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b1' => !empty($text) ? $text : null,
+                        'b1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterGText();
 
             // درصد سطح اشغال زیر زمین در صورت وجود دو زیر زمین    
-            } elseif($construction->nb == 2 && empty($construction->constructionBasements->b1)) {
+            } elseif($construction->nb == 2 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'nb1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'nb1', [0, 100]);
+
                 $construction->constructionBasements()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b1' => !empty($text) ? $text : null,
+                        'b1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterBasement2Text();
 
             // درصد سطح اشغال زیر زمین دوم در صورت وجود دو زیر زمین    
-            } elseif($construction->nb == 2 && empty($construction->constructionBasements->b2)) {
+            } elseif($construction->nb == 2 && (empty($construction->constructionBasements) || is_null($construction->constructionBasements->b2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'nb2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'nb2', [0, 100]);
+
                 $construction->constructionBasements()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b2' => !empty($text) ? $text : null,
+                        'b2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterGText();
 
             // درصد  سطح اشغال طبقه همکف
-            } elseif(empty($construction->constructionFloors->g)) {
+            } elseif(empty($construction->constructionFloors) || is_null($construction->constructionFloors->g)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'g');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'g', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'g' => !empty($text) ? $text : null,
+                        'g' => !empty($text) ? $text : 0,
                     ]
                 );
 
@@ -203,479 +256,701 @@ class ConstructionCalculation extends ZisazBot {
                 }
 
             // درصد سطح اشغال طبقه اول در صورت وجود یک طبقه بالای همکف
-            } elseif($construction->nf == 1 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 1 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود دو طبقه بالای همکف
-            } elseif($construction->nf == 2 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 2 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود دو طبقه بالای همکف
-            } elseif($construction->nf == 2 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 2 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود سه طبقه بالای همکف
-            } elseif($construction->nf == 3 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود سه طبقه بالای همکف
-            } elseif($construction->nf == 3 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود سه طبقه بالای همکف
-            } elseif($construction->nf == 3 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 3 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود چهار طبقه بالای همکف
-            } elseif($construction->nf == 4 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود چهار طبقه بالای همکف
-            } elseif($construction->nf == 4 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود چهار طبقه بالای همکف
-            } elseif($construction->nf == 4 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF4Text();
 
             // درصد سطح اشغال طبقه چهارم در صورت وجود چهار طبقه بالای همکف
-            } elseif($construction->nf == 4 && empty($construction->constructionFloors->f4)) {
+            } elseif($construction->nf == 4 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f4');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f4', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f4' => !empty($text) ? $text : null,
+                        'f4' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود پنج طبقه بالای همکف
-            } elseif($construction->nf == 5 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود پنج طبقه بالای همکف
-            } elseif($construction->nf == 5 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود پنج طبقه بالای همکف
-            } elseif($construction->nf == 5 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF4Text();
 
             // درصد سطح اشغال طبقه چهارم در صورت وجود پنج طبقه بالای همکف
-            } elseif($construction->nf == 5 && empty($construction->constructionFloors->f4)) {
+            } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f4');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f4', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f4' => !empty($text) ? $text : null,
+                        'f4' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF5Text();
 
             // درصد سطح اشغال طبقه پنجم در صورت وجود پنج طبقه بالای همکف
-            } elseif($construction->nf == 5 && empty($construction->constructionFloors->f5)) {
+            } elseif($construction->nf == 5 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f5');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f5', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f5' => !empty($text) ? $text : null,
+                        'f5' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF4Text();
 
             // درصد سطح اشغال طبقه چهارم در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f4)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f4');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f4', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f4' => !empty($text) ? $text : null,
+                        'f4' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF5Text();
 
             // درصد سطح اشغال طبقه پنجم در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f5)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f5');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f5', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f5' => !empty($text) ? $text : null,
+                        'f5' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF6Text();
 
             // درصد سطح اشغال طبقه ششم در صورت وجود شش طبقه بالای همکف
-            } elseif($construction->nf == 6 && empty($construction->constructionFloors->f6)) {
+            } elseif($construction->nf == 6 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f6');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f6', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f6' => !empty($text) ? $text : null,
+                        'f6' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF4Text();
 
             // درصد سطح اشغال طبقه چهارم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f4)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f4');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f4', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f4' => !empty($text) ? $text : null,
+                        'f4' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF5Text();
 
             // درصد سطح اشغال طبقه پنجم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f5)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f5');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f5', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f5' => !empty($text) ? $text : null,
+                        'f5' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF6Text();
 
             // درصد سطح اشغال طبقه ششم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f6)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f6');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f6', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f6' => !empty($text) ? $text : null,
+                        'f6' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF7Text();
 
             // درصد سطح اشغال طبقه هفتم در صورت وجود هفت طبقه بالای همکف
-            } elseif($construction->nf == 7 && empty($construction->constructionFloors->f7)) {
+            } elseif($construction->nf == 7 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f7))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f7');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f7', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f7' => !empty($text) ? $text : null,
+                        'f7' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB1Text();
 
             // درصد سطح اشغال طبقه اول در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f1)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f1');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f1', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f1' => !empty($text) ? $text : null,
+                        'f1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF2Text();
 
             // درصد سطح اشغال طبقه دوم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f2)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f2');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f2', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f2' => !empty($text) ? $text : null,
+                        'f2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF3Text();
 
             // درصد سطح اشغال طبقه سوم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f3)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f3');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f3', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f3' => !empty($text) ? $text : null,
+                        'f3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF4Text();
 
             // درصد سطح اشغال طبقه چهارم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f4)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f4))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f4');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f4', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f4' => !empty($text) ? $text : null,
+                        'f4' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF5Text();
 
             // درصد سطح اشغال طبقه پنجم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f5)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f5))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f5');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f5', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f5' => !empty($text) ? $text : null,
+                        'f5' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF6Text();
 
             // درصد سطح اشغال طبقه ششم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f6)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f6))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f6');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f6', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f6' => !empty($text) ? $text : null,
+                        'f6' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF7Text();
 
             // درصد سطح اشغال طبقه هفتم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f7)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f7))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f7');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f7', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f7' => !empty($text) ? $text : null,
+                        'f7' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterF8Text();
 
             // درصد سطح اشغال طبقه هشتم در صورت وجود هشت طبقه بالای همکف
-            } elseif($construction->nf == 8 && empty($construction->constructionFloors->f8)) {
+            } elseif($construction->nf == 8 && (empty($construction->constructionFloors) || is_null($construction->constructionFloors->f8))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'f8');
+                // user input validation for specific number span
+                $constructionValidation->isBetween($text, 'f8', [0, 100]);
+
                 $construction->constructionFloors()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'f8' => !empty($text) ? $text : null,
+                        'f8' => !empty($text) ? $text : 0,
                     ]
                 );
                 $constructionBotResponse->sendPamameterB1Text();
 
             // موقعیت قرار گیری ملک درب از حیاط است    
-            } elseif($construction->m == 1 && empty($construction->constructionBalconies->b1)) {
+            } elseif($construction->m == 1 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b1');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b1');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b1' => !empty($text) ? $text : null,
+                        'b1' => !empty($text) ? $text : 0,
                         'b2' => null,
                         'b3' => null,
                     ]
@@ -684,13 +959,19 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterPCText();
 
             // موقعیت قرار گیری ملک درب از ساختمان است    
-            } elseif($construction->m == 2 && empty($construction->constructionBalconies->b1)) {
+            } elseif($construction->m == 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b1');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b1');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b1' => !empty($text) ? $text : null,
+                        'b1' => !empty($text) ? $text : 0,
                         'b3' => null,
                     ]
                 );
@@ -698,13 +979,19 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterB2Text();
 
             // موقعیت قرار گیری ملک درب از ساختمان است    
-            } elseif($construction->m == 2 && empty($construction->constructionBalconies->b2)) {
+            } elseif($construction->m == 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b2');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b2');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b2' => !empty($text) ? $text : null,
+                        'b2' => !empty($text) ? $text : 0,
                         'b3' => null,
                     ]
                 );
@@ -712,102 +999,151 @@ class ConstructionCalculation extends ZisazBot {
                 $constructionBotResponse->sendPamameterPCText();
 
             // موقعیت قرار گیری ملک دو بر یا سر نبش است 
-            } elseif($construction->m > 2 && empty($construction->constructionBalconies->b1)) {
+            } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b1))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b1');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b1');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b1' => !empty($text) ? $text : null,
+                        'b1' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB2Text();
 
-            } elseif($construction->m > 2 && empty($construction->constructionBalconies->b2)) {
+            } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b2))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b2');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b2');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b2' => !empty($text) ? $text : null,
+                        'b2' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterB3Text();
 
-            } elseif($construction->m > 2 && empty($construction->constructionBalconies->b3)) {
+            } elseif($construction->m > 2 && (empty($construction->constructionBalconies) || is_null($construction->constructionBalconies->b3))) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'b3');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'b3');
+
                 $construction->constructionBalconies()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'b3' => !empty($text) ? $text : null,
+                        'b3' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterPCText();
 
             // هزینه ساخت هر متر مربع
-            } elseif(empty($construction->constructionPrices->pc)) {
+            } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pc)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'pc');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'pc');
+
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'pc' => !empty($text) ? $text : null,
+                        'pc' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterPMText();
 
             // قیمت هر متر مربع زمین
-            } elseif(empty($construction->constructionPrices->pm)) {
+            } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pm)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'pm');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'pm');
+
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'pm' => !empty($text) ? $text : null,
+                        'pm' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterPAText();
 
             // قیمت فروش آپارتمان
-            } elseif(empty($construction->constructionPrices->pa)) {
+            } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pa)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'pa');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'pa');
+
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'pa' => !empty($text) ? $text : null,
+                        'pa' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterPSText();
 
             // هزینه های پروانه ساخت شهرداری
-            } elseif(empty($construction->constructionPrices->ps)) {
+            } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->ps)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'ps');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'ps');
+
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'ps' => !empty($text) ? $text : null,
+                        'ps' => !empty($text) ? $text : 0,
                     ]
                 );
 
                 $constructionBotResponse->sendPamameterPKText();
 
             // هزینه های خاص پروژه
-            } elseif(empty($construction->constructionPrices->pk)) {
+            } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pk)) {
+
+                // user input validation for numeric values
+                $constructionValidation->isNumericValidation($text, 'pk');
+                // user input validation for positive integer values
+                $constructionValidation->isPositiveInteger($text, 'pk');
+
+
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
                     ],
                     [
-                        'pk' => !empty($text) ? $text : null,
+                        'pk' => !empty($text) ? $text : 0,
                     ]
                 );
 

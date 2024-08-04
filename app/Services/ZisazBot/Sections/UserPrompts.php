@@ -24,7 +24,11 @@ class UserPrompts extends ZisazBot {
             throw new \Exception('User is empty');
         }
 
-        // هر وقت به مشکل خوردی این ها رو غیر فعال کن
+        // هر وقت به مشکل خوردی این رو فعال کن
+        if(env('ZISAZ_BOT_LASTOBJECT_DEBUG')) {
+            return;
+        }
+        
         $latestAction = $this->getLastActionObject($this->telegram);
 
         // ورودی های کاربران برای محاسبات زیربنا، هزینه و مشارکت در ساخت
