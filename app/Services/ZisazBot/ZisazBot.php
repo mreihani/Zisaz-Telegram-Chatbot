@@ -45,13 +45,13 @@ abstract class ZisazBot {
 
         $option = array( 
             // First row
-            array($telegram->buildKeyboardButton('محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
+            array($telegram->buildKeyboardButton('👷🏽 محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
             // Second row 
-            array($telegram->buildKeyboardButton('محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('دیوار چینی'), $telegram->buildKeyboardButton('سقف تیرچه و بلوک')), 
+            array($telegram->buildKeyboardButton('📐 محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('🧱 دیوار چینی'), $telegram->buildKeyboardButton('🏗️ سقف تیرچه و بلوک')), 
             // Third row
-            array($telegram->buildKeyboardButton('مصالح نما و کف ساختمان'), $telegram->buildKeyboardButton('محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('وزن میلگرد و خاموت')), 
+            array($telegram->buildKeyboardButton('🏢 مصالح نما و کف ساختمان'), $telegram->buildKeyboardButton('🌫️ محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('➰ وزن میلگرد و خاموت')), 
             // Fourth row
-            array($telegram->buildKeyboardButton('پیشنهادات'), $telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('سوالات متداول')), 
+            array($telegram->buildKeyboardButton('🙋 پیشنهادات'), $telegram->buildKeyboardButton('🚨 پشتیبانی'), $telegram->buildKeyboardButton('❓ سوالات متداول')), 
         );
 
         $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true, $is_persistent = true);

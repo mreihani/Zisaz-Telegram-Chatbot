@@ -612,9 +612,9 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'لطفا یکی از موارد زیر را انتخاب نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('محاسبه هزینه ساخت', '', '/getconstcalcexpenses')), 
+                array($this->telegram->buildInlineKeyBoardButton('🧮 محاسبه هزینه ساخت', '', '/getconstcalcexpenses')), 
                 // Second row
-                array($this->telegram->buildInlineKeyBoardButton('محاسبه نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
+                array($this->telegram->buildInlineKeyBoardButton('🧮 محاسبه نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
                 // Third row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
