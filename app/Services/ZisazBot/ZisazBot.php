@@ -30,31 +30,14 @@ abstract class ZisazBot {
         } else {
             $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
             $result = $telegram->sendMessage($content);
-        }
 
-        $this->deleteUserMessages($telegram);
-        $this->saveMessageId($telegram, $result);
+            $this->saveMessageId($telegram, $result);
+            $this->deleteUserMessages($telegram);
+        }
     }
 
     public function sendMessageWithKeyBoard($telegram, $text) {
         $chat_id = $telegram->ChatID();
-
-        // send a text with keyboard markup
-        // $option = array( 
-        //     // First row
-        //     array($telegram->buildKeyboardButton('1- محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
-        //     // Second row 
-        //     array($telegram->buildKeyboardButton('2- سقف تیرچه و بلوک'), $telegram->buildKeyboardButton('3- دیوار چینی')), 
-        //     // Third row
-        //     array($telegram->buildKeyboardButton('4- محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('5- وزن میلگرد و خاموت')), 
-        //     // Fourth row
-        //     array($telegram->buildKeyboardButton('6- محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('7- مصالح نما و کف ساختمان')), 
-        //     // Fifth row
-        //     array($telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('پیشنهادات')), 
-        // );
-        
-        // $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
-        // $result = $telegram->sendMessage($content);
 
         // send an image with keyboard markup
         // get the image file
@@ -76,8 +59,8 @@ abstract class ZisazBot {
         $content = array('chat_id' => $chat_id, 'photo' => $img, 'reply_markup' => $keyb, 'caption' => $text);
         $result = $telegram->sendPhoto($content);
 
-        $this->deleteUserMessages($telegram);
         $this->saveMessageId($telegram, $result);
+        $this->deleteUserMessages($telegram);
     }
 
     public function getUser($telegram) {
