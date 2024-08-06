@@ -42,15 +42,6 @@ class ConstructionCalculation extends ZisazBot {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
-        
-        // $option = array( 
-        //     // First row
-        //     array($this->telegram->buildInlineKeyBoardButton('محاسبه هزینه ساخت', '', '/getconstcalcexpenses')), 
-        //     // Second row
-        //     array($this->telegram->buildInlineKeyBoardButton('نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
-        //     // Fourth row
-        //     array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
-        // );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
 
@@ -1182,7 +1173,6 @@ class ConstructionCalculation extends ZisazBot {
                 // user input validation for positive integer values
                 $constructionValidation->isPositiveInteger($text, 'pk');
 
-
                 $construction->constructionPrices()->updateOrCreate(
                     [
                         'construction_id' => $construction->id
@@ -1192,8 +1182,14 @@ class ConstructionCalculation extends ZisazBot {
                     ]
                 );
 
-                $constructionBotResponse->displayFinalResults();
-            }   
+                $constructionBotResponse->displayFinalSelection();
+            } else {
+                if($text == '/getconstcalcexpenses') {
+                    $constructionBotResponse->displayConstCalcExpenseFinalResults();
+                } elseif($text == '/getconstcalccollaborative') {
+                    $constructionBotResponse->displayConstCalcCollaborativeFinalResults();
+                }
+            }  
 
         } catch (\Exception $e) {
            // \Log::info('An error occurred: ' . $e->getMessage());

@@ -7,7 +7,7 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 class BeamAndBlockRoofResult extends BeamAndBlockRoofCalculation {
 
     public $telegram;
-    public $latestAction;
+    public $user;
     public $beamAndBlockRoof;
     public $a;
     public $h;
@@ -15,13 +15,13 @@ class BeamAndBlockRoofResult extends BeamAndBlockRoofCalculation {
    
     public function __construct($telegram) {
         $this->telegram = $telegram;
-        $this->latestAction = $this->getLastActionObject($telegram);
-        $this->beamAndBlockRoof = $this->latestAction->beamAndBlockRoof->first();
+        $this->user = $this->getUser($telegram);
+        $this->beamAndBlockRoof = $this->user->actions->pluck('beamAndBlockRoof')->flatten()->filter()->first();
         $this->a = $this->beamAndBlockRoof->a;
         $this->h = $this->beamAndBlockRoof->h;
         $this->c = $this->beamAndBlockRoof->c;
     }
-   
+    
     // محاسبات برای تیرچه H=25
     public function calculateH25() {
         // تعداد فوم 

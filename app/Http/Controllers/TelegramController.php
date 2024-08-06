@@ -40,18 +40,21 @@ class TelegramController extends Controller
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();
-
         } elseif($incoming_text === '/constructionsendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
             $isCommand = true;
             $constructionBotResponse = new ConstructionBotResponse($telegram);
             $constructionBotResponse->processParameterSubmission();
-        } elseif($incoming_text === '/getconstcalcexpenses') {
-            // محاسبه هزینه ساخت 
-            // نسبت منصفانه مشارکت در ساخت 
-
-
-
+        } elseif($incoming_text === '/constructiondownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $constructionBotResponse = new ConstructionBotResponse($telegram);
+            $constructionBotResponse->downloadResults();
+        } elseif($incoming_text === '/constructionresetresults') {
+            // محاسبه مجدد
+            $isCommand = true;
+            $constructionBotResponse = new ConstructionBotResponse($telegram);
+            $constructionBotResponse->resetResults();
             
             // محاسبات سقف تیرچه و بلوک
         } elseif($incoming_text === '/getbeamandblockroof' || $incoming_text == 'سقف تیرچه و بلوک') {

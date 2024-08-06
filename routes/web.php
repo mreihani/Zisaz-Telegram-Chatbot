@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Action\Action;
 use Illuminate\Support\Facades\Route;
 use App\Services\TelegramBotPhp\Telegram;
@@ -25,7 +26,6 @@ use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
     // dd(
     //     $action->subaction
     // );
-    
 
 //     return view('welcome');
 // });

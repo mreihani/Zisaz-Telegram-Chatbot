@@ -4,6 +4,7 @@ namespace App\Services\ZisazBot\Sections\ConstructionCalculation;
 
 use PDF;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
+use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculationResult;
 
 class ConstructionBotResponse extends ConstructionCalculation {
 
@@ -193,7 +194,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         } elseif(empty($construction->constructionPrices) || is_null($construction->constructionPrices->pk)) {
             return $this->sendPamameterPKText();
         } else {
-            return $this->displayFinalResults();
+            return $this->displayFinalSelection();
         }  
     }
 
@@ -606,56 +607,82 @@ class ConstructionBotResponse extends ConstructionCalculation {
         }
     }
 
-    public function displayFinalResults() {
+    public function displayFinalSelection() {
+        try {
+            $text = 'لطفا یکی از موارد زیر را انتخاب نمایید';
+            $option = array( 
+                // First row
+                array($this->telegram->buildInlineKeyBoardButton('محاسبه هزینه ساخت', '', '/getconstcalcexpenses')), 
+                // Second row
+                array($this->telegram->buildInlineKeyBoardButton('محاسبه نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
+                // Third row
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            );
+            $keyb = $this->telegram->buildInlineKeyBoard($option);
+            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
 
-//         $beamAndBlockRoofResult = new BeamAndBlockRoofResult($this->telegram);
+        } catch (\Exception $e) {
+            // \Log::info('An error occurred: ' . $e->getMessage());
+        }
+    }
 
-//         $h = $this->beamAndBlockRoof->h;
+    public function displayConstCalcExpenseFinalResults() {
 
-//         if($h == 25) {
-//             $results = $beamAndBlockRoofResult->calculateH25();
-//         } elseif($h == 20) {
-//             $results = $beamAndBlockRoofResult->calculateH20();
-//         } 
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
 
-//         $text = '
-//             🎊 محاسبات با موفقیت انجام گردید:
-//         ';
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
 
-//         $text .= '
-// مساحت کل سقف ' . $results['a'] . '	متر مربع 
-// ارتفاع تیرچه ' . $results['h'] . ' سانتی متر
-// تعداد فوم مورد نیاز 	' . $results['n'] . '	عدد
-// متراژ تیرچه مورد نیاز تقریبی	' . $results['l'] . '	متر
-// حجم بتون تقریبی	' . $results['v'] . '	متر مکعب
-// وزن  سیمان  تقریبی مورد نیا ز	' . $results['w'] . '	کیلو گرم 
-// وزن شن و ماسه  تقریبی مورد نیاز 	' . $results['s'] . '	کیلو گرم 
-// وزن میلگرد حراراتی تقریبی مورد نیاز 	' . $results['wi'] . '	کیلو گرم 
-//         ';
+        // زیر بنا
+        $area = $constructionResult->calculateArea();
 
-//         $text .= '
-// ⚠ توجه
-// 1-اندازه و مقادیر دقیق پارامتر های خروجی تابع ابعاد شناژ ها، پوتر های بتونی ، همچنین اندازه  دهانه تیرچه ها می باشد 
-// 2-ارتفاع تیرچه  H سانتی متر 
-// 3-ابعاد فوم 200*50 سانتی متر در نظر گرفته شده است .
-// 4- عیار بتون 350 کیلو گرم بر مترمکعب د رنظر گرفته شده است .
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
 
-// برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
-// ⤵
-//         ';
+        // مشاعات
+        $totalAreaAMK = $constructionResult->calculateTotalAreaAMK();
+
+        // مساحت مفید قابل فروش
+        $totalAreaAPK = $constructionResult->calculateTotalAreaAPK();
+
+        // محاسبه کل زیر بنا و هزینه ساخت 
+        $constExpenses = $constructionResult->calculateConstExpenses();
+
+        $text = '
+            🎊 محاسبات با موفقیت انجام گردید:
+        ';
+
+        $text .= '
+مساحت زمین ' . $initialParameters['a'] . '	متر مربع 
+        ';
+
+        $text .= '
+⚠ توجه
+1-اندازه و مقادیر دقیق پارامتر های خروجی تابع ابعاد شناژ ها، پوتر های بتونی ، همچنین اندازه  دهانه تیرچه ها می باشد 
+2-ارتفاع تیرچه  H سانتی متر 
+3-ابعاد فوم 200*50 سانتی متر در نظر گرفته شده است .
+4- عیار بتون 350 کیلو گرم بر مترمکعب د رنظر گرفته شده است .
+
+برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
+⤵
+        ';
         
-//         $option = array( 
-//             // First row
-//             array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/beamandblockroofdownloadresults')), 
-//             // Second row
-//             array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/beamandblockroofresetresults')), 
-//             // Third row
-//             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
-//         );
+        $option = array( 
+            // First row
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructiondownloadresults')), 
+            // Second row
+            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/constructionresetresults')), 
+            // Third row
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+        );
 
-//         $keyb = $this->telegram->buildInlineKeyBoard($option);
+        $keyb = $this->telegram->buildInlineKeyBoard($option);
 
-//         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
+        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
+    }
+
+    public function displayConstCalcCollaborativeFinalResults() {
+
     }
 
     public function downloadResults() {
