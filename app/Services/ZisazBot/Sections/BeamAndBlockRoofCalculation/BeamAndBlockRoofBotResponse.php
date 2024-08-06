@@ -37,7 +37,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
             $text = 'مساحت کل سقف را وارد کنید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -56,7 +56,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('25', '', '/beamandblockroofsendpamameterh25')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -69,7 +69,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -121,7 +121,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/beamandblockroofresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

@@ -202,7 +202,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'نام شهر را بنویسید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -227,7 +227,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
                 // Fifth row
                 array($this->telegram->buildInlineKeyBoardButton('سر نبش درب از کوچه', '', '/constructionsendpamameterm5')), 
                 // Sixth row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -242,7 +242,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'مساحت زمین را به متر مربع وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -257,7 +257,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'عرض متوسط ملک را به متر مربع وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -278,7 +278,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
                 // Third row
                 array($this->telegram->buildInlineKeyBoardButton('2', '', '/constructionsendpamameternb3')), 
                 // Fourth row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -311,7 +311,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
                 // Nignth row
                 array($this->telegram->buildInlineKeyBoardButton('8', '', '/constructionsendpamameternf9')), 
                 // Tenth row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -326,7 +326,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال زیر زمین اول را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -341,7 +341,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال زیر زمین دوم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -356,7 +356,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه همکف را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -371,7 +371,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه اول را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -386,7 +386,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه دوم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -401,7 +401,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه سوم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -416,7 +416,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه چهارم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -431,7 +431,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه پنجم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -446,7 +446,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه ششم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -461,7 +461,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه هفتم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -476,7 +476,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'درصد سطح اشغال طبقه هشتم را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -491,7 +491,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'عرض بالکن سمت حیاط را به متر وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -506,7 +506,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'عرض بالکن سمت کوچه اول را به متر وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -521,7 +521,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'عرض بالکن سمت کوچه دوم (کوچه کناری) را به متر وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -536,7 +536,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'هزینه ساخت هر متر مربع را به تومان وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -551,7 +551,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'قیمت هر متر مربع زمین را وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -566,7 +566,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'قیمت فروش آپارتمان را به تومان وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -581,7 +581,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'هزینه های پروانه ساخت شهرداری را به تومان وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -596,7 +596,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text = 'هزینه های خاص این پروژه را به تومان وارد نمایید';
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
             $keyb = $this->telegram->buildInlineKeyBoard($option);
             $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
@@ -650,7 +650,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
 //             // Second row
 //             array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/beamandblockroofresetresults')), 
 //             // Third row
-//             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+//             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
 //         );
 
 //         $keyb = $this->telegram->buildInlineKeyBoard($option);

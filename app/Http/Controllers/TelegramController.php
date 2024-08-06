@@ -36,7 +36,7 @@ class TelegramController extends Controller
             $startSection->displayItem();
 
             // محاسبات زیربنا، هزینه و  مشارکت در ساخت     
-        } elseif($incoming_text === '/getconstructioncalculation' || $incoming_text == '1- محاسبات زیربنا، هزینه و مشارکت در ساخت') {
+        } elseif($incoming_text === '/getconstructioncalculation' || $incoming_text == 'محاسبات زیربنا، هزینه و مشارکت در ساخت') {
             $isCommand = true;
             $constructionCalculationSection = new ConstructionCalculation($telegram);
             $constructionCalculationSection->displayItem();
@@ -52,9 +52,9 @@ class TelegramController extends Controller
 
 
 
-
+            
             // محاسبات سقف تیرچه و بلوک
-        } elseif($incoming_text === '/getbeamandblockroof') {
+        } elseif($incoming_text === '/getbeamandblockroof' || $incoming_text == 'سقف تیرچه و بلوک') {
             $isCommand = true;
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($telegram);
             $beamAndBlockRoofCalculation->displayItem();

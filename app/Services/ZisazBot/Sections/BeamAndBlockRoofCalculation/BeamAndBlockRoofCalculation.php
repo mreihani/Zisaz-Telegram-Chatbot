@@ -35,7 +35,7 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('☑ ادامه', '', '/beamandblockroofsendpamameteratext')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

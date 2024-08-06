@@ -39,23 +39,42 @@ abstract class ZisazBot {
     public function sendMessageWithKeyBoard($telegram, $text) {
         $chat_id = $telegram->ChatID();
 
+        // send a text with keyboard markup
+        // $option = array( 
+        //     // First row
+        //     array($telegram->buildKeyboardButton('1- محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
+        //     // Second row 
+        //     array($telegram->buildKeyboardButton('2- سقف تیرچه و بلوک'), $telegram->buildKeyboardButton('3- دیوار چینی')), 
+        //     // Third row
+        //     array($telegram->buildKeyboardButton('4- محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('5- وزن میلگرد و خاموت')), 
+        //     // Fourth row
+        //     array($telegram->buildKeyboardButton('6- محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('7- مصالح نما و کف ساختمان')), 
+        //     // Fifth row
+        //     array($telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('پیشنهادات')), 
+        // );
+        
+        // $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
+        // $result = $telegram->sendMessage($content);
+
+        // send an image with keyboard markup
+        // get the image file
+        $img = curl_file_create(asset('assets/img/start.jpg'), 'image/jpg'); 
+
         $option = array( 
             // First row
-            array($telegram->buildKeyboardButton('1- محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
+            array($telegram->buildKeyboardButton('محاسبات زیربنا، هزینه و مشارکت در ساخت')), 
             // Second row 
-            array($telegram->buildKeyboardButton('2- سقف تیرچه و بلوک'), $telegram->buildKeyboardButton('3- دیوار چینی')), 
+            array($telegram->buildKeyboardButton('محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('دیوار چینی'), $telegram->buildKeyboardButton('سقف تیرچه و بلوک')), 
             // Third row
-            array($telegram->buildKeyboardButton('4- محاسبات رمپ و درز انقطاع'), $telegram->buildKeyboardButton('5- وزن میلگرد و خاموت')), 
+            array($telegram->buildKeyboardButton('مصالح نما و کف ساختمان'), $telegram->buildKeyboardButton('محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('وزن میلگرد و خاموت')), 
             // Fourth row
-            array($telegram->buildKeyboardButton('6- محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('7- مصالح نما و کف ساختمان')), 
-            // Fifth row
-            array($telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('پیشنهادات')), 
+            array($telegram->buildKeyboardButton('پیشنهادات'), $telegram->buildKeyboardButton('پشتیبانی'), $telegram->buildKeyboardButton('سوالات متداول')), 
         );
 
         $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true, $is_persistent = true);
-
-        $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => $text);
-        $result = $telegram->sendMessage($content);
+        
+        $content = array('chat_id' => $chat_id, 'photo' => $img, 'reply_markup' => $keyb, 'caption' => $text);
+        $result = $telegram->sendPhoto($content);
 
         $this->deleteUserMessages($telegram);
         $this->saveMessageId($telegram, $result);

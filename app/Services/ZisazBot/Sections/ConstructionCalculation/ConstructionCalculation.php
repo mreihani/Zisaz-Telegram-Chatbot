@@ -40,7 +40,7 @@ class ConstructionCalculation extends ZisazBot {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('☑ ادامه', '', '/constructionsendpamameteratext')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
         
         // $option = array( 
@@ -49,7 +49,7 @@ class ConstructionCalculation extends ZisazBot {
         //     // Second row
         //     array($this->telegram->buildInlineKeyBoardButton('نسبت منصفانه مشارکت در ساخت', '', '/getconstcalccollaborative')), 
         //     // Fourth row
-        //     array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/getmenu')), 
+        //     array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         // );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
