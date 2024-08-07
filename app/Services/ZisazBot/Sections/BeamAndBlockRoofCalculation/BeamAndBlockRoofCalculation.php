@@ -118,9 +118,11 @@ class BeamAndBlockRoofCalculation extends ZisazBot {
     public function resetResults() {
         $latestAction = $this->getLastActionObject($this->telegram);
 
-        $beamAndBlockRoof = $this->user->actions->pluck('beamAndBlockRoof')->flatten()->filter()->first();
-
-        $beamAndBlockRoof->delete();
+        $beamAndBlockRoof = $this->user->actions->flatMap->beamAndBlockRoof->first();
+        
+        if(!is_null($beamAndBlockRoof)) {
+            $beamAndBlockRoof->delete();
+        }
 
         return $this->displayItem();
     }

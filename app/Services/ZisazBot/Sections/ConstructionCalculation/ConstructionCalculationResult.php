@@ -13,9 +13,9 @@ class ConstructionCalculationResult extends ConstructionCalculation {
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
-        $this->construction = $this->user->actions->pluck('construction')->flatten()->filter()->first();
+        $this->construction = $this->user->actions->flatMap->construction->first();
     }
-
+    
     // دریافت پارامتر های اولیه وارد شده توسط کاربر
     public function getInitialParameters() {
 

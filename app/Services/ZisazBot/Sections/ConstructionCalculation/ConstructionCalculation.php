@@ -1199,9 +1199,11 @@ class ConstructionCalculation extends ZisazBot {
     public function resetResults() {
         $latestAction = $this->getLastActionObject($this->telegram);
 
-        $construction = $this->user->actions->pluck('construction')->flatten()->filter()->first();
+        $construction = $this->user->actions->flatMap->construction->first();
        
-        $construction->delete();
+        if(!is_null($construction)) {
+            $construction->delete();
+        }
 
         return $this->displayItem();
     }

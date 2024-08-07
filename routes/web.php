@@ -19,13 +19,22 @@ use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 */
 
 // Route::get('/', function () {
-    // $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
+//     $telegram = new Telegram(env('TELEGRAM_BOT_TOKEN'));
 
-    // $action = Action::find(1);
+//     $user = User::find(1);
 
-    // dd(
-    //     $action->subaction
-    // );
+//     $beamAndBlockRoof = $user->actions->flatMap->beamAndBlockRoof->first();
+
+//     $construction = $user->actions()
+//     ->withWhereHas('construction')
+//     ->first()
+//     ->construction
+//     ->first();
+    
+
+//     dd(
+//         $construction
+//     );
 
 //     return view('welcome');
 // });

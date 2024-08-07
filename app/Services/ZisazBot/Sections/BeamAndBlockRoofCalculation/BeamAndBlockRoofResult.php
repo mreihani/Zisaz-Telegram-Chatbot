@@ -16,7 +16,7 @@ class BeamAndBlockRoofResult extends BeamAndBlockRoofCalculation {
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
-        $this->beamAndBlockRoof = $this->user->actions->pluck('beamAndBlockRoof')->flatten()->filter()->first();
+        $this->beamAndBlockRoof = $this->user->actions->flatMap->beamAndBlockRoof->first();
         $this->a = $this->beamAndBlockRoof->a;
         $this->h = $this->beamAndBlockRoof->h;
         $this->c = $this->beamAndBlockRoof->c;
