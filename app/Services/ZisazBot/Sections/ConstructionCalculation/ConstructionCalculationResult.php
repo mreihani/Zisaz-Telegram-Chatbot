@@ -23,64 +23,64 @@ class ConstructionCalculationResult extends ConstructionCalculation {
         $c = !empty($this->construction->c) ? $this->construction->c : 0;
 
         // موقعیت قرارگیری ملک
-        $m = !empty($this->construction->m) ? $this->construction->m : 0;
+        $m = !empty($this->construction->m) ? intval($this->construction->m) : 0;
 
         // مساحت زمین
-        $a = !empty($this->construction->a) ? $this->construction->a : 0;
+        $a = !empty($this->construction->a) ? floatval($this->construction->a) : 0;
 
         // عرض متوسط ملک
-        $b = !empty($this->construction->b) ? $this->construction->b : 0;
+        $b = !empty($this->construction->b) ? floatval($this->construction->b) : 0;
 
         // تعداد طبقات زیر زمین
-        $nb = !empty($this->construction->nb) ? $this->construction->nb : 0;
+        $nb = !empty($this->construction->nb) ? intval($this->construction->nb) : 0;
 
         // ضریب طبقه همکف
-        $ng = !empty($this->construction->ng) ? $this->construction->ng : 0;
+        $ng = !empty($this->construction->ng) ? intval($this->construction->ng) : 0;
 
         // تعداد طبقات بالای همکف
-        $nf = !empty($this->construction->nf) ? $this->construction->nf : 0;
+        $nf = !empty($this->construction->nf) ? intval($this->construction->nf) : 0;
 
         // ضریب طبقه سرپله
-        $ns = !empty($this->construction->ns) ? $this->construction->ns : 0;
+        $ns = !empty($this->construction->ns) ? intval($this->construction->ns) : 0;
 
         // درصد اشغال زیر زمین اول
-        $basement1 = !empty($this->construction->constructionBasements->b1) ? $this->construction->constructionBasements->b1 : 0;
+        $basement1 = !empty($this->construction->constructionBasements->b1) ? intval($this->construction->constructionBasements->b1) : 0;
         
         // درصد اشغال زیر زمین دوم
-        $basement2 = !empty($this->construction->constructionBasements->b2) ? $this->construction->constructionBasements->b2 : 0;
+        $basement2 = !empty($this->construction->constructionBasements->b2) ? intval($this->construction->constructionBasements->b2) : 0;
 
         // درصد اشغال طبقه همکف
-        $g = !empty($this->construction->constructionFloors->g) ? $this->construction->constructionFloors->g : 0;
+        $g = !empty($this->construction->constructionFloors->g) ? intval($this->construction->constructionFloors->g) : 0;
         
         // درصد اشغال طبقه اول تا هشتم
-        $f1 = !empty($this->construction->constructionFloors->f1) ? $this->construction->constructionFloors->f1 : 0;
-        $f2 = !empty($this->construction->constructionFloors->f2) ? $this->construction->constructionFloors->f2 : 0;
-        $f3 = !empty($this->construction->constructionFloors->f3) ? $this->construction->constructionFloors->f3 : 0;
-        $f4 = !empty($this->construction->constructionFloors->f4) ? $this->construction->constructionFloors->f4 : 0;
-        $f5 = !empty($this->construction->constructionFloors->f5) ? $this->construction->constructionFloors->f5 : 0;
-        $f6 = !empty($this->construction->constructionFloors->f6) ? $this->construction->constructionFloors->f6 : 0;
-        $f7 = !empty($this->construction->constructionFloors->f7) ? $this->construction->constructionFloors->f7 : 0;
-        $f8 = !empty($this->construction->constructionFloors->f8) ? $this->construction->constructionFloors->f8 : 0;
+        $f1 = !empty($this->construction->constructionFloors->f1) ? intval($this->construction->constructionFloors->f1) : 0;
+        $f2 = !empty($this->construction->constructionFloors->f2) ? intval($this->construction->constructionFloors->f2) : 0;
+        $f3 = !empty($this->construction->constructionFloors->f3) ? intval($this->construction->constructionFloors->f3) : 0;
+        $f4 = !empty($this->construction->constructionFloors->f4) ? intval($this->construction->constructionFloors->f4) : 0;
+        $f5 = !empty($this->construction->constructionFloors->f5) ? intval($this->construction->constructionFloors->f5) : 0;
+        $f6 = !empty($this->construction->constructionFloors->f6) ? intval($this->construction->constructionFloors->f6) : 0;
+        $f7 = !empty($this->construction->constructionFloors->f7) ? intval($this->construction->constructionFloors->f7) : 0;
+        $f8 = !empty($this->construction->constructionFloors->f8) ? intval($this->construction->constructionFloors->f8) : 0;
 
         // عرض بالکن سمت حیاط
-        $balcony1 = !empty($this->construction->constructionBalconies->b1) ? $this->construction->constructionBalconies->b1 : 0;
-        $balcony2 = !empty($this->construction->constructionBalconies->b2) ? $this->construction->constructionBalconies->b2 : 0;
-        $balcony3 = !empty($this->construction->constructionBalconies->b3) ? $this->construction->constructionBalconies->b3 : 0;
+        $balcony1 = !empty($this->construction->constructionBalconies->b1) ? floatval($this->construction->constructionBalconies->b1) : 0;
+        $balcony2 = !empty($this->construction->constructionBalconies->b2) ? floatval($this->construction->constructionBalconies->b2) : 0;
+        $balcony3 = !empty($this->construction->constructionBalconies->b3) ? floatval($this->construction->constructionBalconies->b3) : 0;
         
         // هزینه ساخت هر متر مربع
-        $pc = !empty($this->construction->constructionPrices->pc) ? $this->construction->constructionPrices->pc : 0;
+        $pc = !empty($this->construction->constructionPrices->pc) ? intval($this->construction->constructionPrices->pc) : 0;
 
         // قیمت هر متر مربع زمین
-        $pm = !empty($this->construction->constructionPrices->pm) ? $this->construction->constructionPrices->pm : 0;
+        $pm = !empty($this->construction->constructionPrices->pm) ? intval($this->construction->constructionPrices->pm) : 0;
 
         // قیمت فروش آپارتمان
-        $pa = !empty($this->construction->constructionPrices->pa) ? $this->construction->constructionPrices->pa : 0;
+        $pa = !empty($this->construction->constructionPrices->pa) ? intval($this->construction->constructionPrices->pa) : 0;
 
         // هزینه های پروانه ساخت شهرداری
-        $ps = !empty($this->construction->constructionPrices->ps) ? $this->construction->constructionPrices->ps : 0;
+        $ps = !empty($this->construction->constructionPrices->ps) ? intval($this->construction->constructionPrices->ps) : 0;
 
         // هزینه های خاص پروژه
-        $pk = !empty($this->construction->constructionPrices->pk) ? $this->construction->constructionPrices->pk : 0;
+        $pk = !empty($this->construction->constructionPrices->pk) ? intval($this->construction->constructionPrices->pk) : 0;
 
         return [
             'c' => $c,

@@ -45,11 +45,16 @@ class TelegramController extends Controller
             $isCommand = true;
             $constructionBotResponse = new ConstructionBotResponse($telegram);
             $constructionBotResponse->processParameterSubmission();
-        } elseif($incoming_text === '/constructiondownloadresults') {
-            // دانلود پی دی اف
+        } elseif($incoming_text === '/constructioncalcexpensedownloadresults') {
+            // دانلود پی دی اف محاسبات  کل  زیر بنا و هزینه ساخت
             $isCommand = true;
             $constructionBotResponse = new ConstructionBotResponse($telegram);
-            $constructionBotResponse->downloadResults();
+            $constructionBotResponse->downloadConstCalcExpenseResults();
+        } elseif($incoming_text === '/constructioncalccollaborativedownloadresults') {
+            // دانلود پی دی اف محاسبات  مشارکت در ساخت منصفانه
+            $isCommand = true;
+            $constructionBotResponse = new ConstructionBotResponse($telegram);
+            $constructionBotResponse->downloadConstCalcCollaborativeResults();
         } elseif($incoming_text === '/constructionresetresults') {
             // محاسبه مجدد
             $isCommand = true;

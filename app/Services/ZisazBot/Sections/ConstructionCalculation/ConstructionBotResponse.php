@@ -626,6 +626,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         }
     }
 
+    // محاسبات  کل  زیر بنا و هزینه ساخت
     public function displayConstCalcExpenseFinalResults() {
 
         $constructionResult = new ConstructionCalculationResult($this->telegram);
@@ -659,6 +660,9 @@ class ConstructionBotResponse extends ConstructionCalculation {
             $text .= $this->generateBasementHtml();
         }
 
+        $text .= '
+زیر بنای طبقه همکف به همراه بالکن ' . number_format($totalAreaASK['agk']) . '	متر مربع';
+
         if(!empty($this->generateFloorHtml())) {
             $text .= $this->generateFloorHtml();
         }
@@ -679,13 +683,9 @@ class ConstructionBotResponse extends ConstructionCalculation {
         $text .= '
         
 ⚠ توجه
-1- محاسبات فوق تقریببی می باشد و صرفا برای برآورد های اولیه و تقریبی مناسب است  و برای تصمیمات دقیق قابل
-استناد نمی باشد .
-2-  برا ی محاسبات  و برآورد های دقیق لازم است  با توجه به  موقعیت ، ابعاد  ، شرایط و ضوابط خاص هر ملک و   
-همچنین پس از تهیه نقشه ها ی معماری  نسبت به محاسبات دقیق اقدام  نموده و تصمیمات  قابل استناد اتخاذ
-گردد.    
-3-  مسئولیت  هرگونه تصمیم  و قرارداد به عهده  تصمیم گیران  و طرفین قرارداد می باشد و سامانه زی ساز هیچگونه 
-مسئولیتی در قبال محاسبات تقریبی فوق و همچنین  تصمیمات طرفین قرارداد ندارد.
+1- محاسبات فوق تقریبی می باشد و صرفا برای برآورد های اولیه و تقریبی مناسب است و برای تصمیمات دقیق قابل استناد نمی باشد.
+2- برای محاسبات و برآورد های دقیق لازم است با توجه به موقعیت، ابعاد، شرایط و ضوابط خاص هر ملک و همچنین پس از تهیه نقشه های معماری نسبت به محاسبات دقیق اقدام نموده و تصمیمات  قابل استناد اتخاذ گردد.    
+3- مسئولیت هرگونه تصمیم و قرارداد به عهده تصمیم گیران و طرفین قرارداد می باشد و سامانه زی ساز هیچگونه مسئولیتی در قبال محاسبات تقریبی فوق و همچنین تصمیمات طرفین قرارداد ندارد.
 
 برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
 ⤵
@@ -693,7 +693,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructiondownloadresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructioncalcexpensedownloadresults')), 
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/constructionresetresults')), 
             // Third row
@@ -705,47 +705,211 @@ class ConstructionBotResponse extends ConstructionCalculation {
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
 
+    // محاسبه مشارکت در ساخت منصفانه
     public function displayConstCalcCollaborativeFinalResults() {
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
 
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
+
+        // زیر بنا
+        $area = $constructionResult->calculateArea();
+
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
+
+        // مشاعات
+        $totalAreaAMK = $constructionResult->calculateTotalAreaAMK();
+
+        // مساحت مفید قابل فروش
+        $totalAreaAPK = $constructionResult->calculateTotalAreaAPK();
+
+        // محاسبه کل زیر بنا و هزینه ساخت 
+        $constExpenses = $constructionResult->calculateConstExpenses();
+
+        // محاسبه نسبت مشارکت در ساخت منصفانه 
+        $constCollaborative = $constructionResult->calculateConstCollaborative();
+
+        $text = '
+            🎊 محاسبات با موفقیت انجام گردید:
+        ';
+
+        $text .= '
+مساحت زمین ' . number_format($initialParameters['a']) . '	متر مربع';
+
+        if(!empty($this->generateBasementHtml())) {
+            $text .= $this->generateBasementHtml();
+        }
+
+        $text .= '
+زیر بنای طبقه همکف به همراه بالکن ' . number_format($totalAreaASK['agk']) . '	متر مربع';
+
+        if(!empty($this->generateFloorHtml())) {
+            $text .= $this->generateFloorHtml();
+        }
+
+        $text .= '
+زیر بنای سر پله ' . number_format($area['as']) . '	متر مربع 
+کل زیر بنای قابل ساخت ' . number_format($totalAreaASK['ask']) . '	متر مربع 
+قیمت ساخت در هر متر مربع ' . number_format($initialParameters['pc']) . '	تومان 
+قیمت هر متر مربع زمین (ملک) ' . number_format($initialParameters['pm']) . '	تومان 
+قیمت فروش آپارتمان (هر متر مربع) ' . number_format($initialParameters['pa']) . '	تومان 
+هزینه های پروانه ساخت شهرداری ' . number_format($initialParameters['ps']) . '	تومان 
+هزینه های خاص این پروژه ' . number_format($initialParameters['pk']) . '	تومان 
+جمع کل هزینه ساخت ' . number_format($constExpenses['ack']) . '	تومان 
+جمع کل قیمت زمین ' . number_format($constExpenses['pmk']) . '	تومان 
+جمع کل سرمایه گذاری (هزینه ساخت + قیمت زمین) ' . number_format($constExpenses['zsk']) . '	تومان 
+کل متراژ مفید قابل فروش (کل متراژ سند های نهایی) ' . number_format($totalAreaAPK['apk']) . '	متر مربع
+درصد سهم شراکت منصفانه سازنده ' . number_format($constCollaborative['sm']) . '	درصد
+درصد سهم شراکت منصفانه مالک زمین ' . number_format($constCollaborative['zm']) . '	درصد
+کل متراژ مفید آپارتمان قابل فروش برای سازنده ' . number_format($constCollaborative['apsk']) . '	متر مربع
+کل متراژ مفید آپارتمان قابل فروش برای مالک ' . number_format($constCollaborative['apzk']) . '	متر مربع';
+
+        $text .= '
+        
+⚠ توجه
+1- محاسبات فوق تقریبی می باشد و صرفا برای برآورد های اولیه و تقریبی مناسب است و برای تصمیمات دقیق قابل استناد نمی باشد.
+2- برای محاسبات و برآورد های دقیق لازم است با توجه به موقعیت، ابعاد، شرایط و ضوابط خاص هر ملک و همچنین پس از تهیه نقشه های معماری نسبت به محاسبات دقیق اقدام نموده و تصمیمات  قابل استناد اتخاذ گردد.    
+3- مسئولیت هرگونه تصمیم و قرارداد به عهده تصمیم گیران و طرفین قرارداد می باشد و سامانه زی ساز هیچگونه مسئولیتی در قبال محاسبات تقریبی فوق و همچنین تصمیمات طرفین قرارداد ندارد.
+
+برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
+⤵
+        ';
+       
+        $option = array( 
+            // First row
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructioncalccollaborativedownloadresults')), 
+            // Second row
+            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/constructionresetresults')), 
+            // Third row
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+        );
+
+        $keyb = $this->telegram->buildInlineKeyBoard($option);
+
+        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
     }
 
-    public function downloadResults() {
+    // دانلود پی دی اف محاسبات  کل  زیر بنا و هزینه ساخت
+    public function downloadConstCalcExpenseResults() {
 
-        // $telegram = $this->telegram;
-        // $chat_id = $telegram->ChatID();
+        $telegram = $this->telegram;
+        $chat_id = $telegram->ChatID();
 
-        // $beamAndBlockRoofResult = new BeamAndBlockRoofResult($this->telegram);
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
 
-        // $h = $this->beamAndBlockRoof->h;
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
 
-        // if($h == 25) {
-        //     $data = $beamAndBlockRoofResult->calculateH25();
-        // } elseif($h == 20) {
-        //     $data = $beamAndBlockRoofResult->calculateH20();
-        // } 
+        // زیر بنا
+        $area = $constructionResult->calculateArea();
+
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
+
+        // مشاعات
+        $totalAreaAMK = $constructionResult->calculateTotalAreaAMK();
+
+        // مساحت مفید قابل فروش
+        $totalAreaAPK = $constructionResult->calculateTotalAreaAPK();
+
+        // محاسبه کل زیر بنا و هزینه ساخت 
+        $constExpenses = $constructionResult->calculateConstExpenses();
+
+        $data = [
+            'initialParameters' => $initialParameters,
+            'area' => $area,
+            'totalAreaASK' => $totalAreaASK,
+            'totalAreaAMK' => $totalAreaAMK,
+            'totalAreaAPK' => $totalAreaAPK,
+            'constExpenses' => $constExpenses,
+        ];
 
         // // Step 1: Generate the PDF content
-        // $pdf = PDF::loadView('generatepdf-beam-and-block-roof', $data);
+        $pdf = PDF::loadView('generatepdf-const-calc-expense', $data);
 
         // // Step 2: Save the generated PDF to a temporary location
-        // $uniqueFileName = hexdec(uniqid());
-        // $filename = $uniqueFileName . '.' . 'pdf';
-        // $pdfPath = storage_path('app/public/' . $filename);
-        // $pdf->save($pdfPath);
+        $uniqueFileName = hexdec(uniqid());
+        $filename = $uniqueFileName . '.' . 'pdf';
+        $pdfPath = storage_path('app/public/' . $filename);
+        $pdf->save($pdfPath);
 
-        // // Step 3: Use curl_file_create() to create a CURLFile object
-        // $file = curl_file_create($pdfPath, 'application/pdf', 'calculations.pdf');
+        // Step 3: Use curl_file_create() to create a CURLFile object
+        $file = curl_file_create($pdfPath, 'application/pdf', 'calculations.pdf');
 
-        // // Step 4: Send the file using Telegram bot
-        // $content = array('chat_id' => $chat_id, 'document' => $file);
-        // $result = $telegram->sendDocument($content);
+        // Step 4: Send the file using Telegram bot
+        $content = array('chat_id' => $chat_id, 'document' => $file);
+        $result = $telegram->sendDocument($content);
 
-        // // Step 5: Remove the temporary file
-        // if (file_exists($pdfPath)) {
-        //     unlink($pdfPath);
-        // }
+        // Step 5: Remove the temporary file
+        if (file_exists($pdfPath)) {
+            unlink($pdfPath);
+        }
        
-        // $this->saveMessageId($telegram, $result);
+        $this->saveMessageId($telegram, $result);
+    }
+
+    // دانلود پی دی اف محاسبات  مشارکت در ساخت منصفانه
+    public function downloadConstCalcCollaborativeResults() {
+
+        $telegram = $this->telegram;
+        $chat_id = $telegram->ChatID();
+
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
+
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
+
+        // زیر بنا
+        $area = $constructionResult->calculateArea();
+
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
+
+        // مشاعات
+        $totalAreaAMK = $constructionResult->calculateTotalAreaAMK();
+
+        // مساحت مفید قابل فروش
+        $totalAreaAPK = $constructionResult->calculateTotalAreaAPK();
+
+        // محاسبه کل زیر بنا و هزینه ساخت 
+        $constExpenses = $constructionResult->calculateConstExpenses();
+
+        // محاسبه نسبت مشارکت در ساخت منصفانه 
+        $constCollaborative = $constructionResult->calculateConstCollaborative();
+
+        $data = [
+            'initialParameters' => $initialParameters,
+            'area' => $area,
+            'totalAreaASK' => $totalAreaASK,
+            'totalAreaAMK' => $totalAreaAMK,
+            'totalAreaAPK' => $totalAreaAPK,
+            'constExpenses' => $constExpenses,
+            'constCollaborative' => $constCollaborative,
+        ];
+
+        // // Step 1: Generate the PDF content
+        $pdf = PDF::loadView('generatepdf-const-calc-collaborative', $data);
+
+        // // Step 2: Save the generated PDF to a temporary location
+        $uniqueFileName = hexdec(uniqid());
+        $filename = $uniqueFileName . '.' . 'pdf';
+        $pdfPath = storage_path('app/public/' . $filename);
+        $pdf->save($pdfPath);
+
+        // Step 3: Use curl_file_create() to create a CURLFile object
+        $file = curl_file_create($pdfPath, 'application/pdf', 'calculations.pdf');
+
+        // Step 4: Send the file using Telegram bot
+        $content = array('chat_id' => $chat_id, 'document' => $file);
+        $result = $telegram->sendDocument($content);
+
+        // Step 5: Remove the temporary file
+        if (file_exists($pdfPath)) {
+            unlink($pdfPath);
+        }
+       
+        $this->saveMessageId($telegram, $result);
     }
 
     private function generateBasementHtml() {
@@ -758,7 +922,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         // زیر بنای قابل ساخت
         $totalAreaASK = $constructionResult->calculateTotalAreaASK();
 
-        // تعداد طبقات
+        // تعداد زیر زمین
         $nb = $initialParameters['nb'];
 
         if($nb == 0) {
