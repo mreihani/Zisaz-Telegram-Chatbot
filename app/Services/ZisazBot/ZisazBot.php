@@ -54,7 +54,7 @@ abstract class ZisazBot {
             array($telegram->buildKeyboardButton('🙋 پیشنهادات'), $telegram->buildKeyboardButton('🚨 پشتیبانی'), $telegram->buildKeyboardButton('❓ سوالات متداول')), 
         );
 
-        $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true, $is_persistent = true);
+        $keyb = $telegram->buildKeyBoard($option, $onetime = true, $resize = true, $is_persistent = true);
         
         $content = array('chat_id' => $chat_id, 'photo' => $img, 'reply_markup' => $keyb, 'caption' => $text);
         $result = $telegram->sendPhoto($content);
