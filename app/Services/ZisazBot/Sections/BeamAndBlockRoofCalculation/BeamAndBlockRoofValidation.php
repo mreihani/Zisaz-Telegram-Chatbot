@@ -22,13 +22,13 @@ class BeamAndBlockRoofValidation extends BeamAndBlockRoofCalculation {
     private function switchValidation($responseObject, $paramType) {
         switch ($paramType) {
             case 'a':
-                $beamAndBlockRoofBotResponse->sendPamameterAText();
+                $responseObject->sendPamameterAText();
                 break;
             case 'h':
-                $beamAndBlockRoofBotResponse->sendPamameterHText();
+                $responseObject->sendPamameterHText();
                 break;
             case 'c':
-                $beamAndBlockRoofBotResponse->sendPamameterCText();
+                $responseObject->sendPamameterCText();
                 break;
             default:
                 // Handle default case or error

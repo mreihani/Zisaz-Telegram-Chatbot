@@ -167,6 +167,7 @@ abstract class ZisazBot {
 
         // Omit the last message_id from the array
         array_pop($messageIds);
+        array_pop($messageIds);
 
         // کارفرما می خواست صفحه کلید دائمی به پایین همیشه چسبیده باشه و مانع اینجا این بود که تاریخچه آخرین دستور استارت نباید پاک میشد 
         // چون اگر آخرین کامند استارت پاک بشه همزمان با اون صفحه کلید چسبان پایین هم پاک میشه
