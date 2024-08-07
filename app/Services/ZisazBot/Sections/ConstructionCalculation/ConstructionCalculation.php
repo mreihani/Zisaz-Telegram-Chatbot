@@ -1195,4 +1195,14 @@ class ConstructionCalculation extends ZisazBot {
            // \Log::info('An error occurred: ' . $e->getMessage());
         }
     }
+
+    public function resetResults() {
+        $latestAction = $this->getLastActionObject($this->telegram);
+
+        $construction = $this->user->actions->pluck('construction')->flatten()->filter()->first();
+       
+        $construction->delete();
+
+        return $this->displayItem();
+    }
 } 

@@ -653,15 +653,39 @@ class ConstructionBotResponse extends ConstructionCalculation {
         ';
 
         $text .= '
-مساحت زمین ' . $initialParameters['a'] . '	متر مربع 
-        ';
+مساحت زمین ' . number_format($initialParameters['a']) . '	متر مربع';
+
+        if(!empty($this->generateBasementHtml())) {
+            $text .= $this->generateBasementHtml();
+        }
+
+        if(!empty($this->generateFloorHtml())) {
+            $text .= $this->generateFloorHtml();
+        }
 
         $text .= '
+زیر بنای سر پله ' . number_format($area['as']) . '	متر مربع 
+کل زیر بنای قابل ساخت ' . number_format($totalAreaASK['ask']) . '	متر مربع 
+قیمت ساخت در هر متر مربع ' . number_format($initialParameters['pc']) . '	تومان 
+قیمت هر متر مربع زمین (ملک) ' . number_format($initialParameters['pm']) . '	تومان 
+قیمت فروش آپارتمان (هر متر مربع) ' . number_format($initialParameters['pa']) . '	تومان 
+هزینه های پروانه ساخت شهرداری ' . number_format($initialParameters['ps']) . '	تومان 
+هزینه های خاص این پروژه ' . number_format($initialParameters['pk']) . '	تومان 
+جمع کل هزینه ساخت ' . number_format($constExpenses['ack']) . '	تومان 
+جمع کل قیمت زمین ' . number_format($constExpenses['pmk']) . '	تومان 
+جمع کل سرمایه گذاری (هزینه ساخت + قیمت زمین) ' . number_format($constExpenses['zsk']) . '	تومان 
+کل متراژ مفید قابل فروش (کل متراژ سند های نهایی) ' . number_format($totalAreaAPK['apk']) . '	متر مربع';
+
+        $text .= '
+        
 ⚠ توجه
-1-اندازه و مقادیر دقیق پارامتر های خروجی تابع ابعاد شناژ ها، پوتر های بتونی ، همچنین اندازه  دهانه تیرچه ها می باشد 
-2-ارتفاع تیرچه  H سانتی متر 
-3-ابعاد فوم 200*50 سانتی متر در نظر گرفته شده است .
-4- عیار بتون 350 کیلو گرم بر مترمکعب د رنظر گرفته شده است .
+1- محاسبات فوق تقریببی می باشد و صرفا برای برآورد های اولیه و تقریبی مناسب است  و برای تصمیمات دقیق قابل
+استناد نمی باشد .
+2-  برا ی محاسبات  و برآورد های دقیق لازم است  با توجه به  موقعیت ، ابعاد  ، شرایط و ضوابط خاص هر ملک و   
+همچنین پس از تهیه نقشه ها ی معماری  نسبت به محاسبات دقیق اقدام  نموده و تصمیمات  قابل استناد اتخاذ
+گردد.    
+3-  مسئولیت  هرگونه تصمیم  و قرارداد به عهده  تصمیم گیران  و طرفین قرارداد می باشد و سامانه زی ساز هیچگونه 
+مسئولیتی در قبال محاسبات تقریبی فوق و همچنین  تصمیمات طرفین قرارداد ندارد.
 
 برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
 ⤵
@@ -722,5 +746,61 @@ class ConstructionBotResponse extends ConstructionCalculation {
         // }
        
         // $this->saveMessageId($telegram, $result);
+    }
+
+    private function generateBasementHtml() {
+
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
+
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
+
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
+
+        // تعداد طبقات
+        $nb = $initialParameters['nb'];
+
+        if($nb == 0) {
+            return null;
+        }
+
+        // Initialize an empty string to store the chained text
+        $text = ''; 
+
+        for ($i=0; $i < $nb; $i++) { 
+            $text .= '
+زیر بنای زیر زمین ' . $i+1 . ' ' . number_format($totalAreaASK['abk' . ($i + 1)]) . '	متر مربع';
+        }
+
+        return $text;
+    }
+
+    private function generateFloorHtml() {
+
+        $constructionResult = new ConstructionCalculationResult($this->telegram);
+
+        // دریافت ورودی های کاربر
+        $initialParameters = $constructionResult->getInitialParameters();
+
+        // زیر بنای قابل ساخت
+        $totalAreaASK = $constructionResult->calculateTotalAreaASK();
+
+        // تعداد طبقات
+        $nf = $initialParameters['nf'];
+
+        if($nf == 0) {
+            return null;
+        }
+
+        // Initialize an empty string to store the chained text
+        $text = ''; 
+
+        for ($i=0; $i < $nf; $i++) { 
+            $text .= '
+زیر بنای طبقه ' . $i+1 . ' به همراه بالکن ' . number_format($totalAreaASK['afk' . ($i + 1)]) . '	متر مربع';
+        }
+
+        return $text;
     }
 }
