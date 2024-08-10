@@ -4,9 +4,9 @@ namespace App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\Br
 
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
-use App\Models\Action\BrickWallMasonry\BrickWallMasonry;
+use App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock;
 
-class BrickWallMasonryApartmentBlockService extends ZisazBot {
+class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
 
     public $telegram;
     public $user;
@@ -40,7 +40,7 @@ class BrickWallMasonryApartmentBlockService extends ZisazBot {
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
 
         // set and update action
-        $this->initializeAction(new BrickWallMasonry());
+        $this->initializeAction(new BrickWallMasonryApartmentBlock());
     }
 
     public function getUserPrompts() {

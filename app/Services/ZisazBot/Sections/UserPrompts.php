@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
-use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
 class UserPrompts extends ZisazBot {
 
@@ -43,12 +43,29 @@ class UserPrompts extends ZisazBot {
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
             $beamAndBlockRoofCalculation->getUserPrompts();
         }
-
-        // ورودی های کاربر برای دیوار چینی بلوکی و آجری
-        if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonry') {
-            $brickWallMasonryCalculation = new BrickWallMasonryCalculation($this->telegram);
+        
+        // ورودی های کاربر برای دیوار چینی بلوکی و آجری - دیوار پارتیشن بلوکی آپارتمان
+        if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock') {
+            $brickWallMasonryCalculation = new BrickWallMasonryApartmentBlockCalculation($this->telegram);
             $brickWallMasonryCalculation->getUserPrompts();
         }
-       
+
+        // ورودی های کاربر برای دیوار چینی بلوکی و آجری - دیوار بلوکی حصار باغ یا حیاط
+        // if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryGarden') {
+        //     $brickWallMasonryCalculation = new BrickWallMasonryGardenCalculation($this->telegram);
+        //     $brickWallMasonryCalculation->getUserPrompts();
+        // }
+        
+        // ورودی های کاربر برای دیوار چینی بلوکی و آجری - برآورد دیوار با آجر فشاری یا سه گل
+        // if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPressedBrick') {
+        //     $brickWallMasonryCalculation = new BrickWallMasonryPressedBrickCalculation($this->telegram);
+        //     $brickWallMasonryCalculation->getUserPrompts();
+        // }
+
+        // ورودی های کاربر برای دیوار چینی بلوکی و آجری - برآورد دیوار با آجر پارتیشن
+        // if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition') {
+        //     $brickWallMasonryCalculation = new BrickWallMasonryPartitionCalculation($this->telegram);
+        //     $brickWallMasonryCalculation->getUserPrompts();
+        // }
     }
 } 

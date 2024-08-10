@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('action_id');
             $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
+            $table->string('a')->nullable();
+            $table->string('b')->nullable();
+            $table->string('c')->default(250);
             $table->timestamps();
         });
         
@@ -22,22 +25,39 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('action_id');
             $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
+            $table->string('l')->nullable();
+            $table->string('h')->nullable();
+            $table->string('b')->nullable();
+            $table->string('d')->nullable();
             $table->timestamps();
         });
       
-        Schema::create('brick_wall_masonry_partitions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('action_id');
-            $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
-            $table->timestamps();
-        });
-        
         Schema::create('brick_wall_masonry_pressed_bricks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('action_id');
             $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
+            $table->string('a')->nullable();
+            $table->string('b')->nullable();
+            $table->string('r')->nullable();
+            $table->string('e')->nullable();
+            $table->string('f')->nullable();
+            $table->string('c')->default(250);
             $table->timestamps();
         });
+
+        Schema::create('brick_wall_masonry_partitions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('action_id');
+            $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
+            $table->string('a')->nullable();
+            $table->string('r')->nullable();
+            $table->string('e')->nullable();
+            $table->string('f')->nullable();
+            $table->string('b')->nullable();
+            $table->string('c')->default(250);
+            $table->timestamps();
+        });
+        
     }
 
     /**
@@ -45,8 +65,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brick_wall_masonry_pressed_bricks');
         Schema::dropIfExists('brick_wall_masonry_partitions');
+        Schema::dropIfExists('brick_wall_masonry_pressed_bricks');
         Schema::dropIfExists('brick_wall_masonry_gardens');
         Schema::dropIfExists('brick_wall_masonry_apartment_blocks');
     }

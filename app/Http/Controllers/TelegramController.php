@@ -14,7 +14,7 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
-use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockService;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
 class TelegramController extends Controller
 {
@@ -92,10 +92,10 @@ class TelegramController extends Controller
         } elseif($incoming_text == '/brickwallmasonryapartmentblock') {
             // دیوار پارتیشن بلوکی آپارتمان
             $isCommand = true;
-            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockService($telegram);
+            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($telegram);
             $brickWallMasonryApartmentBlock->displayItem();
         } elseif($incoming_text == '/brickwallmasonryapartmentblocksendpamameteratext') {
-            // $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockService($this->telegram);
+            // $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($this->telegram);
             // $brickWallMasonryApartmentBlock->processParameterSubmission();
         } elseif($incoming_text == '/brickwallmasonrygarden') {
 
@@ -103,7 +103,6 @@ class TelegramController extends Controller
             
         } elseif($incoming_text == '/brickwallmasonrypressedbrick') {
             
-        }
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
             try {
