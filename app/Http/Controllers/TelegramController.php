@@ -8,11 +8,13 @@ use App\Services\TelegramBotPhp\Telegram;
 use App\Services\ZisazBot\Sections\UserPrompts;
 use App\Services\ZisazBot\Sections\StartSection;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
-use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
+use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockService;
 
 class TelegramController extends Controller
 {
@@ -82,6 +84,26 @@ class TelegramController extends Controller
             $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
             $beamAndBlockRoofBotResponse->resetResults();
             
+            // محاسبات دیوار چینی بلوکی و آجری 
+        } elseif($incoming_text === '/getbrickwallmasonry' || $incoming_text == '🧱 دیوار چینی') {
+            $isCommand = true;
+            $brickWallMasonryCalculation = new BrickWallMasonryCalculation($telegram);
+            $brickWallMasonryCalculation->displayItem();
+        } elseif($incoming_text == '/brickwallmasonryapartmentblock') {
+            // دیوار پارتیشن بلوکی آپارتمان
+            $isCommand = true;
+            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockService($telegram);
+            $brickWallMasonryApartmentBlock->displayItem();
+        } elseif($incoming_text == '/brickwallmasonryapartmentblocksendpamameteratext') {
+            // $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockService($this->telegram);
+            // $brickWallMasonryApartmentBlock->processParameterSubmission();
+        } elseif($incoming_text == '/brickwallmasonrygarden') {
+
+        } elseif($incoming_text == '/brickwallmasonrypartition') {
+            
+        } elseif($incoming_text == '/brickwallmasonrypressedbrick') {
+            
+        }
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
             try {

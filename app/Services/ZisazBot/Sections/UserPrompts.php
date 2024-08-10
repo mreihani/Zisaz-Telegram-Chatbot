@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
 
 class UserPrompts extends ZisazBot {
 
@@ -41,6 +42,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof') {
             $beamAndBlockRoofCalculation = new BeamAndBlockRoofCalculation($this->telegram);
             $beamAndBlockRoofCalculation->getUserPrompts();
+        }
+
+        // ورودی های کاربر برای دیوار چینی بلوکی و آجری
+        if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonry') {
+            $brickWallMasonryCalculation = new BrickWallMasonryCalculation($this->telegram);
+            $brickWallMasonryCalculation->getUserPrompts();
         }
        
     }

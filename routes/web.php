@@ -23,18 +23,18 @@ use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 
 //     $user = User::find(1);
 
+//     $construction = $user->actions->flatMap->beamAndBlockRoof->first();
 //     $beamAndBlockRoof = $user->actions->flatMap->beamAndBlockRoof->first();
 
-//     $construction = $user->actions()
-//     ->withWhereHas('construction')
-//     ->first()
-//     ->construction
-//     ->first();
+    // $construction = $user->actions()
+    // ->withWhereHas('construction')
+    // ->first()
+    // ->construction
+    // ->first();
     
-
-//     dd(
-//         $construction
-//     );
+    // dd(
+    //     $construction
+    // );
 
 //     return view('welcome');
 // });
