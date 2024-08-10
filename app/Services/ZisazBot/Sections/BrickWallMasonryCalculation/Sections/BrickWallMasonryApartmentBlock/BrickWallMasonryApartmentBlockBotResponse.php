@@ -3,29 +3,29 @@
 namespace App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock;
 
 use PDF;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockResult;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
 
-class BrickWallMasonryApartmentBlockBotResponse extends BeamAndBlockRoofCalculation {
+class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmentBlockCalculation {
 
     public $telegram;
     public $latestAction;
-    public $beamAndBlockRoof;
+    public $brickWallMasonryApartmentBlock;
     public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
         $this->latestAction = $this->getLastActionObject($telegram);
-        $this->beamAndBlockRoof = $this->latestAction->beamAndBlockRoof->first();
+        $this->brickWallMasonryApartmentBlock = $this->latestAction->brickWallMasonryApartmentBlock->first();
     }
 
     public function processParameterSubmission() {
-        if(empty($this->beamAndBlockRoof->a) && empty($this->beamAndBlockRoof->h) && empty($this->beamAndBlockRoof->c)) {
+        if(empty($this->brickWallMasonryApartmentBlock->a)) {
             return $this->sendPamameterAText();
-        } elseif(empty($this->beamAndBlockRoof->h) && empty($this->beamAndBlockRoof->c)) {
-            return $this->sendPamameterHText();
-        } elseif(empty($this->beamAndBlockRoof->c)) {
-            return $this->sendPamameterCText();
+        } elseif(empty($this->brickWallMasonryApartmentBlock->b)) {
+            return $this->sendPamameterBText();
         } else {
             return $this->displayFinalResults();
         }
@@ -33,41 +33,34 @@ class BrickWallMasonryApartmentBlockBotResponse extends BeamAndBlockRoofCalculat
 
     public function sendPamameterAText() {
         try {
-            $text = 'مساحت کل سقف را وارد کنید';
+            $text = 'مساحت کل دیوار به متر مربع را وارد نمایید';
+
             $option = array( 
                 // First row
                 array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
             );
-            $keyb = $this->telegram->buildInlineKeyBoard($option);
-            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
 
+            $keyb = $this->telegram->buildInlineKeyBoard($option);
+
+            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
         } catch (\Exception $e) {
             // \Log::info('An error occurred: ' . $e->getMessage());
         }
     }
 
-    public function sendPamameterHText() {
-        $text = 'ارتفاع تیرچه را به سانتی متر انتخاب نمایید';
+    public function sendPamameterBText() {
+        $text = 'عرض دیوار ( بلوک) انتخاب نمایید';
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('20', '', '/beamandblockroofsendpamameterh20')), 
+            array($this->telegram->buildInlineKeyBoardButton('7', '', '/brickwallmasonryapartmentblocksendpamameterb7')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('25', '', '/beamandblockroofsendpamameterh25')), 
+            array($this->telegram->buildInlineKeyBoardButton('10', '', '/brickwallmasonryapartmentblocksendpamameterb10')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
-        );
-
-        $keyb = $this->telegram->buildInlineKeyBoard($option);
-
-        $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
-    }
-
-    public function sendPamameterCText() {
-        $text = 'عیار بتون را وارد کنید';
-        
-        $option = array( 
-            // First row
+            array($this->telegram->buildInlineKeyBoardButton('15', '', '/brickwallmasonryapartmentblocksendpamameterb15')), 
+            // Fourth row
+            array($this->telegram->buildInlineKeyBoardButton('20', '', '/brickwallmasonryapartmentblocksendpamameterb20')), 
+            // Fifth row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
 
@@ -78,37 +71,28 @@ class BrickWallMasonryApartmentBlockBotResponse extends BeamAndBlockRoofCalculat
 
     public function displayFinalResults() {
 
-        $beamAndBlockRoofResult = new BeamAndBlockRoofResult($this->telegram);
+        $brickWallMasonryApartmentBlockResult = new BrickWallMasonryApartmentBlockResult($this->telegram);
 
-        $h = $this->beamAndBlockRoof->h;
-
-        if($h == 25) {
-            $results = $beamAndBlockRoofResult->calculateH25();
-        } elseif($h == 20) {
-            $results = $beamAndBlockRoofResult->calculateH20();
-        } 
+        $results = $brickWallMasonryApartmentBlockResult->calculateBrickWallMasonryApartmentBlock();
 
         $text = '
             🎊 محاسبات با موفقیت انجام گردید:
         ';
 
         $text .= '
-مساحت کل سقف ' . $results['a'] . '	متر مربع 
-ارتفاع تیرچه ' . $results['h'] . ' سانتی متر
-تعداد فوم مورد نیاز 	' . $results['n'] . '	عدد
-متراژ تیرچه مورد نیاز تقریبی	' . $results['l'] . '	متر
-حجم بتون تقریبی	' . $results['v'] . '	متر مکعب
-وزن  سیمان  تقریبی مورد نیا ز	' . $results['w'] . '	کیلو گرم 
-وزن شن و ماسه  تقریبی مورد نیاز 	' . $results['s'] . '	کیلو گرم 
-وزن میلگرد حراراتی تقریبی مورد نیاز 	' . $results['wi'] . '	کیلو گرم 
+ابعاد بلوک '. $results['b'] .'*20*40	سانتی متر 
+متراژ کل دیوار چینی '. $results['a'] .' متر مربع
+تعداد بلوک مورد نیاز '. $results['n'] .' عدد
+مقدار سیمان مورد نیاز برابر '. $results['w'] .' کیلوگرم
+مقدار ماسه مورد نیاز برابر '. $results['s'] .' کیلوگرم
         ';
 
         $text .= '
 ⚠ توجه
-1-اندازه و مقادیر دقیق پارامتر های خروجی تابع ابعاد شناژ ها، پوتر های بتونی ، همچنین اندازه  دهانه تیرچه ها می باشد 
-2-ارتفاع تیرچه  H سانتی متر 
-3-ابعاد فوم 200*50 سانتی متر در نظر گرفته شده است .
-4- عیار بتون 350 کیلو گرم بر مترمکعب د رنظر گرفته شده است .
+1- این محاسبات برای بلوک چینی پارتیشن آپارتمان انجام شده است.
+2- ابعاد بلوک '. $results['b'] .'*20*40 می باشد. 
+3- عیار ملات بلوک چینی 250 کیلو گرم بر مترمکعب در نظر گرفته شده است.
+4- پرت مصالح 6% در نظر گرفته شده است.
 
 برای دریافت فایل پی دی اف روی دکمه دانلود کلیک کنید 📥
 ⤵
@@ -116,9 +100,9 @@ class BrickWallMasonryApartmentBlockBotResponse extends BeamAndBlockRoofCalculat
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/beamandblockroofdownloadresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/brickwallmasonryapartmentblockdownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/beamandblockroofresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/brickwallmasonryapartmentblockresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -133,18 +117,12 @@ class BrickWallMasonryApartmentBlockBotResponse extends BeamAndBlockRoofCalculat
         $telegram = $this->telegram;
         $chat_id = $telegram->ChatID();
 
-        $beamAndBlockRoofResult = new BeamAndBlockRoofResult($this->telegram);
+        $brickWallMasonryApartmentBlockResult = new BrickWallMasonryApartmentBlockResult($this->telegram);
 
-        $h = $this->beamAndBlockRoof->h;
-
-        if($h == 25) {
-            $data = $beamAndBlockRoofResult->calculateH25();
-        } elseif($h == 20) {
-            $data = $beamAndBlockRoofResult->calculateH20();
-        } 
+        $data = $brickWallMasonryApartmentBlockResult->calculateBrickWallMasonryApartmentBlock();
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('generatepdf-beam-and-block-roof', $data);
+        $pdf = PDF::loadView('generatepdf-brick-wall-masonry-apartment-block', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());

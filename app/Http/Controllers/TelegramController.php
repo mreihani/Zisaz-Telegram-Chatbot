@@ -14,6 +14,7 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
 class TelegramController extends Controller
@@ -95,8 +96,19 @@ class TelegramController extends Controller
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($telegram);
             $brickWallMasonryApartmentBlock->displayItem();
         } elseif($incoming_text == '/brickwallmasonryapartmentblocksendpamameteratext') {
-            // $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($this->telegram);
-            // $brickWallMasonryApartmentBlock->processParameterSubmission();
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
+            $brickWallMasonryApartmentBlock->processParameterSubmission();
+        } elseif($incoming_text === '/brickwallmasonryapartmentblockdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
+            $brickWallMasonryApartmentBlock->downloadResults();
+        } elseif($incoming_text === '/brickwallmasonryapartmentblockresetresults') {
+            // محاسبه مجدد
+            $isCommand = true;
+            $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
+            $brickWallMasonryApartmentBlock->resetResults();
         } elseif($incoming_text == '/brickwallmasonrygarden') {
 
         } elseif($incoming_text == '/brickwallmasonrypartition') {

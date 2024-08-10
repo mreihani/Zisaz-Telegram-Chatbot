@@ -4,9 +4,10 @@ namespace App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\Br
 
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
-
-class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculation {
+class BrickWallMasonryApartmentBlockValidation extends BrickWallMasonryApartmentBlockCalculation {
 
     public $telegram;
     public $user;
@@ -22,11 +23,8 @@ class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculati
             case 'a':
                 $responseObject->sendPamameterAText();
                 break;
-            case 'h':
-                $responseObject->sendPamameterHText();
-                break;
-            case 'c':
-                $responseObject->sendPamameterCText();
+            case 'b':
+                $responseObject->sendPamameterBText();
                 break;
             default:
                 // Handle default case or error
@@ -44,9 +42,9 @@ class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculati
             ';
 
             $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+            $brickWallMasonryApartmentBlockBotResponse = new BrickWallMasonryApartmentBlockBotResponse($this->telegram);
 
-            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+            $this->switchValidation($brickWallMasonryApartmentBlockBotResponse, $paramType);
 
             throw new \Exception($message);
         }
@@ -62,9 +60,9 @@ class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculati
             ';
 
             $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+            $brickWallMasonryApartmentBlockBotResponse = new BrickWallMasonryApartmentBlockBotResponse($this->telegram);
 
-            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+            $this->switchValidation($brickWallMasonryApartmentBlockBotResponse, $paramType);
 
             throw new \Exception($message);
         }
@@ -80,9 +78,9 @@ class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculati
             ";
 
             $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+            $brickWallMasonryApartmentBlockBotResponse = new BrickWallMasonryApartmentBlockBotResponse($this->telegram);
 
-            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+            $this->switchValidation($brickWallMasonryApartmentBlockBotResponse, $paramType);
 
             throw new \Exception($message);
         }
@@ -98,9 +96,9 @@ class BrickWallMasonryApartmentBlockValidation extends BeamAndBlockRoofCalculati
             ';
 
             $this->sendMessage($this->telegram, $message);
-            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
+            $brickWallMasonryApartmentBlockBotResponse = new BrickWallMasonryApartmentBlockBotResponse($this->telegram);
 
-            $this->switchValidation($beamAndBlockRoofBotResponse, $paramType);
+            $this->switchValidation($brickWallMasonryApartmentBlockBotResponse, $paramType);
 
             throw new \Exception($message);
         }

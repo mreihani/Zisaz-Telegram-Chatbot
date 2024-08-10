@@ -2,86 +2,50 @@
 
 namespace App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock;
 
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
-
-class BrickWallMasonryApartmentBlockResult extends BeamAndBlockRoofCalculation {
+class BrickWallMasonryApartmentBlockResult extends BrickWallMasonryApartmentBlockCalculation {
 
     public $telegram;
     public $user;
-    public $beamAndBlockRoof;
-    public $a;
-    public $h;
-    public $c;
+    public $brickWallMasonryApartmentBlock;
    
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
-        $this->beamAndBlockRoof = $this->user->actions->flatMap->beamAndBlockRoof->first();
-        $this->a = $this->beamAndBlockRoof->a;
-        $this->h = $this->beamAndBlockRoof->h;
-        $this->c = $this->beamAndBlockRoof->c;
+        $this->brickWallMasonryApartmentBlock = $this->user->actions->flatMap->brickWallMasonryApartmentBlock->first();
     }
     
-    // محاسبات برای تیرچه H=25
-    public function calculateH25() {
-        // تعداد فوم 
-        $n = $this->a * 0.68;
+    public function calculateBrickWallMasonryApartmentBlock() {
+       
+        // دریافت مساحت کل دیوار از دیتابیس
+        $a = !empty($this->brickWallMasonryApartmentBlock->a) ? $this->brickWallMasonryApartmentBlock->a : 0;
 
-        // متراژ تیرچه
-        $l = $this->a * 1.5;
+        // دریافت عرض دیوار از دیتابیس
+        $b = !empty($this->brickWallMasonryApartmentBlock->b) ? $this->brickWallMasonryApartmentBlock->b : 0;
 
-        // حجم بتون 
-        $v = $this->a * 0.155;
+        // دریاف عیار ملات از دیتابیس
+        $c = !empty($this->brickWallMasonryApartmentBlock->c) ? $this->brickWallMasonryApartmentBlock->c : 0;
 
-        // وزن سیمان 
-        $w = $v * $this->c;
+        // محاسبه تعداد بلوک
+        $n = $a * 13;
 
-        // وزن شن و ماسه 
-        $s = $v * 1900;
+        // محاسبه حجم ملات
+        $v = ((5 * $b * 0.02) / 100 * $a) * 1.06;
 
-        // وزن میلگرد حرارتی 
-        $wi = $this->a * 1.06;
+        // محاسبه وزن سیمان
+        $w = $v * $c;
+
+        // محاسبه وزن ماسه
+        $s = $v * 2000;
         
         return [
-            'a' => bcdiv($this->a, 1, 2),
-            'h' => bcdiv($this->h, 1, 2),
-            'n' => ceil($this->a * 0.68),
-            'l' => bcdiv($l, 1, 2),
+            'n' => ceil($n),
             'v' => bcdiv($v, 1, 2),
             'w' => bcdiv($w, 1, 2),
             's' => bcdiv($s, 1, 2),
-            'wi' => bcdiv($wi, 1, 2),
-        ];
-    }
-
-    public function calculateH20() {
-        // تعداد فوم 
-        $n = $this->a * 0.68;
-
-        // متراژ تیرچه
-        $l = $this->a * 1.5;
-
-        // حجم بتون 
-        $v = $this->a * 0.18;
-
-        // وزن سیمان 
-        $w = $v * $this->c;
-
-        // وزن شن و ماسه 
-        $s = $v * 1900;
-
-        // وزن میلگرد حرارتی 
-        $wi = $this->a * 1.06;
-
-        return [
-            'a' => bcdiv($this->a, 1, 2),
-            'h' => bcdiv($this->h, 1, 2),
-            'n' => ceil($this->a * 0.68),
-            'l' => bcdiv($l, 1, 2),
-            'v' => bcdiv($v, 1, 2),
-            'w' => bcdiv($w, 1, 2),
-            's' => bcdiv($s, 1, 2),
-            'wi' => bcdiv($wi, 1, 2),
+            'b' => $b,
+            'a' => $a,
         ];
     }
 }

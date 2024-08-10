@@ -5,6 +5,8 @@ namespace App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\Br
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockValidation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
 
 class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
 
@@ -50,62 +52,52 @@ class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
 
             $latestAction = $this->getLastActionObject($this->telegram);
 
-            $brickWallMasonry = $latestAction->brickWallMasonry->first();
-            $brickWallMasonryApartmentBlock = $brickWallMasonry->brickWallMasonryApartmentBlock;
+            $brickWallMasonryApartmentBlock = $latestAction->brickWallMasonryApartmentBlock->first();
 
-            $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($this->telegram);
-            $beamAndBlockRoofValidation = new BeamAndBlockRoofValidation($this->telegram);
+            $brickWallMasonryApartmentBlockBotResponse = new BrickWallMasonryApartmentBlockBotResponse($this->telegram);
+            $brickWallMasonryApartmentBlockValidation = new BrickWallMasonryApartmentBlockValidation($this->telegram);
 
-            if(empty($beamAndBlockRoof->a) && empty($beamAndBlockRoof->h) && empty($beamAndBlockRoof->c)) {
+            if(empty($brickWallMasonryApartmentBlock->a)) {
                 
                 // user input validation for numeric values
-                $beamAndBlockRoofValidation->isNumericValidation($text, 'a');
+                $brickWallMasonryApartmentBlockValidation->isNumericValidation($text, 'a');
                 // user input validation for positive integer values
-                $beamAndBlockRoofValidation->isPositiveInteger($text, 'a');
+                $brickWallMasonryApartmentBlockValidation->isPositiveInteger($text, 'a');
 
-                $beamAndBlockRoofObj = $latestAction->beamAndBlockRoof()->create([
+                $brickWallMasonryApartmentBlockObj = $latestAction->brickWallMasonryApartmentBlock()->create([
                     'a' => !empty($text) ? $text : null,
                 ]);
 
                 $latestAction->update([
-                    'subaction_id' => $beamAndBlockRoofObj->id,
+                    'subaction_id' => $brickWallMasonryApartmentBlockObj->id,
                 ]);
 
-                $beamAndBlockRoofBotResponse->sendPamameterHText();
+                $brickWallMasonryApartmentBlockBotResponse->sendPamameterBText();
 
-            } elseif(empty($beamAndBlockRoof->h) && empty($beamAndBlockRoof->c)) {
+            } elseif(empty($brickWallMasonryApartmentBlock->b)) {
 
-                if($text == '/beamandblockroofsendpamameterh20' || $text == 20) {
+                if($text == '/brickwallmasonryapartmentblocksendpamameterb7' || $text == 7) {
+                    $text = 7;
+                } elseif($text == '/brickwallmasonryapartmentblocksendpamameterb10' || $text == 10) {
+                    $text = 10;
+                } elseif($text == '/brickwallmasonryapartmentblocksendpamameterb15' || $text == 15) {
+                    $text = 15;
+                } elseif($text == '/brickwallmasonryapartmentblocksendpamameterb20' || $text == 20) {
                     $text = 20;
-                } elseif($text == '/beamandblockroofsendpamameterh25' || $text == 25) {
-                    $text = 25;
                 } else {
-                    $text = 20;
+                    $text = 7;
                 }
 
                 // user input validation for numeric values
-                $beamAndBlockRoofValidation->isNumericValidation($text, 'h');
+                $brickWallMasonryApartmentBlockValidation->isNumericValidation($text, 'b');
                 // user input validation for positive integer values
-                $beamAndBlockRoofValidation->isPositiveInteger($text, 'h');
+                $brickWallMasonryApartmentBlockValidation->isPositiveInteger($text, 'b');
 
-                $latestAction->beamAndBlockRoof()->update([
-                    'h' => !empty($text) ? $text : null,
+                $latestAction->brickWallMasonryApartmentBlock()->update([
+                    'b' => !empty($text) ? $text : null,
                 ]);
 
-                $beamAndBlockRoofBotResponse->sendPamameterCText();
-
-            } elseif(empty($beamAndBlockRoof->c)) {
-
-                // user input validation for numeric values
-                $beamAndBlockRoofValidation->isNumericValidation($text, 'c');
-                // user input validation for positive integer values
-                $beamAndBlockRoofValidation->isPositiveInteger($text, 'c');
-
-                $latestAction->beamAndBlockRoof()->update([
-                    'c' => !empty($text) ? $text : null,
-                ]);
-
-                $beamAndBlockRoofBotResponse->displayFinalResults();
+                $brickWallMasonryApartmentBlockBotResponse->displayFinalResults();
             } 
 
         } catch (\Exception $e) {
@@ -116,10 +108,10 @@ class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
     public function resetResults() {
         $latestAction = $this->getLastActionObject($this->telegram);
 
-        $beamAndBlockRoof = $this->user->actions->flatMap->beamAndBlockRoof->first();
+        $brickWallMasonryApartmentBlock = $this->user->actions->flatMap->brickWallMasonryApartmentBlock->first();
         
-        if(!is_null($beamAndBlockRoof)) {
-            $beamAndBlockRoof->delete();
+        if(!is_null($brickWallMasonryApartmentBlock)) {
+            $brickWallMasonryApartmentBlock->delete();
         }
 
         return $this->displayItem();
