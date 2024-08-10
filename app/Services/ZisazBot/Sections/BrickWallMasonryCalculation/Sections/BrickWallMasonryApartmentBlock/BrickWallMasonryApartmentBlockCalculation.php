@@ -63,6 +63,8 @@ class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
                 $brickWallMasonryApartmentBlockValidation->isNumericValidation($text, 'a');
                 // user input validation for positive integer values
                 $brickWallMasonryApartmentBlockValidation->isPositiveInteger($text, 'a');
+                // user input validation for not zero entries
+                $brickWallMasonryApartmentBlockValidation->isNotZero($text, 'a');
 
                 $brickWallMasonryApartmentBlockObj = $latestAction->brickWallMasonryApartmentBlock()->create([
                     'a' => !empty($text) ? $text : null,
