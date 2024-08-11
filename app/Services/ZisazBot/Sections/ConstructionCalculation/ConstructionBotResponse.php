@@ -695,7 +695,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructioncalcexpensedownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/constructionresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/constructionresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -780,7 +780,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/constructioncalccollaborativedownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/constructionresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/constructionresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -826,7 +826,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         ];
 
         // // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('generatepdf-const-calc-expense', $data);
+        $pdf = PDF::loadView('construction.generatepdf-const-calc-expense', $data);
 
         // // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());
@@ -889,7 +889,7 @@ class ConstructionBotResponse extends ConstructionCalculation {
         ];
 
         // // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('generatepdf-const-calc-collaborative', $data);
+        $pdf = PDF::loadView('construction.generatepdf-const-calc-collaborative', $data);
 
         // // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());

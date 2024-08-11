@@ -102,7 +102,7 @@ class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmen
             // First row
             array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/brickwallmasonryapartmentblockdownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/brickwallmasonryapartmentblockresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/brickwallmasonryapartmentblockresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -122,7 +122,7 @@ class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmen
         $data = $brickWallMasonryApartmentBlockResult->calculateBrickWallMasonryApartmentBlock();
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('generatepdf-brick-wall-masonry-apartment-block', $data);
+        $pdf = PDF::loadView('brick-wall-masonry.brick-wall-masonry-apartment-block.generatepdf-brick-wall-masonry-apartment-block', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());

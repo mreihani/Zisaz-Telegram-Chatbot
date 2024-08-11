@@ -119,7 +119,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/beamandblockroofdownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 محاسبه مجدد', '', '/beamandblockroofresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/beamandblockroofresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -145,7 +145,7 @@ class BeamAndBlockRoofBotResponse extends BeamAndBlockRoofCalculation {
         } 
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('generatepdf-beam-and-block-roof', $data);
+        $pdf = PDF::loadView('beam-and-block-roof.generatepdf-beam-and-block-roof', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());

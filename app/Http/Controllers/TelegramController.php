@@ -14,6 +14,8 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
@@ -59,7 +61,7 @@ class TelegramController extends Controller
             $constructionBotResponse = new ConstructionBotResponse($telegram);
             $constructionBotResponse->downloadConstCalcCollaborativeResults();
         } elseif($incoming_text === '/constructionresetresults') {
-            // محاسبه مجدد
+            // پروژه جدید
             $isCommand = true;
             $constructionBotResponse = new ConstructionBotResponse($telegram);
             $constructionBotResponse->resetResults();
@@ -80,7 +82,7 @@ class TelegramController extends Controller
             $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
             $beamAndBlockRoofBotResponse->downloadResults();
         } elseif($incoming_text === '/beamandblockroofresetresults') {
-            // محاسبه مجدد
+            // پروژه جدید
             $isCommand = true;
             $beamAndBlockRoofBotResponse = new BeamAndBlockRoofBotResponse($telegram);
             $beamAndBlockRoofBotResponse->resetResults();
@@ -90,8 +92,9 @@ class TelegramController extends Controller
             $isCommand = true;
             $brickWallMasonryCalculation = new BrickWallMasonryCalculation($telegram);
             $brickWallMasonryCalculation->displayItem();
-        } elseif($incoming_text == '/brickwallmasonryapartmentblock') {
+            
             // دیوار پارتیشن بلوکی آپارتمان
+        } elseif($incoming_text == '/brickwallmasonryapartmentblock') {
             $isCommand = true;
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($telegram);
             $brickWallMasonryApartmentBlock->displayItem();
@@ -105,11 +108,30 @@ class TelegramController extends Controller
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
             $brickWallMasonryApartmentBlock->downloadResults();
         } elseif($incoming_text === '/brickwallmasonryapartmentblockresetresults') {
-            // محاسبه مجدد
+            // پروژه جدید
             $isCommand = true;
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
             $brickWallMasonryApartmentBlock->resetResults();
+
+            // دیوار بلوکی حصار باغ یا حیاط 
         } elseif($incoming_text == '/brickwallmasonrygarden') {
+            $isCommand = true;
+            $brickWallMasonryGarden = new BrickWallMasonryGardenCalculation($telegram);
+            $brickWallMasonryGarden->displayItem();
+        } elseif($incoming_text == '/brickwallmasonrygardensendpamameterltext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
+            $brickWallMasonryGarden->processParameterSubmission();
+        } elseif($incoming_text === '/brickwallmasonrygardendownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
+            $brickWallMasonryGarden->downloadResults();
+        } elseif($incoming_text === '/brickwallmasonrygardenresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
+            $brickWallMasonryGarden->resetResults();
 
         } elseif($incoming_text == '/brickwallmasonrypartition') {
             
