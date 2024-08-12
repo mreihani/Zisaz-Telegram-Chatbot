@@ -39,9 +39,9 @@ return new class extends Migration
             $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
             $table->string('a')->nullable();
             $table->string('b')->nullable();
-            $table->string('r')->nullable();
-            $table->string('e')->nullable();
-            $table->string('f')->nullable();
+            $table->string('r')->default(22);
+            $table->string('e')->default(10.5);
+            $table->string('f')->default(5.5);
             $table->string('c')->default(250);
             $table->timestamps();
         });

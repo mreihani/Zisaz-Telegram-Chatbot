@@ -16,6 +16,8 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickBotResponse;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
@@ -133,8 +135,26 @@ class TelegramController extends Controller
             $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
             $brickWallMasonryGarden->resetResults();
 
+            // آجر فشاری یا سه گل 
         } elseif($incoming_text == '/brickwallmasonrypartition') {
-            
+            $isCommand = true;
+            $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickCalculation($telegram);
+            $brickWallMasonryPressedBrick->displayItem();
+        } elseif($incoming_text == '/brickwallmasonrypressedbricksendpamameteratext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
+            $brickWallMasonryPressedBrick->processParameterSubmission();
+        } elseif($incoming_text === '/brickwallmasonrypressedbrickdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
+            $brickWallMasonryPressedBrick->downloadResults();
+        } elseif($incoming_text === '/brickwallmasonrypressedbrickresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
+            $brickWallMasonryPressedBrick->resetResults();
+
         } elseif($incoming_text == '/brickwallmasonrypressedbrick') {
             
             // دریافت کلیه ورودی های تایپ شده کاربر
