@@ -16,6 +16,8 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockBotResponse;
@@ -96,11 +98,11 @@ class TelegramController extends Controller
             $brickWallMasonryCalculation->displayItem();
             
             // دیوار پارتیشن بلوکی آپارتمان
-        } elseif($incoming_text == '/brickwallmasonryapartmentblock') {
+        } elseif($incoming_text === '/brickwallmasonryapartmentblock') {
             $isCommand = true;
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockCalculation($telegram);
             $brickWallMasonryApartmentBlock->displayItem();
-        } elseif($incoming_text == '/brickwallmasonryapartmentblocksendpamameteratext') {
+        } elseif($incoming_text === '/brickwallmasonryapartmentblocksendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
             $brickWallMasonryApartmentBlock->processParameterSubmission();
@@ -116,11 +118,11 @@ class TelegramController extends Controller
             $brickWallMasonryApartmentBlock->resetResults();
 
             // دیوار بلوکی حصار باغ یا حیاط 
-        } elseif($incoming_text == '/brickwallmasonrygarden') {
+        } elseif($incoming_text === '/brickwallmasonrygarden') {
             $isCommand = true;
             $brickWallMasonryGarden = new BrickWallMasonryGardenCalculation($telegram);
             $brickWallMasonryGarden->displayItem();
-        } elseif($incoming_text == '/brickwallmasonrygardensendpamameterltext') {
+        } elseif($incoming_text === '/brickwallmasonrygardensendpamameterltext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
             $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
             $brickWallMasonryGarden->processParameterSubmission();
@@ -136,11 +138,11 @@ class TelegramController extends Controller
             $brickWallMasonryGarden->resetResults();
 
             // آجر فشاری یا سه گل 
-        } elseif($incoming_text == '/brickwallmasonrypartition') {
+        } elseif($incoming_text === '/brickwallmasonrypressedbrick') {
             $isCommand = true;
             $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickCalculation($telegram);
             $brickWallMasonryPressedBrick->displayItem();
-        } elseif($incoming_text == '/brickwallmasonrypressedbricksendpamameteratext') {
+        } elseif($incoming_text === '/brickwallmasonrypressedbricksendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
             $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
             $brickWallMasonryPressedBrick->processParameterSubmission();
@@ -154,8 +156,26 @@ class TelegramController extends Controller
             $isCommand = true;
             $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
             $brickWallMasonryPressedBrick->resetResults();
-
-        } elseif($incoming_text == '/brickwallmasonrypressedbrick') {
+            
+            // دیوار با آجر پارتیشن
+        } elseif($incoming_text === '/brickwallmasonrypartition') {
+            $isCommand = true;
+            $brickWallMasonryPartition = new BrickWallMasonryPartitionCalculation($telegram);
+            $brickWallMasonryPartition->displayItem();
+        } elseif($incoming_text === '/brickwallmasonrypartitionsendpamameteratext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $brickWallMasonryPartition = new BrickWallMasonryPartitionBotResponse($telegram);
+            $brickWallMasonryPartition->processParameterSubmission();
+        } elseif($incoming_text === '/brickwallmasonrypartitiondownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $brickWallMasonryPartition = new BrickWallMasonryPartitionBotResponse($telegram);
+            $brickWallMasonryPartition->downloadResults();
+        } elseif($incoming_text === '/brickwallmasonrypartitionresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $brickWallMasonryPartition = new BrickWallMasonryPartitionBotResponse($telegram);
+            $brickWallMasonryPartition->resetResults();
             
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

@@ -7,6 +7,7 @@ use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
+use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryApartmentBlock\BrickWallMasonryApartmentBlockCalculation;
 
@@ -65,9 +66,9 @@ class UserPrompts extends ZisazBot {
         }
 
         // ورودی های کاربر برای دیوار چینی بلوکی و آجری - برآورد دیوار با آجر پارتیشن
-        // if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition') {
-        //     $brickWallMasonryCalculation = new BrickWallMasonryPartitionCalculation($this->telegram);
-        //     $brickWallMasonryCalculation->getUserPrompts();
-        // }
+        if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition') {
+            $brickWallMasonryCalculation = new BrickWallMasonryPartitionCalculation($this->telegram);
+            $brickWallMasonryCalculation->getUserPrompts();
+        }
     }
 } 

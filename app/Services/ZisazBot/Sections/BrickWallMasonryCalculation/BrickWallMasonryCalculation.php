@@ -33,9 +33,9 @@ class BrickWallMasonryCalculation extends ZisazBot {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('دیوار بلوکی حصار باغ یا حیاط', '', '/brickwallmasonrygarden')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('دیوار چینی آجر فشاری و سه گل', '', '/brickwallmasonrypartition')), 
+            array($this->telegram->buildInlineKeyBoardButton('دیوار چینی آجر فشاری و سه گل', '', '/brickwallmasonrypressedbrick')), 
             // Fourth row
-            array($this->telegram->buildInlineKeyBoardButton('دیوار چینی آجر سفال', '', '/brickwallmasonrypressedbrick')), 
+            array($this->telegram->buildInlineKeyBoardButton('دیوار چینی آجر پارتیشن', '', '/brickwallmasonrypartition')), 
             // Fifth row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );

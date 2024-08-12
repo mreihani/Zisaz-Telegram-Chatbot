@@ -51,9 +51,9 @@ return new class extends Migration
             $table->unsignedBigInteger('action_id');
             $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
             $table->string('a')->nullable();
-            $table->string('r')->nullable();
-            $table->string('e')->nullable();
-            $table->string('f')->nullable();
+            $table->string('r')->default(20);
+            $table->string('e')->default(8);
+            $table->string('f')->default(13);
             $table->string('b')->nullable();
             $table->string('c')->default(250);
             $table->timestamps();
