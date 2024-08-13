@@ -136,21 +136,21 @@ class ConstructionCalculationResult extends ConstructionCalculation {
         $lf8 = $initialParameters['f8'] * $l;
 
         // محاسبه سطح اشغال زیر زمین اول
-        $ab1 = $initialParameters['basement1'] * $initialParameters['a'];
-        $ab2 = $initialParameters['basement2'] * $initialParameters['a'];
+        $ab1 = $initialParameters['basement1'] * $initialParameters['a'] / 100;
+        $ab2 = $initialParameters['basement2'] * $initialParameters['a'] / 100;
 
         // محاسبه سطح اشغال طبقه همکف
-        $ag = $initialParameters['g'] * $initialParameters['a'];
+        $ag = $initialParameters['g'] * $initialParameters['a'] / 100;
 
         // محاسبه سطح اشغال طبقه اول الی هشتم
-        $af1 = $initialParameters['f1'] * $initialParameters['a'];
-        $af2 = $initialParameters['f2'] * $initialParameters['a'];
-        $af3 = $initialParameters['f3'] * $initialParameters['a'];
-        $af4 = $initialParameters['f4'] * $initialParameters['a'];
-        $af5 = $initialParameters['f5'] * $initialParameters['a'];
-        $af6 = $initialParameters['f6'] * $initialParameters['a'];
-        $af7 = $initialParameters['f7'] * $initialParameters['a'];
-        $af8 = $initialParameters['f8'] * $initialParameters['a'];
+        $af1 = $initialParameters['f1'] * $initialParameters['a'] / 100;
+        $af2 = $initialParameters['f2'] * $initialParameters['a'] / 100;
+        $af3 = $initialParameters['f3'] * $initialParameters['a'] / 100;
+        $af4 = $initialParameters['f4'] * $initialParameters['a'] / 100;
+        $af5 = $initialParameters['f5'] * $initialParameters['a'] / 100;
+        $af6 = $initialParameters['f6'] * $initialParameters['a'] / 100;
+        $af7 = $initialParameters['f7'] * $initialParameters['a'] / 100;
+        $af8 = $initialParameters['f8'] * $initialParameters['a'] / 100;
 
         // محاسبه سطح اشغال سرپله
         $as = 25;
@@ -230,14 +230,14 @@ class ConstructionCalculationResult extends ConstructionCalculation {
         $agk = $area['ag'] + $area['abb0'];
 
         // کل زیر بنای طبقه اول الی هشتم
-        $afk1 = $area['af1'] + $area['abb'];
-        $afk2 = $area['af2'] + $area['abb'];
-        $afk3 = $area['af3'] + $area['abb'];
-        $afk4 = $area['af4'] + $area['abb'];
-        $afk5 = $area['af5'] + $area['abb'];
-        $afk6 = $area['af6'] + $area['abb'];
-        $afk7 = $area['af7'] + $area['abb'];
-        $afk8 = $area['af8'] + $area['abb'];
+        $afk1 = ($area['af1'] != 0) ? ($area['af1'] + $area['abb']) : 0;
+        $afk2 = ($area['af2'] != 0) ? ($area['af2'] + $area['abb']) : 0;
+        $afk3 = ($area['af3'] != 0) ? ($area['af3'] + $area['abb']) : 0;
+        $afk4 = ($area['af4'] != 0) ? ($area['af4'] + $area['abb']) : 0;
+        $afk5 = ($area['af5'] != 0) ? ($area['af5'] + $area['abb']) : 0;
+        $afk6 = ($area['af6'] != 0) ? ($area['af6'] + $area['abb']) : 0;
+        $afk7 = ($area['af7'] != 0) ? ($area['af7'] + $area['abb']) : 0;
+        $afk8 = ($area['af8'] != 0) ? ($area['af8'] + $area['abb']) : 0;
 
         // جمع کل زیر بنای قابل ساخت
         $ask = $abk1 + $abk2 + $agk + $afk1 + $afk2 + $afk3 + $afk4 + $afk5 + $afk6 + $afk7 + $afk8 + $area['as'];
@@ -265,21 +265,21 @@ class ConstructionCalculationResult extends ConstructionCalculation {
         $area = $this->calculateArea();
 
         // مشاعات زیر زمین اول و دوم
-        $amb1 = 0.4 * $area['ab1'] + $area['ap'];
-        $amb2 = 0.4 * $area['ab2'] + $area['ap'];
+        $amb1 = ($area['ab1'] != 0) ? (0.4 * $area['ab1'] + $area['ap']) : 0;
+        $amb2 = ($area['ab2'] != 0) ? (0.4 * $area['ab2'] + $area['ap']) : 0;
 
         // محاسبه مشاعات طبقه همکف
         $amg = $area['al'] + $area['ap'] + $area['an'];
-
+        
         // محاسبه مشاعات طبقه اول الی هشتم
-        $amf1 = $area['al'] + $area['ap'] + $area['an'];
-        $amf2 = $area['al'] + $area['ap'] + $area['an'];
-        $amf3 = $area['al'] + $area['ap'] + $area['an'];
-        $amf4 = $area['al'] + $area['ap'] + $area['an'];
-        $amf5 = $area['al'] + $area['ap'] + $area['an'];
-        $amf6 = $area['al'] + $area['ap'] + $area['an'];
-        $amf7 = $area['al'] + $area['ap'] + $area['an'];
-        $amf8 = $area['al'] + $area['ap'] + $area['an'];
+        $amf1 = ($area['af1'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf2 = ($area['af2'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf3 = ($area['af3'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf4 = ($area['af4'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf5 = ($area['af5'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf6 = ($area['af6'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf7 = ($area['af7'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
+        $amf8 = ($area['af8'] != 0) ? ($area['al'] + $area['ap'] + $area['an']) : 0;
 
         $amk = $amb1 + $amb2 + $amg + $amf1 + $amf2 + $amf3 + $amf4 + $amf5 + $amf6 + $amf7 + $amf8 + $area['as'];
 
@@ -310,23 +310,23 @@ class ConstructionCalculationResult extends ConstructionCalculation {
 
         // مشاعات
         $totalAreaAMK = $this->calculateTotalAreaAMK();
-
+        
         // محاسبه زیر بنای مفید زیر زمین اول و دوم
-        $apb1 = $totalAreaASK['abk1'] - $totalAreaAMK['amb1'];
-        $apb2 = $totalAreaASK['abk2'] - $totalAreaAMK['amb2'];
+        $apb1 = ($area['ab1'] != 0) ? ($totalAreaASK['abk1'] - $totalAreaAMK['amb1']) : 0;
+        $apb2 = ($area['ab2'] != 0) ? ($totalAreaASK['abk2'] - $totalAreaAMK['amb2']) : 0;
        
         // محاسبه زیر بنای مفید طبقه همکف
         $apg = $totalAreaASK['agk'] - $totalAreaAMK['amg'] - $area['abb0'];
-
+        
         // محاسبه زیر بنای مفید طبقه اول الی هشتم
-        $apf1 = $totalAreaASK['afk1'] - $totalAreaAMK['amf1'];
-        $apf2 = $totalAreaASK['afk2'] - $totalAreaAMK['amf2'];
-        $apf3 = $totalAreaASK['afk3'] - $totalAreaAMK['amf3'];
-        $apf4 = $totalAreaASK['afk4'] - $totalAreaAMK['amf4'];
-        $apf5 = $totalAreaASK['afk5'] - $totalAreaAMK['amf5'];
-        $apf6 = $totalAreaASK['afk6'] - $totalAreaAMK['amf6'];
-        $apf7 = $totalAreaASK['afk7'] - $totalAreaAMK['amf7'];
-        $apf8 = $totalAreaASK['afk8'] - $totalAreaAMK['amf8'];
+        $apf1 = ($area['af1'] != 0) ? ($totalAreaASK['afk1'] - $totalAreaAMK['amf1']) : 0;
+        $apf2 = ($area['af2'] != 0) ? ($totalAreaASK['afk2'] - $totalAreaAMK['amf2']) : 0;
+        $apf3 = ($area['af3'] != 0) ? ($totalAreaASK['afk3'] - $totalAreaAMK['amf3']) : 0;
+        $apf4 = ($area['af4'] != 0) ? ($totalAreaASK['afk4'] - $totalAreaAMK['amf4']) : 0;
+        $apf5 = ($area['af5'] != 0) ? ($totalAreaASK['afk5'] - $totalAreaAMK['amf5']) : 0;
+        $apf6 = ($area['af6'] != 0) ? ($totalAreaASK['afk6'] - $totalAreaAMK['amf6']) : 0;
+        $apf7 = ($area['af7'] != 0) ? ($totalAreaASK['afk7'] - $totalAreaAMK['amf7']) : 0;
+        $apf8 = ($area['af8'] != 0) ? ($totalAreaASK['afk8'] - $totalAreaAMK['amf8']) : 0;
 
         $apk = $apb1 + $apb2 + $apg + $apf1 + $apf2 + $apf3 + $apf4 + $apf5 + $apf6 + $apf7 + $apf8;
 
@@ -408,10 +408,10 @@ class ConstructionCalculationResult extends ConstructionCalculation {
         $zm = ($constExpenses['pmk'] / $constExpenses['zsk']) * 100;
 
         // کل متراژ مفید آپارتمان قابل فروش برای سازنده 
-        $apsk = $totalAreaAPK['apk'] * $sm;
+        $apsk = $totalAreaAPK['apk'] * $sm / 100;
 
         // کل متراژ مفید آپارتمان قابل فروش برای مالک
-        $apzk = $totalAreaAPK['apk'] * $zm;
+        $apzk = $totalAreaAPK['apk'] * $zm / 100;
 
         return [
             'sm' => $sm,
