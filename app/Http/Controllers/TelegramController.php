@@ -19,6 +19,8 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointBotResponse;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
@@ -229,6 +231,26 @@ class TelegramController extends Controller
             $isCommand = true;
             $rampLength = new RampLengthBotResponse($telegram);
             $rampLength->resetResults();
+
+            // محاسبه درز انقطاع ( ژوئن)
+        } elseif($incoming_text === '/expansionjoint') {
+            $isCommand = true;
+            $expansionJoint = new ExpansionJointCalculation($telegram);
+            $expansionJoint->displayItem();
+        } elseif($incoming_text === '/expansionjointsendpamameterhtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $expansionJoint = new ExpansionJointBotResponse($telegram);
+            $expansionJoint->processParameterSubmission();
+        } elseif($incoming_text === '/expansionjointdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $expansionJoint = new ExpansionJointBotResponse($telegram);
+            $expansionJoint->downloadResults();
+        } elseif($incoming_text === '/expansionjointresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $expansionJoint = new ExpansionJointBotResponse($telegram);
+            $expansionJoint->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

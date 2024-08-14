@@ -8,6 +8,7 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
@@ -75,20 +76,20 @@ class UserPrompts extends ZisazBot {
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه شیب رمپ
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampSteep') {
-            $brickWallMasonryCalculation = new RampSteepCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $rampAndExpansionJointCalculation = new RampSteepCalculation($this->telegram);
+            $rampAndExpansionJointCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه طول رمپ
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampLength') {
-            $brickWallMasonryCalculation = new RampLengthCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $rampAndExpansionJointCalculation = new RampLengthCalculation($this->telegram);
+            $rampAndExpansionJointCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه درز انقطاع
-        // if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampSteep') {
-        //     $brickWallMasonryCalculation = new RampSteepCalculation($this->telegram);
-        //     $brickWallMasonryCalculation->getUserPrompts();
-        // }
+        if($latestAction->subaction_type === 'App\Models\Action\Ramp\ExpansionJoint') {
+            $rampAndExpansionJointCalculation = new ExpansionJointCalculation($this->telegram);
+            $rampAndExpansionJointCalculation->getUserPrompts();
+        }
     }
 } 
