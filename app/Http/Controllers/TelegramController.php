@@ -14,6 +14,9 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\RampAndExpansionJointCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
@@ -179,6 +182,32 @@ class TelegramController extends Controller
             $brickWallMasonryPartition = new BrickWallMasonryPartitionBotResponse($telegram);
             $brickWallMasonryPartition->resetResults();
             
+            // محاسبات رمپ و درز انقطاع
+        } elseif($incoming_text === '/getrampandexpansionjoint' || $incoming_text == '📐 محاسبات رمپ و درز انقطاع') {
+            $isCommand = true;
+            $rampAndExpansionJointCalculation = new RampAndExpansionJointCalculation($telegram);
+            $rampAndExpansionJointCalculation->displayItem();
+
+            // شیب رمپ
+        } elseif($incoming_text === '/rampsteep') {
+            $isCommand = true;
+            $rampSteep = new RampSteepCalculation($telegram);
+            $rampSteep->displayItem();
+        } elseif($incoming_text === '/rampsteepsendpamameterhtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $rampSteep = new RampSteepBotResponse($telegram);
+            $rampSteep->processParameterSubmission();
+        } elseif($incoming_text === '/rampsteepdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $rampSteep = new RampSteepBotResponse($telegram);
+            $rampSteep->downloadResults();
+        } elseif($incoming_text === '/rampsteepresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $rampSteep = new RampSteepBotResponse($telegram);
+            $rampSteep->resetResults();
+
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
             try {

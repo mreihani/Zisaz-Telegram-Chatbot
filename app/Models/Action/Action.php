@@ -4,7 +4,10 @@ namespace App\Models\Action;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Action\Ramp\RampSteep;
+use App\Models\Action\Ramp\RampLength;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Action\Ramp\ExpansionJoint;
 use App\Models\Action\Construction\Construction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
@@ -12,7 +15,6 @@ use App\Models\Action\BrickWallMasonry\BrickWallMasonryGarden;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryPressedBrick;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock;
-
 
 class Action extends Model
 {
@@ -48,5 +50,17 @@ class Action extends Model
 
     public function brickWallMasonryPressedBrick() {
         return $this->hasMany(BrickWallMasonryPressedBrick::class);
+    }
+
+    public function rampSteep() {
+        return $this->hasMany(RampSteep::class);
+    }
+
+    public function rampLength() {
+        return $this->hasMany(RampLength::class);
+    }
+
+    public function expansionJoint() {
+        return $this->hasMany(ExpansionJoint::class);
     }
 }
