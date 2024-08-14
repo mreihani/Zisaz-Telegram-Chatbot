@@ -7,6 +7,7 @@ use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
@@ -77,5 +78,17 @@ class UserPrompts extends ZisazBot {
             $brickWallMasonryCalculation = new RampSteepCalculation($this->telegram);
             $brickWallMasonryCalculation->getUserPrompts();
         }
+
+        // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه طول رمپ
+        if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampLength') {
+            $brickWallMasonryCalculation = new RampLengthCalculation($this->telegram);
+            $brickWallMasonryCalculation->getUserPrompts();
+        }
+
+        // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه درز انقطاع
+        // if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampSteep') {
+        //     $brickWallMasonryCalculation = new RampSteepCalculation($this->telegram);
+        //     $brickWallMasonryCalculation->getUserPrompts();
+        // }
     }
 } 

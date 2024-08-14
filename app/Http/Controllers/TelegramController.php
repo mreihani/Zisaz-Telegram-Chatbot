@@ -17,6 +17,8 @@ use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryC
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\RampAndExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
@@ -207,6 +209,26 @@ class TelegramController extends Controller
             $isCommand = true;
             $rampSteep = new RampSteepBotResponse($telegram);
             $rampSteep->resetResults();
+
+            // طول رمپ
+        } elseif($incoming_text === '/ramplength') {
+            $isCommand = true;
+            $rampLength = new RampLengthCalculation($telegram);
+            $rampLength->displayItem();
+        } elseif($incoming_text === '/ramplengthsendpamameterhtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $rampLength = new RampLengthBotResponse($telegram);
+            $rampLength->processParameterSubmission();
+        } elseif($incoming_text === '/ramplengthdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $rampLength = new RampLengthBotResponse($telegram);
+            $rampLength->downloadResults();
+        } elseif($incoming_text === '/ramplengthresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $rampLength = new RampLengthBotResponse($telegram);
+            $rampLength->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
