@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
@@ -90,6 +91,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\ExpansionJoint') {
             $rampAndExpansionJointCalculation = new ExpansionJointCalculation($this->telegram);
             $rampAndExpansionJointCalculation->getUserPrompts();
+        }
+
+        // محاسبات وزن میلگرد و خامود - وزن میلگرد
+        if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\RebarWeight') {
+            $rebarAndStirrupCalculation = new RebarWeightCalculation($this->telegram);
+            $rebarAndStirrupCalculation->getUserPrompts();
         }
     }
 } 

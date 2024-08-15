@@ -9,6 +9,9 @@ use App\Models\Action\Ramp\RampLength;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Action\Ramp\ExpansionJoint;
 use App\Models\Action\Construction\Construction;
+use App\Models\Action\RebarAndStirrup\RebarWeight;
+use App\Models\Action\RebarAndStirrup\StirrupWeight;
+use App\Models\Action\RebarAndStirrup\RebarConversion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryGarden;
@@ -62,5 +65,17 @@ class Action extends Model
 
     public function expansionJoint() {
         return $this->hasMany(ExpansionJoint::class);
+    }
+
+    public function rebarWeight() {
+        return $this->hasMany(RebarWeight::class);
+    }
+
+    public function stirrupWeight() {
+        return $this->hasMany(StirrupWeight::class);
+    }
+
+    public function rebarConversion() {
+        return $this->hasMany(RebarConversion::class);
     }
 }

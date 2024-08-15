@@ -11,10 +11,13 @@ use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\RebarAndStirrupCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\RampAndExpansionJointCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightBotResponse;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
@@ -251,6 +254,32 @@ class TelegramController extends Controller
             $isCommand = true;
             $expansionJoint = new ExpansionJointBotResponse($telegram);
             $expansionJoint->resetResults();
+
+            // محاسبات وزن میلگرد و خاموت
+        } elseif($incoming_text === '/getrebarandstirrup' || $incoming_text == '➰ وزن میلگرد و خاموت') {
+            $isCommand = true;
+            $rebarAndStirrupCalculation = new RebarAndStirrupCalculation($telegram);
+            $rebarAndStirrupCalculation->displayItem();
+
+            // محاسبه وزن یک شاخه میلگرد
+        } elseif($incoming_text === '/rebarweight') {
+            $isCommand = true;
+            $rebarWeight = new RebarWeightCalculation($telegram);
+            $rebarWeight->displayItem();
+        } elseif($incoming_text === '/rebarweightsendpamameterdtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $rebarWeight = new RebarWeightBotResponse($telegram);
+            $rebarWeight->processParameterSubmission();
+        } elseif($incoming_text === '/rebarweightdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $rebarWeight = new RebarWeightBotResponse($telegram);
+            $rebarWeight->downloadResults();
+        } elseif($incoming_text === '/rebarweightresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $rebarWeight = new RebarWeightBotResponse($telegram);
+            $rebarWeight->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
