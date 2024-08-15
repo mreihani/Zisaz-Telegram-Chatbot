@@ -30,7 +30,7 @@ class RebarWeightBotResponse extends RebarWeightCalculation {
 
     public function sendPamameterDText() {
         try {
-            $text = 'قطر میلگرد را بر حسب اینچ وارد نمایید';
+            $text = 'قطر میلگرد را بر حسب میلیمتر وارد نمایید';
 
             $option = array( 
                 // First row

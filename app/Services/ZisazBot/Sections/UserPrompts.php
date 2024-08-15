@@ -10,6 +10,7 @@ use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeig
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
@@ -103,6 +104,12 @@ class UserPrompts extends ZisazBot {
         // محاسبات وزن میلگرد و خامود - وزن خاموت
         if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\StirrupWeight') {
             $rebarAndStirrupCalculation = new StirrupWeightCalculation($this->telegram);
+            $rebarAndStirrupCalculation->getUserPrompts();
+        }
+
+        // محاسبات وزن میلگرد و خامود - معادل سازی میلگرد
+        if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\RebarConversion') {
+            $rebarAndStirrupCalculation = new RebarConversionCalculation($this->telegram);
             $rebarAndStirrupCalculation->getUserPrompts();
         }
     }

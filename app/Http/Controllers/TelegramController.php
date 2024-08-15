@@ -22,8 +22,11 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
+use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculationse;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightBotResponse;
-use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionBotResponse;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculationonse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
@@ -118,6 +121,7 @@ class TelegramController extends Controller
             return $brickWallMasonryApartmentBlock->displayItem();
         } elseif($incoming_text === '/brickwallmasonryapartmentblocksendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $brickWallMasonryApartmentBlock = new BrickWallMasonryApartmentBlockBotResponse($telegram);
             return $brickWallMasonryApartmentBlock->processParameterSubmission();
         } elseif($incoming_text === '/brickwallmasonryapartmentblockdownloadresults') {
@@ -138,6 +142,7 @@ class TelegramController extends Controller
             return $brickWallMasonryGarden->displayItem();
         } elseif($incoming_text === '/brickwallmasonrygardensendpamameterltext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $brickWallMasonryGarden = new BrickWallMasonryGardenBotResponse($telegram);
             return $brickWallMasonryGarden->processParameterSubmission();
         } elseif($incoming_text === '/brickwallmasonrygardendownloadresults') {
@@ -158,6 +163,7 @@ class TelegramController extends Controller
             return $brickWallMasonryPressedBrick->displayItem();
         } elseif($incoming_text === '/brickwallmasonrypressedbricksendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $brickWallMasonryPressedBrick = new BrickWallMasonryPressedBrickBotResponse($telegram);
             return $brickWallMasonryPressedBrick->processParameterSubmission();
         } elseif($incoming_text === '/brickwallmasonrypressedbrickdownloadresults') {
@@ -178,6 +184,7 @@ class TelegramController extends Controller
             return $brickWallMasonryPartition->displayItem();
         } elseif($incoming_text === '/brickwallmasonrypartitionsendpamameteratext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $brickWallMasonryPartition = new BrickWallMasonryPartitionBotResponse($telegram);
             return $brickWallMasonryPartition->processParameterSubmission();
         } elseif($incoming_text === '/brickwallmasonrypartitiondownloadresults') {
@@ -204,6 +211,7 @@ class TelegramController extends Controller
             return $rampSteep->displayItem();
         } elseif($incoming_text === '/rampsteepsendpamameterhtext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $rampSteep = new RampSteepBotResponse($telegram);
             return $rampSteep->processParameterSubmission();
         } elseif($incoming_text === '/rampsteepdownloadresults') {
@@ -224,6 +232,7 @@ class TelegramController extends Controller
             return $rampLength->displayItem();
         } elseif($incoming_text === '/ramplengthsendpamameterhtext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $rampLength = new RampLengthBotResponse($telegram);
             return $rampLength->processParameterSubmission();
         } elseif($incoming_text === '/ramplengthdownloadresults') {
@@ -244,6 +253,7 @@ class TelegramController extends Controller
             return $expansionJoint->displayItem();
         } elseif($incoming_text === '/expansionjointsendpamameterhtext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $expansionJoint = new ExpansionJointBotResponse($telegram);
             return $expansionJoint->processParameterSubmission();
         } elseif($incoming_text === '/expansionjointdownloadresults') {
@@ -270,6 +280,7 @@ class TelegramController extends Controller
             return $rebarWeight->displayItem();
         } elseif($incoming_text === '/rebarweightsendpamameterdtext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $rebarWeight = new RebarWeightBotResponse($telegram);
             return $rebarWeight->processParameterSubmission();
         } elseif($incoming_text === '/rebarweightdownloadresults') {
@@ -290,6 +301,7 @@ class TelegramController extends Controller
             return $stirrupWeight->displayItem();
         } elseif($incoming_text === '/stirrupweightsendpamameterdtext') {
             // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
             $stirrupWeight = new StirrupWeightBotResponse($telegram);
             return $stirrupWeight->processParameterSubmission();
         } elseif($incoming_text === '/stirrupweightdownloadresults') {
@@ -302,6 +314,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $stirrupWeight = new StirrupWeightBotResponse($telegram);
             return $stirrupWeight->resetResults();
+            
+            // معادل سازی میلگرد
+        } elseif($incoming_text === '/rebarconversion') {
+            $isCommand = true;
+            $rebarConversion = new RebarConversionCalculation($telegram);
+            return $rebarConversion->displayItem();
+        } elseif($incoming_text === '/rebarconversiond1text') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $rebarConversion = new RebarConversionBotResponse($telegram);
+            return $rebarConversion->processParameterSubmission();
+        } elseif($incoming_text === '/rebarconversiondownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $rebarConversion = new RebarConversionBotResponse($telegram);
+            return $rebarConversion->downloadResults();
+        } elseif($incoming_text === '/rebarconversionresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $rebarConversion = new RebarConversionBotResponse($telegram);
+            return $rebarConversion->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

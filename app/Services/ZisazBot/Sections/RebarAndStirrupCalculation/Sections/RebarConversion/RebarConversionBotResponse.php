@@ -1,77 +1,40 @@
 <?php
 
-namespace App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight;
+namespace App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion;
 
 use PDF;
-use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightResult;
-use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionResult;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 
-
-class StirrupWeightBotResponse extends StirrupWeightCalculation {
+class RebarConversionBotResponse extends RebarConversionCalculation {
 
     public $telegram;
     public $latestAction;
-    public $stirrupWeight;
+    public $rebarConversion;
     public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
         $this->latestAction = $this->getLastActionObject($telegram);
-        $this->stirrupWeight = $this->latestAction->stirrupWeight->first();
+        $this->rebarConversion = $this->latestAction->rebarConversion->first();
     }
 
     public function processParameterSubmission() {
-        if(empty($this->stirrupWeight->d)) {
-            return $this->sendPamameterDText();
-        } elseif(empty($this->stirrupWeight->l)) {
-            return $this->sendPamameterLText();
-        } elseif(empty($this->stirrupWeight->b)) {
-            return $this->sendPamameterBText();
-        } elseif(empty($this->stirrupWeight->n)) {
+        if(empty($this->rebarConversion->d1)) {
+            return $this->sendPamameterD1Text();
+        } elseif(empty($this->rebarConversion->n)) {
             return $this->sendPamameterNText();
+        } elseif(empty($this->rebarConversion->d2)) {
+            return $this->sendPamameterD2Text();
         } else {
             return $this->displayFinalResults();
         }
     }
 
-    public function sendPamameterDText() {
+    public function sendPamameterD1Text() {
         try {
-            $text = 'قطر میلگرد خاموت را بر حسب میلی متر وارد نمایید';
-
-            $option = array( 
-                // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
-            );
-
-            $keyb = $this->telegram->buildInlineKeyBoard($option);
-
-            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
-        } catch (\Exception $e) {
-            // \Log::info('An error occurred: ' . $e->getMessage());
-        }
-    }
-
-    public function sendPamameterLText() {
-        try {
-            $text = 'طول خاموت را بر حسب سانتی متر وارد نمایید';
-
-            $option = array( 
-                // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
-            );
-
-            $keyb = $this->telegram->buildInlineKeyBoard($option);
-
-            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
-        } catch (\Exception $e) {
-            // \Log::info('An error occurred: ' . $e->getMessage());
-        }
-    }
-
-    public function sendPamameterBText() {
-        try {
-            $text = 'عرض خاموت را بر حسب سانتی متر وارد نمایید';
+            $text = 'قطر میلگرد نقشه را بر حسب میلی متر وارد نمایید';
 
             $option = array( 
                 // First row
@@ -88,7 +51,24 @@ class StirrupWeightBotResponse extends StirrupWeightCalculation {
 
     public function sendPamameterNText() {
         try {
-            $text = 'تعداد کل خاموت را وارد نمایید';
+            $text = 'تعداد میلگرد نقشه را وارد نمایید';
+
+            $option = array( 
+                // First row
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            );
+
+            $keyb = $this->telegram->buildInlineKeyBoard($option);
+
+            $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
+        } catch (\Exception $e) {
+            // \Log::info('An error occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function sendPamameterD2Text() {
+        try {
+            $text = 'قطر میلگرد موجود (جدید) را بر حسب سانتی متر وارد نمایید';
 
             $option = array( 
                 // First row
@@ -105,18 +85,18 @@ class StirrupWeightBotResponse extends StirrupWeightCalculation {
 
     public function displayFinalResults() {
 
-        $stirrupWeightResult = new StirrupWeightResult($this->telegram);
+        $rebarConversionResult = new RebarConversionResult($this->telegram);
 
-        $results = $stirrupWeightResult->calculateStirrupWeight();
+        $results = $rebarConversionResult->calculateRebarConversion();
 
         $text = '
             🎊 محاسبات با موفقیت انجام گردید:
         ';
 
         $text .= '
-وزن یک متر میلگرد '. $results['d'] .' برابر '. $results['w'] .' کیلوگرم
-وزن یک عدد خاموت به ابعاد '. $results['l'] .' * '. $results['b'] .' برابر '. $results['w1'] .' کیلوگرم
-وزن '. $results['n'] .' عدد خاموت به ابعاد '. $results['l'] .' * '. $results['b'] .' برابر '. $results['w2'] .' کیلوگرم
+سطح مقطع کل '. $results['n'] .' عدد میلگرد '. $results['d1'] .' برابر '. $results['a1'] .' سانتی متر
+سطح مقطع یک عدد میلگرد جدید با قطر '. $results['d2'] .' برابر '. $results['a2'] .' سانتی متر مربع
+تعداد میلگرد معادل سازی شده برابر '. $results['n1'] .' عدد
 ';
 
         $text .= '
@@ -127,9 +107,9 @@ class StirrupWeightBotResponse extends StirrupWeightCalculation {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/stirrupweightdownloadresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/rebarconversiondownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/stirrupweightresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/rebarconversionresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -144,12 +124,12 @@ class StirrupWeightBotResponse extends StirrupWeightCalculation {
         $telegram = $this->telegram;
         $chat_id = $telegram->ChatID();
 
-        $stirrupWeightResult = new StirrupWeightResult($this->telegram);
+        $rebarConversionResult = new RebarConversionResult($this->telegram);
 
-        $data = $stirrupWeightResult->calculateStirrupWeight();
+        $data = $rebarConversionResult->calculateRebarConversion();
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('reabar-and-strirrup.stirrup-weight.generatepdf-stirrup-weight', $data);
+        $pdf = PDF::loadView('reabar-and-strirrup.rebar-conversion.generatepdf-rebar-conversion', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());
