@@ -22,6 +22,8 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightBotResponse;
+use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
@@ -280,6 +282,26 @@ class TelegramController extends Controller
             $isCommand = true;
             $rebarWeight = new RebarWeightBotResponse($telegram);
             return $rebarWeight->resetResults();
+
+            // محاسبه وزن خاموت
+        } elseif($incoming_text === '/stirrupweight') {
+            $isCommand = true;
+            $stirrupWeight = new StirrupWeightCalculation($telegram);
+            return $stirrupWeight->displayItem();
+        } elseif($incoming_text === '/stirrupweightsendpamameterdtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $stirrupWeight = new StirrupWeightBotResponse($telegram);
+            return $stirrupWeight->processParameterSubmission();
+        } elseif($incoming_text === '/stirrupweightdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $stirrupWeight = new StirrupWeightBotResponse($telegram);
+            return $stirrupWeight->downloadResults();
+        } elseif($incoming_text === '/stirrupweightresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $stirrupWeight = new StirrupWeightBotResponse($telegram);
+            return $stirrupWeight->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {
