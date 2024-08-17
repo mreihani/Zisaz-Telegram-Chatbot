@@ -31,6 +31,8 @@ use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConv
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingBotResponse;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
@@ -364,6 +366,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $concreting = new ConcretingBotResponse($telegram);
             return $concreting->resetResults();
+
+            // محاسبه مصالح بتن ریزی ستون ها
+        } elseif($incoming_text === '/columnconcreting') {
+            $isCommand = true;
+            $columnconcreting = new ColumnConcretingCalculation($telegram);
+            return $columnconcreting->displayItem();
+        } elseif($incoming_text === '/columnconcretingsendpamametervtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $columnconcreting = new ColumnConcretingBotResponse($telegram);
+            return $columnconcreting->processParameterSubmission();
+        } elseif($incoming_text === '/columnconcretingdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $columnconcreting = new ColumnConcretingBotResponse($telegram);
+            return $columnconcreting->downloadResults();
+        } elseif($incoming_text === '/columnconcretingresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $columnconcreting = new ColumnConcretingBotResponse($telegram);
+            return $columnconcreting->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

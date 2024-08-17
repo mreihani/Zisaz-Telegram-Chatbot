@@ -24,9 +24,16 @@ class ConcretingResult extends ConcretingCalculation {
         // دریافت عیار سیمان از دیتابیس
         $c = !empty($this->concreting->c) ? floatval($this->concreting->c) : 0;
 
+        // وزن سیمان مصرفی
         $w1 = $c * $v;
+
+        // وزن ماسه شسته
         $w2 = $v * 0.55 * 1900;
+
+        // وزن شن نخودی و بادامی
         $w3 = $v * 0.45 * 1900;
+
+        // حجم آب
         $v1 = 0.5 * $w1;
 
         return [

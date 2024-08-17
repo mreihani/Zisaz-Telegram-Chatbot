@@ -13,6 +13,7 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
@@ -114,10 +115,16 @@ class UserPrompts extends ZisazBot {
             $rebarAndStirrupCalculation->getUserPrompts();
         }
 
-         // محاسبات مصالح مورد نیاز بتن ریزی
-         if($latestAction->subaction_type === 'App\Models\Action\Concreting\Concreting') {
+        // محاسبات مصالح مورد نیاز بتن ریزی
+        if($latestAction->subaction_type === 'App\Models\Action\Concreting\Concreting') {
             $concretingCalculation = new ConcretingCalculation($this->telegram);
             $concretingCalculation->getUserPrompts();
+        }
+
+        // محاسبات مصالح مورد نیاز بتن ریزی ستون ها
+        if($latestAction->subaction_type === 'App\Models\Action\Concreting\ColumnConcreting') {
+            $columnConcretingCalculation = new ColumnConcretingCalculation($this->telegram);
+            $columnConcretingCalculation->getUserPrompts();
         }
     }
 } 
