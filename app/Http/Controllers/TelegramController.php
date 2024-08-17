@@ -15,9 +15,12 @@ use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\RebarAndStirrupCal
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofBotResponse;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\ConcretingMatrialsCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\RampAndExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightBotResponse;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingBotResponse;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
@@ -334,6 +337,33 @@ class TelegramController extends Controller
             $isCommand = true;
             $rebarConversion = new RebarConversionBotResponse($telegram);
             return $rebarConversion->resetResults();
+
+            // محاسبه مصالح بتن ریزی
+        } elseif($incoming_text === '/getconcretingmaterials' || $incoming_text == '🌫️ محاسبه مصالح بتون ریزی') {
+            $isCommand = true;
+            $concretingMatrialsCalculation = new ConcretingMatrialsCalculation($telegram);
+            return $concretingMatrialsCalculation->displayItem();
+
+            // محاسبه مصالح بتن ریزی
+        } elseif($incoming_text === '/concreting') {
+            $isCommand = true;
+            $concreting = new ConcretingCalculation($telegram);
+            return $concreting->displayItem();
+        } elseif($incoming_text === '/concretingsendpamametervtext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $concreting = new ConcretingBotResponse($telegram);
+            return $concreting->processParameterSubmission();
+        } elseif($incoming_text === '/concretingdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $concreting = new ConcretingBotResponse($telegram);
+            return $concreting->downloadResults();
+        } elseif($incoming_text === '/concretingresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $concreting = new ConcretingBotResponse($telegram);
+            return $concreting->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

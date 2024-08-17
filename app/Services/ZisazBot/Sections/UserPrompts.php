@@ -7,6 +7,7 @@ use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
+use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
@@ -111,6 +112,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\RebarConversion') {
             $rebarAndStirrupCalculation = new RebarConversionCalculation($this->telegram);
             $rebarAndStirrupCalculation->getUserPrompts();
+        }
+
+         // محاسبات مصالح مورد نیاز بتن ریزی
+         if($latestAction->subaction_type === 'App\Models\Action\Concreting\Concreting') {
+            $concretingCalculation = new ConcretingCalculation($this->telegram);
+            $concretingCalculation->getUserPrompts();
         }
     }
 } 

@@ -8,7 +8,9 @@ use App\Models\Action\Ramp\RampSteep;
 use App\Models\Action\Ramp\RampLength;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Action\Ramp\ExpansionJoint;
+use App\Models\Action\Concreting\Concreting;
 use App\Models\Action\Construction\Construction;
+use App\Models\Action\Concreting\ColumnConcreting;
 use App\Models\Action\RebarAndStirrup\RebarWeight;
 use App\Models\Action\RebarAndStirrup\StirrupWeight;
 use App\Models\Action\RebarAndStirrup\RebarConversion;
@@ -77,5 +79,13 @@ class Action extends Model
 
     public function rebarConversion() {
         return $this->hasMany(RebarConversion::class);
+    }
+
+    public function concreting() {
+        return $this->hasMany(Concreting::class);
+    }
+
+    public function columnConcreting() {
+        return $this->hasMany(ColumnConcreting::class);
     }
 }
