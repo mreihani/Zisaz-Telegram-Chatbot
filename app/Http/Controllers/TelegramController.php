@@ -21,6 +21,8 @@ use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeig
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingBotResponse;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicBotResponse;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\FacadeAndFlooringMaterialCalculation;
@@ -440,6 +442,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $bodyTile = new BodyTileBotResponse($telegram);
             return $bodyTile->resetResults();
+
+            // محاسبه مصالح سرامیک کف
+        } elseif($incoming_text === '/ceramic') {
+            $isCommand = true;
+            $ceramic = new CeramicCalculation($telegram);
+            return $ceramic->displayItem();
+        } elseif($incoming_text === '/ceramicsendpamameterttext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $ceramic = new CeramicBotResponse($telegram);
+            return $ceramic->processParameterSubmission();
+        } elseif($incoming_text === '/ceramicdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $ceramic = new CeramicBotResponse($telegram);
+            return $ceramic->downloadResults();
+        } elseif($incoming_text === '/ceramicresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $ceramic = new CeramicBotResponse($telegram);
+            return $ceramic->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

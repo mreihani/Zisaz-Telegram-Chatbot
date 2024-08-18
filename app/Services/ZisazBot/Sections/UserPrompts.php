@@ -8,6 +8,7 @@ use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculati
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
@@ -139,6 +140,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\BodyTile') {
             $bodyTileCalculation = new BodyTileCalculation($this->telegram);
             $bodyTileCalculation->getUserPrompts();
+        }
+
+        // مصالح نما و کف - برآورد مصالح مورد نیاز سرامیک کف 
+        if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\Ceramic') {
+            $ceramicCalculation = new CeramicCalculation($this->telegram);
+            $ceramicCalculation->getUserPrompts();
         }
     }
 } 
