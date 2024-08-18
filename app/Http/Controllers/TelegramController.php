@@ -24,6 +24,8 @@ use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concre
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
 use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\FacadeAndFlooringMaterialCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileBotResponse;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightBotResponse;
@@ -417,6 +419,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $decorativeStone = new DecorativeStoneBotResponse($telegram);
             return $decorativeStone->resetResults();
+
+            // محاسبه مصالح کاشی بدنه
+        } elseif($incoming_text === '/bodytile') {
+            $isCommand = true;
+            $bodyTile = new BodyTileCalculation($telegram);
+            return $bodyTile->displayItem();
+        } elseif($incoming_text === '/bodytilesendpamameterttext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $bodyTile = new BodyTileBotResponse($telegram);
+            return $bodyTile->processParameterSubmission();
+        } elseif($incoming_text === '/bodytiledownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $bodyTile = new BodyTileBotResponse($telegram);
+            return $bodyTile->downloadResults();
+        } elseif($incoming_text === '/bodytileresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $bodyTile = new BodyTileBotResponse($telegram);
+            return $bodyTile->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

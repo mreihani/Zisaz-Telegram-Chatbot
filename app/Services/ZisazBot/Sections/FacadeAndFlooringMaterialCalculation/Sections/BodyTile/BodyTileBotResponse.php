@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone;
+namespace App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile;
 
 use PDF;
-use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneResult;
-use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileResult;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileCalculation;
 
-class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
+class BodyTileBotResponse extends BodyTileCalculation {
 
     public $telegram;
     public $latestAction;
-    public $dececorativeStone;
+    public $bodyTile;
     public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
         $this->latestAction = $this->getLastActionObject($telegram);
-        $this->dececorativeStone = $this->latestAction->dececorativeStone->first();
+        $this->bodyTile = $this->latestAction->bodyTile->first();
     }
 
     public function processParameterSubmission() {
-        if(empty($this->dececorativeStone->t)) {
+        if(empty($this->bodyTile->t)) {
             return $this->sendPamameterTText();
-        } elseif(empty($this->dececorativeStone->a)) {
+        } elseif(empty($this->bodyTile->a)) {
             return $this->sendPamameterAText();
         } else {
             return $this->displayFinalResults();
@@ -32,7 +32,7 @@ class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
 
     public function sendPamameterTText() {
         try {
-            $text = 'ضخامت متوسط دوغاب نما را بر حسب سانتی متر وارد نمایید';
+            $text = 'ضخامت متوسط دوغاب کاشی بدنه را بر حسب سانتی متر وارد نمایید';
 
             $option = array( 
                 // First row
@@ -66,9 +66,9 @@ class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
 
     public function displayFinalResults() {
 
-        $decorativeStoneResult = new DecorativeStoneResult($this->telegram);
+        $bodyTileResult = new BodyTileResult($this->telegram);
 
-        $results = $decorativeStoneResult->calculateDecorativeStone();
+        $results = $bodyTileResult->calculateBodyTile();
 
         $text = '
             🎊 محاسبات با موفقیت انجام گردید:
@@ -96,9 +96,9 @@ class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/decorativestonedownloadresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/bodytiledownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/decorativestoneresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/bodytileresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -113,12 +113,12 @@ class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
         $telegram = $this->telegram;
         $chat_id = $telegram->ChatID();
 
-        $decorativeStoneResult = new DecorativeStoneResult($this->telegram);
+        $bodyTileResult = new BodyTileResult($this->telegram);
 
-        $data = $decorativeStoneResult->calculateDecorativeStone();
+        $data = $bodyTileResult->calculateBodyTile();
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('facade-and-flooring-material-calculation.generatepdf-decorative-stone', $data);
+        $pdf = PDF::loadView('facade-and-flooring-material-calculation.generatepdf-body-tile', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());
