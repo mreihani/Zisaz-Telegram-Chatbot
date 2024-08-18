@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting;
+namespace App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone;
 
 use PDF;
-use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingResult;
-use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneResult;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneCalculation;
 
-class ConcretingBotResponse extends ConcretingCalculation {
+class DecorativeStoneBotResponse extends DecorativeStoneCalculation {
 
     public $telegram;
     public $latestAction;
-    public $concreting;
+    public $dececorativeStone;
     public $user;
 
     public function __construct($telegram) {
         $this->telegram = $telegram;
         $this->user = $this->getUser($telegram);
         $this->latestAction = $this->getLastActionObject($telegram);
-        $this->concreting = $this->latestAction->concreting->first();
+        $this->dececorativeStone = $this->latestAction->dececorativeStone->first();
     }
 
     public function processParameterSubmission() {
-        if(empty($this->concreting->v)) {
-            return $this->sendPamameterVText();
-        } elseif(empty($this->concreting->c)) {
-            return $this->sendPamameterCText();
+        if(empty($this->dececorativeStone->t)) {
+            return $this->sendPamameterTText();
+        } elseif(empty($this->dececorativeStone->a)) {
+            return $this->sendPamameterAText();
         } else {
             return $this->displayFinalResults();
         }
     }
 
-    public function sendPamameterVText() {
+    public function sendPamameterTText() {
         try {
-            $text = 'حجم بتن را بر حسب متر مکعب وارد نمایید';
+            $text = 'ضخامت متوسط دوغاب را بر حسب سانتی متر وارد نمایید';
 
             $option = array( 
                 // First row
@@ -47,9 +47,9 @@ class ConcretingBotResponse extends ConcretingCalculation {
         }
     }
 
-    public function sendPamameterCText() {
+    public function sendPamameterAText() {
         try {
-            $text = 'عیار سیمان را وارد نمایید';
+            $text = 'متراژ کل را بر حسب متر مربع وارد نمایید';
 
             $option = array( 
                 // First row
@@ -66,23 +66,26 @@ class ConcretingBotResponse extends ConcretingCalculation {
 
     public function displayFinalResults() {
 
-        $concretingResult = new ConcretingResult($this->telegram);
+        $decorativeStoneResult = new DecorativeStoneResult($this->telegram);
 
-        $results = $concretingResult->calculateConcreting();
+        $results = $decorativeStoneResult->calculateDecorativeStone();
 
         $text = '
             🎊 محاسبات با موفقیت انجام گردید:
         ';
 
         $text .= '
-وزن سیمان مصرفی '. $results['w1'] .' کیلوگرم
-وزن ماسه شسته '. $results['w2'] .' کیلوگرم
-وزن شن نخودی و بادامی '. $results['w3'] .' کیلوگرم
-حجم آب '. $results['v'] .' لیتر
+متراژ کل کار برابر '. $results['a'] .' متر مربع
+وزن سیمان مورد نیاز برابر '. $results['w1'] .' کیلوگرم
+وزن ماسه مورد نیاز برابر '. $results['w2'] .' کیلوگرم
 ';
 
         $text .= '
-توجه⚠ : محاسبات فوق بر اساس شرایط معمول کارگاهی بود و برای محاسبات دقیق بایستی به طرح اختلاط بتون بر اساس مصالح موجود در محل مراجعه کرد.
+توجه ⚠: 
+1- این محاسبات بر اساس تجربه کارگاهی انجام شده است .
+2- در ورود اطلاعات خواسته شده دقت کنید.
+3- در صورتی که اطلاعات دقیق وارد نشود از اعداد پیش فرض  سیستم استفاده می شود .
+4- پرت مصالح 5% در نظر گرفته شده است.
         ';
 
         $text .= '
@@ -93,9 +96,9 @@ class ConcretingBotResponse extends ConcretingCalculation {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/concretingdownloadresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('⬇ دانلود پی دی اف محاسبات', '', '/decorativestonedownloadresults')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/concretingresetresults')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/decorativestoneresetresults')), 
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -110,12 +113,12 @@ class ConcretingBotResponse extends ConcretingCalculation {
         $telegram = $this->telegram;
         $chat_id = $telegram->ChatID();
 
-        $concretingResult = new ConcretingResult($this->telegram);
+        $decorativeStoneResult = new DecorativeStoneResult($this->telegram);
 
-        $data = $concretingResult->calculateConcreting();
+        $data = $decorativeStoneResult->calculateDecorativeStone();
 
         // Step 1: Generate the PDF content
-        $pdf = PDF::loadView('concreting-matrials-calculation.generatepdf-concreting', $data);
+        $pdf = PDF::loadView('facade-and-flooring-material-calculation.generatepdf-decorative-stone', $data);
 
         // Step 2: Save the generated PDF to a temporary location
         $uniqueFileName = hexdec(uniqid());

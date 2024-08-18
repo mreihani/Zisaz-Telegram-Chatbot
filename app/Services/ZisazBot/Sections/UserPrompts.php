@@ -14,6 +14,7 @@ use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWe
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPressedBrick\BrickWallMasonryPressedBrickCalculation;
@@ -57,62 +58,62 @@ class UserPrompts extends ZisazBot {
         
         // ورودی های کاربر برای دیوار چینی بلوکی و آجری - دیوار پارتیشن بلوکی آپارتمان
         if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock') {
-            $brickWallMasonryCalculation = new BrickWallMasonryApartmentBlockCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $brickWallMasonryApartmentBlockCalculation = new BrickWallMasonryApartmentBlockCalculation($this->telegram);
+            $brickWallMasonryApartmentBlockCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای دیوار چینی بلوکی و آجری - دیوار بلوکی حصار باغ یا حیاط
         if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryGarden') {
-            $brickWallMasonryCalculation = new BrickWallMasonryGardenCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $brickWallMasonryGardenCalculation = new BrickWallMasonryGardenCalculation($this->telegram);
+            $brickWallMasonryGardenCalculation->getUserPrompts();
         }
         
         // ورودی های کاربر برای دیوار چینی بلوکی و آجری - برآورد دیوار با آجر فشاری یا سه گل
         if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPressedBrick') {
-            $brickWallMasonryCalculation = new BrickWallMasonryPressedBrickCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $brickWallMasonryPressedBrickCalculation = new BrickWallMasonryPressedBrickCalculation($this->telegram);
+            $brickWallMasonryPressedBrickCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای دیوار چینی بلوکی و آجری - برآورد دیوار با آجر پارتیشن
         if($latestAction->subaction_type === 'App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition') {
-            $brickWallMasonryCalculation = new BrickWallMasonryPartitionCalculation($this->telegram);
-            $brickWallMasonryCalculation->getUserPrompts();
+            $brickWallMasonryPartitionCalculation = new BrickWallMasonryPartitionCalculation($this->telegram);
+            $brickWallMasonryPartitionCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه شیب رمپ
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampSteep') {
-            $rampAndExpansionJointCalculation = new RampSteepCalculation($this->telegram);
-            $rampAndExpansionJointCalculation->getUserPrompts();
+            $rampSteepCalculation = new RampSteepCalculation($this->telegram);
+            $rampSteepCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه طول رمپ
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\RampLength') {
-            $rampAndExpansionJointCalculation = new RampLengthCalculation($this->telegram);
-            $rampAndExpansionJointCalculation->getUserPrompts();
+            $rampLengthCalculation = new RampLengthCalculation($this->telegram);
+            $rampLengthCalculation->getUserPrompts();
         }
 
         // ورودی های کاربر برای محاسبات رمپ و درز انقطاع - محاسبه درز انقطاع
         if($latestAction->subaction_type === 'App\Models\Action\Ramp\ExpansionJoint') {
-            $rampAndExpansionJointCalculation = new ExpansionJointCalculation($this->telegram);
-            $rampAndExpansionJointCalculation->getUserPrompts();
+            $expansionJointCalculation = new ExpansionJointCalculation($this->telegram);
+            $expansionJointCalculation->getUserPrompts();
         }
 
         // محاسبات وزن میلگرد و خامود - وزن میلگرد
         if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\RebarWeight') {
-            $rebarAndStirrupCalculation = new RebarWeightCalculation($this->telegram);
-            $rebarAndStirrupCalculation->getUserPrompts();
+            $rebarWeightCalculation = new RebarWeightCalculation($this->telegram);
+            $rebarWeightCalculation->getUserPrompts();
         }
 
         // محاسبات وزن میلگرد و خامود - وزن خاموت
         if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\StirrupWeight') {
-            $rebarAndStirrupCalculation = new StirrupWeightCalculation($this->telegram);
-            $rebarAndStirrupCalculation->getUserPrompts();
+            $stirrupWeightCalculation = new StirrupWeightCalculation($this->telegram);
+            $stirrupWeightCalculation->getUserPrompts();
         }
 
         // محاسبات وزن میلگرد و خامود - معادل سازی میلگرد
         if($latestAction->subaction_type === 'App\Models\Action\RebarAndStirrup\RebarConversion') {
-            $rebarAndStirrupCalculation = new RebarConversionCalculation($this->telegram);
-            $rebarAndStirrupCalculation->getUserPrompts();
+            $rebarConversionCalculation = new RebarConversionCalculation($this->telegram);
+            $rebarConversionCalculation->getUserPrompts();
         }
 
         // محاسبات مصالح مورد نیاز بتن ریزی
@@ -125,6 +126,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\Concreting\ColumnConcreting') {
             $columnConcretingCalculation = new ColumnConcretingCalculation($this->telegram);
             $columnConcretingCalculation->getUserPrompts();
+        }
+
+        // مصالح نما و کف - برآورد مصالح مورد نیاز سنگ نما 
+        if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\DecorativeStone') {
+            $decorativeStoneCalculation = new DecorativeStoneCalculation($this->telegram);
+            $decorativeStoneCalculation->getUserPrompts();
         }
     }
 } 

@@ -23,6 +23,7 @@ use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concre
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampSteep\RampSteepCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\FacadeAndFlooringMaterialCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthBotResponse;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightBotResponse;
@@ -33,6 +34,8 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Exp
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingBotResponse;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneBotResponse;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\DecorativeStone\DecorativeStoneCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenBotResponse;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryGarden\BrickWallMasonryGardenCalculation;
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\Sections\BrickWallMasonryPartition\BrickWallMasonryPartitionBotResponse;
@@ -387,6 +390,33 @@ class TelegramController extends Controller
             $isCommand = true;
             $columnconcreting = new ColumnConcretingBotResponse($telegram);
             return $columnconcreting->resetResults();
+
+            // محاسبه مصالح نما و کف
+        } elseif($incoming_text === '/getfacadeandflooringmaterialcalculation' || $incoming_text == '🏢 مصالح نما و کف ساختمان') {
+            $isCommand = true;
+            $facadeAndFlooringMaterialCalculation = new FacadeAndFlooringMaterialCalculation($telegram);
+            return $facadeAndFlooringMaterialCalculation->displayItem();
+
+            // محاسبه مصالح سنگ نما
+        } elseif($incoming_text === '/decorativestone') {
+            $isCommand = true;
+            $decorativeStone = new DecorativeStoneCalculation($telegram);
+            return $decorativeStone->displayItem();
+        } elseif($incoming_text === '/decorativestonesendpamameterttext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $decorativeStone = new DecorativeStoneBotResponse($telegram);
+            return $decorativeStone->processParameterSubmission();
+        } elseif($incoming_text === '/decorativestonedownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $decorativeStone = new DecorativeStoneBotResponse($telegram);
+            return $decorativeStone->downloadResults();
+        } elseif($incoming_text === '/decorativestoneresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $decorativeStone = new DecorativeStoneBotResponse($telegram);
+            return $decorativeStone->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

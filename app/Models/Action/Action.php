@@ -15,8 +15,13 @@ use App\Models\Action\RebarAndStirrup\RebarWeight;
 use App\Models\Action\RebarAndStirrup\StirrupWeight;
 use App\Models\Action\RebarAndStirrup\RebarConversion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Action\FacadeAndFlooringMaterial\Mosaic;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
+use App\Models\Action\FacadeAndFlooringMaterial\Ceramic;
+use App\Models\Action\FacadeAndFlooringMaterial\BodyTile;
+use App\Models\Action\FacadeAndFlooringMaterial\Cementing;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryGarden;
+use App\Models\Action\FacadeAndFlooringMaterial\DecorativeStone;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryPartition;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryPressedBrick;
 use App\Models\Action\BrickWallMasonry\BrickWallMasonryApartmentBlock;
@@ -87,5 +92,25 @@ class Action extends Model
 
     public function columnConcreting() {
         return $this->hasMany(ColumnConcreting::class);
+    }
+
+    public function dececorativeStone() {
+        return $this->hasMany(DecorativeStone::class);
+    }
+
+    public function bodyTile() {
+        return $this->hasMany(BodyTile::class);
+    }
+   
+    public function ceramic() {
+        return $this->hasMany(Ceramic::class);
+    }
+
+    public function mosaic() {
+        return $this->hasMany(Mosaic::class);
+    }
+
+    public function cementing() {
+        return $this->hasMany(Cementing::class);
     }
 }
