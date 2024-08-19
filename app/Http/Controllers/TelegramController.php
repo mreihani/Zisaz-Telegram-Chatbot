@@ -17,6 +17,8 @@ use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofC
 use App\Services\ZisazBot\Sections\BrickWallMasonryCalculation\BrickWallMasonryCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\ConcretingMatrialsCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\RampAndExpansionJointCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic\MosaicBotResponse;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic\MosaicCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightBotResponse;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingBotResponse;
@@ -463,6 +465,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $ceramic = new CeramicBotResponse($telegram);
             return $ceramic->resetResults();
+
+            // محاسبه مصالح موزائیک کف
+        } elseif($incoming_text === '/mosaic') {
+            $isCommand = true;
+            $mosaic = new MosaicCalculation($telegram);
+            return $mosaic->displayItem();
+        } elseif($incoming_text === '/mosaicsendpamameterttext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $mosaic = new MosaicBotResponse($telegram);
+            return $mosaic->processParameterSubmission();
+        } elseif($incoming_text === '/mosaicdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $mosaic = new MosaicBotResponse($telegram);
+            return $mosaic->downloadResults();
+        } elseif($incoming_text === '/mosaicresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $mosaic = new MosaicBotResponse($telegram);
+            return $mosaic->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

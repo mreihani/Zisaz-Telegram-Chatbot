@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic;
+namespace App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic;
 
 use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
-use App\Models\Action\FacadeAndFlooringMaterial\Ceramic;
-use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicValidation;
-use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicBotResponse;
+use App\Models\Action\FacadeAndFlooringMaterial\Mosaic;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic\MosaicValidation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic\MosaicBotResponse;
 
-class CeramicCalculation extends ZisazBot {
+class MosaicCalculation extends ZisazBot {
 
     public $telegram;
     public $user;
@@ -22,10 +22,10 @@ class CeramicCalculation extends ZisazBot {
     public function displayItem() {
        
         $text = '
-در این بخش محاسبات مصالح مورد نیاز سرامیک کف انجام می شود. 
+در این بخش محاسبات مصالح مورد نیاز موزائیک کف انجام می شود. 
             
 اطلاعات مورد نیاز:
-1- ضخامت متوسط ملات سرامیک کف
+1- ضخامت متوسط ملات موزائیک کف
 2- متراژ کل
 
 ⤵
@@ -33,7 +33,7 @@ class CeramicCalculation extends ZisazBot {
         
         $option = array( 
             // First row
-            array($this->telegram->buildInlineKeyBoardButton('☑ ادامه', '', '/ceramicsendpamameterttext')), 
+            array($this->telegram->buildInlineKeyBoardButton('☑ ادامه', '', '/mosaicsendpamameterttext')), 
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
         );
@@ -43,7 +43,7 @@ class CeramicCalculation extends ZisazBot {
         $this->sendMessageWithInlineKeyBoard($this->telegram, $keyb, $text);
 
         // set and update action
-        $this->initializeAction(new Ceramic());
+        $this->initializeAction(new Mosaic());
     }
 
     public function getUserPrompts() {
@@ -53,43 +53,43 @@ class CeramicCalculation extends ZisazBot {
 
             $latestAction = $this->getLastActionObject($this->telegram);
 
-            $ceramic = $latestAction->ceramic->first();
+            $mosaic = $latestAction->mosaic->first();
 
-            $ceramicBotResponse = new CeramicBotResponse($this->telegram);
-            $ceramicValidation = new CeramicValidation($this->telegram);
+            $mosaicBotResponse = new MosaicBotResponse($this->telegram);
+            $mosaicValidation = new MosaicValidation($this->telegram);
 
-            if(empty($ceramic->t)) {
+            if(empty($mosaic->t)) {
                 
                 // user input validation for numeric values
-                $ceramicValidation->isNumericValidation($text, 't');
+                $mosaicValidation->isNumericValidation($text, 't');
                 // user input validation for positive integer values
-                $ceramicValidation->isPositiveInteger($text, 't');
+                $mosaicValidation->isPositiveInteger($text, 't');
                 // user input validation for not zero entries
-                $ceramicValidation->isNotZero($text, 't');
+                $mosaicValidation->isNotZero($text, 't');
 
-                $ceramicObj = $latestAction->ceramic()->create([
+                $mosaicObj = $latestAction->mosaic()->create([
                     't' => !empty($text) ? $text : null,
                 ]);
 
                 $latestAction->update([
-                    'subaction_id' => $ceramicObj->id,
+                    'subaction_id' => $mosaicObj->id,
                 ]);
 
-                $ceramicBotResponse->sendPamameterAText();
-            } elseif(empty($ceramic->a)) {
+                $mosaicBotResponse->sendPamameterAText();
+            } elseif(empty($mosaic->a)) {
                 
                 // user input validation for numeric values
-                $ceramicValidation->isNumericValidation($text, 'a');
+                $mosaicValidation->isNumericValidation($text, 'a');
                 // user input validation for positive integer values
-                $ceramicValidation->isPositiveInteger($text, 'a');
+                $mosaicValidation->isPositiveInteger($text, 'a');
                 // user input validation for not zero entries
-                $ceramicValidation->isNotZero($text, 'a');
+                $mosaicValidation->isNotZero($text, 'a');
 
-                $latestAction->ceramic()->update([
+                $latestAction->mosaic()->update([
                     'a' => !empty($text) ? $text : null,
                 ]);
 
-                $ceramicBotResponse->displayFinalResults();
+                $mosaicBotResponse->displayFinalResults();
             }
 
         } catch (\Exception $e) {
@@ -100,10 +100,10 @@ class CeramicCalculation extends ZisazBot {
     public function resetResults() {
         $latestAction = $this->getLastActionObject($this->telegram);
 
-        $ceramic = $this->user->actions->flatMap->ceramic->first();
+        $mosaic = $this->user->actions->flatMap->mosaic->first();
         
-        if(!is_null($ceramic)) {
-            $ceramic->delete();
+        if(!is_null($mosaic)) {
+            $mosaic->delete();
         }
 
         return $this->displayItem();

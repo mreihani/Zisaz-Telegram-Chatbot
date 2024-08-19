@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\ZisazBot\ZisazBot;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
 use App\Services\ZisazBot\Sections\BeamAndBlockRoofCalculation\BeamAndBlockRoofCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Mosaic\MosaicCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarWeight\RebarWeightCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\Concreting\ConcretingCalculation;
 use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Ceramic\CeramicCalculation;
@@ -146,6 +147,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\Ceramic') {
             $ceramicCalculation = new CeramicCalculation($this->telegram);
             $ceramicCalculation->getUserPrompts();
+        }
+
+        // مصالح نما و کف - برآورد مصالح مورد نیاز موزائیک کف 
+        if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\Mosaic') {
+            $mosaicCalculation = new MosaicCalculation($this->telegram);
+            $mosaicCalculation->getUserPrompts();
         }
     }
 } 
