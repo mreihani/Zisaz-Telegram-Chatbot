@@ -34,6 +34,8 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightBotResponse;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Cementing\CementingBotResponse;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Cementing\CementingCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionBotResponse;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointBotResponse;
@@ -486,6 +488,27 @@ class TelegramController extends Controller
             $isCommand = true;
             $mosaic = new MosaicBotResponse($telegram);
             return $mosaic->resetResults();
+
+            // محاسبه مصالح مورد نیاز سیمانکاری زبره (آستر)
+        } elseif($incoming_text === '/cementing') {
+            $isCommand = true;
+            $cementing = new CementingCalculation($telegram);
+            return $cementing->displayItem();
+        } elseif($incoming_text === '/cementingsendpamameterttext') {
+            // دریافت اطلاعات و پارامتر های محاسباتی
+            $isCommand = true;
+            $cementing = new CementingBotResponse($telegram);
+            return $cementing->processParameterSubmission();
+        } elseif($incoming_text === '/cementingdownloadresults') {
+            // دانلود پی دی اف
+            $isCommand = true;
+            $cementing = new CementingBotResponse($telegram);
+            return $cementing->downloadResults();
+        } elseif($incoming_text === '/cementingresetresults') {
+            // پروژه جدید
+            $isCommand = true;
+            $cementing = new CementingBotResponse($telegram);
+            return $cementing->resetResults();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

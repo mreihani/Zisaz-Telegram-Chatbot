@@ -14,6 +14,7 @@ use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\Ram
 use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\BodyTile\BodyTileCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\RampLength\RampLengthCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\StirrupWeight\StirrupWeightCalculation;
+use App\Services\ZisazBot\Sections\FacadeAndFlooringMaterialCalculation\Sections\Cementing\CementingCalculation;
 use App\Services\ZisazBot\Sections\RebarAndStirrupCalculation\Sections\RebarConversion\RebarConversionCalculation;
 use App\Services\ZisazBot\Sections\RampAndExpansionJointCalculation\Sections\ExpansionJoint\ExpansionJointCalculation;
 use App\Services\ZisazBot\Sections\ConcretingMatrialsCalculation\Sections\ColumnConcreting\ColumnConcretingCalculation;
@@ -153,6 +154,12 @@ class UserPrompts extends ZisazBot {
         if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\Mosaic') {
             $mosaicCalculation = new MosaicCalculation($this->telegram);
             $mosaicCalculation->getUserPrompts();
+        }
+
+        // مصالح نما و کف - برآورد مصالح مورد نیاز سیمانکاری زبره (آستر) 
+        if($latestAction->subaction_type === 'App\Models\Action\FacadeAndFlooringMaterial\Cementing') {
+            $cementingCalculation = new CementingCalculation($this->telegram);
+            $cementingCalculation->getUserPrompts();
         }
     }
 } 
