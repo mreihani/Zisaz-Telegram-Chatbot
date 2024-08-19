@@ -8,6 +8,8 @@ use App\Services\TelegramBotPhp\Telegram;
 use App\Services\ZisazBot\Sections\UserPrompts;
 use App\Services\ZisazBot\Sections\StartSection;
 use App\Models\Action\BeamAndBlockRoof\BeamAndBlockRoof;
+use App\Services\ZisazBot\Sections\FaqSection\FaqSection;
+use App\Services\ZisazBot\Sections\SupportSection\SupportSection;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\Sections\ConstCalcArea;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionBotResponse;
 use App\Services\ZisazBot\Sections\ConstructionCalculation\ConstructionCalculation;
@@ -469,46 +471,58 @@ class TelegramController extends Controller
             return $ceramic->resetResults();
 
             // محاسبه مصالح موزائیک کف
-        } elseif($incoming_text === '/mosaic') {
-            $isCommand = true;
-            $mosaic = new MosaicCalculation($telegram);
-            return $mosaic->displayItem();
-        } elseif($incoming_text === '/mosaicsendpamameterttext') {
-            // دریافت اطلاعات و پارامتر های محاسباتی
-            $isCommand = true;
-            $mosaic = new MosaicBotResponse($telegram);
-            return $mosaic->processParameterSubmission();
-        } elseif($incoming_text === '/mosaicdownloadresults') {
-            // دانلود پی دی اف
-            $isCommand = true;
-            $mosaic = new MosaicBotResponse($telegram);
-            return $mosaic->downloadResults();
-        } elseif($incoming_text === '/mosaicresetresults') {
-            // پروژه جدید
-            $isCommand = true;
-            $mosaic = new MosaicBotResponse($telegram);
-            return $mosaic->resetResults();
+        // } elseif($incoming_text === '/mosaic') {
+        //     $isCommand = true;
+        //     $mosaic = new MosaicCalculation($telegram);
+        //     return $mosaic->displayItem();
+        // } elseif($incoming_text === '/mosaicsendpamameterttext') {
+        //     // دریافت اطلاعات و پارامتر های محاسباتی
+        //     $isCommand = true;
+        //     $mosaic = new MosaicBotResponse($telegram);
+        //     return $mosaic->processParameterSubmission();
+        // } elseif($incoming_text === '/mosaicdownloadresults') {
+        //     // دانلود پی دی اف
+        //     $isCommand = true;
+        //     $mosaic = new MosaicBotResponse($telegram);
+        //     return $mosaic->downloadResults();
+        // } elseif($incoming_text === '/mosaicresetresults') {
+        //     // پروژه جدید
+        //     $isCommand = true;
+        //     $mosaic = new MosaicBotResponse($telegram);
+        //     return $mosaic->resetResults();
 
             // محاسبه مصالح مورد نیاز سیمانکاری زبره (آستر)
-        } elseif($incoming_text === '/cementing') {
-            $isCommand = true;
-            $cementing = new CementingCalculation($telegram);
-            return $cementing->displayItem();
-        } elseif($incoming_text === '/cementingsendpamameterttext') {
-            // دریافت اطلاعات و پارامتر های محاسباتی
-            $isCommand = true;
-            $cementing = new CementingBotResponse($telegram);
-            return $cementing->processParameterSubmission();
-        } elseif($incoming_text === '/cementingdownloadresults') {
-            // دانلود پی دی اف
-            $isCommand = true;
-            $cementing = new CementingBotResponse($telegram);
-            return $cementing->downloadResults();
-        } elseif($incoming_text === '/cementingresetresults') {
-            // پروژه جدید
-            $isCommand = true;
-            $cementing = new CementingBotResponse($telegram);
-            return $cementing->resetResults();
+        // } elseif($incoming_text === '/cementing') {
+        //     $isCommand = true;
+        //     $cementing = new CementingCalculation($telegram);
+        //     return $cementing->displayItem();
+        // } elseif($incoming_text === '/cementingsendpamameterttext') {
+        //     // دریافت اطلاعات و پارامتر های محاسباتی
+        //     $isCommand = true;
+        //     $cementing = new CementingBotResponse($telegram);
+        //     return $cementing->processParameterSubmission();
+        // } elseif($incoming_text === '/cementingdownloadresults') {
+        //     // دانلود پی دی اف
+        //     $isCommand = true;
+        //     $cementing = new CementingBotResponse($telegram);
+        //     return $cementing->downloadResults();
+        // } elseif($incoming_text === '/cementingresetresults') {
+        //     // پروژه جدید
+        //     $isCommand = true;
+        //     $cementing = new CementingBotResponse($telegram);
+        //     return $cementing->resetResults();
+
+            // نمایش سوالات متداول
+        // } elseif($incoming_text === '/getfaqsection' || $incoming_text == '❓ سوالات متداول') {
+        //     $isCommand = true;
+        //     $faq = new FaqSection($telegram);
+        //     return $faq->displayItem();
+
+        //     // نمایش پشتیبانی
+        // } elseif($incoming_text === '/getsupportsection' || $incoming_text == '🚨 پشتیبانی') {
+        //     $isCommand = true;
+        //     $supportSection = new SupportSection($telegram);
+        //     return $supportSection->displayItem();
 
             // دریافت کلیه ورودی های تایپ شده کاربر
         } elseif(!$isCommand) {

@@ -51,7 +51,7 @@ abstract class ZisazBot {
             // Third row
             array($telegram->buildKeyboardButton('🏢 مصالح نما و کف ساختمان'), $telegram->buildKeyboardButton('🌫️ محاسبه مصالح بتون ریزی'), $telegram->buildKeyboardButton('➰ وزن میلگرد و خاموت')), 
             // Fourth row
-            array($telegram->buildKeyboardButton('🙋 پیشنهادات'), $telegram->buildKeyboardButton('🚨 پشتیبانی'), $telegram->buildKeyboardButton('❓ سوالات متداول')), 
+            array($telegram->buildKeyboardButton('🚨 پشتیبانی'), $telegram->buildKeyboardButton('❓ سوالات متداول')), 
         );
 
         $keyb = $telegram->buildKeyBoard($option, $onetime = true, $resize = true, $is_persistent = true);
