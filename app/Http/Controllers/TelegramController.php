@@ -491,7 +491,7 @@ class TelegramController extends Controller
             $mosaic = new MosaicBotResponse($telegram);
             return $mosaic->resetResults();
 
-            محاسبه مصالح مورد نیاز سیمانکاری زبره (آستر)
+            // محاسبه مصالح مورد نیاز سیمانکاری زبره (آستر)
         } elseif($incoming_text === '/cementing') {
             $isCommand = true;
             $cementing = new CementingCalculation($telegram);
