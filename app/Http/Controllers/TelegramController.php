@@ -512,7 +512,7 @@ class TelegramController extends Controller
             $cementing = new CementingBotResponse($telegram);
             return $cementing->resetResults();
 
-            نمایش سوالات متداول
+            // نمایش سوالات متداول
         } elseif($incoming_text === '/getfaqsection' || $incoming_text == '❓ سوالات متداول') {
             $isCommand = true;
             $faq = new FaqSection($telegram);
