@@ -37,7 +37,7 @@ class FacadeAndFlooringMaterialCalculation extends ZisazBot {
             // Fifth row
             array($this->telegram->buildInlineKeyBoardButton('برآورد مصالح مورد نیاز سیمانکاری زبره (آستر)', '', '/cementing')), 
             // Sixth row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

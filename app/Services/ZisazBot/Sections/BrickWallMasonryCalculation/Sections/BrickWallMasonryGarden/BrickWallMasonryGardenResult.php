@@ -111,7 +111,7 @@ class BrickWallMasonryGardenResult extends BrickWallMasonryGardenCalculation {
         $w = ($v1 * 250) + ($v2 * 350);
 
         // وزن ماسه
-        $s = $v * 2000;
+        $s = ($v1 + $v2) * 2000;
 
         // طول پی کنی
         $l = $initialValues['l'];

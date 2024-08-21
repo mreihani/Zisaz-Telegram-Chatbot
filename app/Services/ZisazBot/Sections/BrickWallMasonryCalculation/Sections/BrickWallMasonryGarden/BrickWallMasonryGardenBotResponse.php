@@ -42,7 +42,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -59,7 +59,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -80,7 +80,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
                 // Second row
                 array($this->telegram->buildInlineKeyBoardButton('محاسبات دیوار چینی  با شناژ افقی و عمودی بتونی', '', '/brickwallmasonrygardensendpamametertypeb')), 
                 // Third row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -97,7 +97,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -150,7 +150,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
 مقدار سیمان مورد نیاز برابر '. $results['w'] .' کبلوگرم است
 مقدار ماسه مورد نیاز برابر '. $results['s'] .' کیلوگرم است
 وزن خاموت 8 برابر '. $results['w2'] .' است.
-وزن خاموت 14 برابر '. $results['w1'] .' است.
+وزن میلگرد 14 برابر '. $results['w1'] .' است.
 ';
             
                     $text .= '
@@ -173,7 +173,7 @@ class BrickWallMasonryGardenBotResponse extends BrickWallMasonryGardenCalculatio
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/brickwallmasonrygardenresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

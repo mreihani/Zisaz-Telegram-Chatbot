@@ -31,7 +31,7 @@ class ConcretingMatrialsCalculation extends ZisazBot {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('محاسبه مصالح لازم برای بتن ریزی ستون ها', '', '/columnconcreting')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

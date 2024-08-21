@@ -37,7 +37,7 @@ class BrickWallMasonryCalculation extends ZisazBot {
             // Fourth row
             array($this->telegram->buildInlineKeyBoardButton('دیوار چینی آجر پارتیشن', '', '/brickwallmasonrypartition')), 
             // Fifth row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

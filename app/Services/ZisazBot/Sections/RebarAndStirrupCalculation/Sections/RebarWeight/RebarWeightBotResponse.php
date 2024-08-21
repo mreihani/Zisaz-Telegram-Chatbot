@@ -34,7 +34,7 @@ class RebarWeightBotResponse extends RebarWeightCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -72,7 +72,7 @@ class RebarWeightBotResponse extends RebarWeightCalculation {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/rebarweightresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

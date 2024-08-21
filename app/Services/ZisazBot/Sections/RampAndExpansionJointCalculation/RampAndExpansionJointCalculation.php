@@ -33,7 +33,7 @@ class RampAndExpansionJointCalculation extends ZisazBot {
             // Third row
             array($this->telegram->buildInlineKeyBoardButton('درز انقطاع', '', '/expansionjoint')), 
             // Fourth row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

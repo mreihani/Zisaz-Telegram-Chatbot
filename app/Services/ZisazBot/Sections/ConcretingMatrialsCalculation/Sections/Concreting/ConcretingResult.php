@@ -37,10 +37,11 @@ class ConcretingResult extends ConcretingCalculation {
         $v1 = 0.5 * $w1;
 
         return [
+            'v' => ceil($v),
             'w1' => ceil($w1),
             'w2' => ceil($w2),
             'w3' => ceil($w3),
-            'v' => ceil($v),
+            'v1' => ceil($v1),
         ];
     }
 }

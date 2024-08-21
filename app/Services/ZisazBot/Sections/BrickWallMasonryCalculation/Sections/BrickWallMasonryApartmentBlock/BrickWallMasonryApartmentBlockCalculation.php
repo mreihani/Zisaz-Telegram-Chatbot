@@ -34,7 +34,7 @@ class BrickWallMasonryApartmentBlockCalculation extends ZisazBot {
             // First row
             array($this->telegram->buildInlineKeyBoardButton('☑ ادامه', '', '/brickwallmasonryapartmentblocksendpamameteratext')), 
             // Second row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

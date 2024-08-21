@@ -42,7 +42,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -59,7 +59,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -76,7 +76,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -93,7 +93,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -110,7 +110,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -132,7 +132,10 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
         ';
 
         $text .= '
-حجم کل بتن ریزی برابر '. $results['v'] .' متر مکعب
+ابعاد ستون برابر '. $results['l'] .' * '. $results['b'] .' سانتی متر
+ارتفاع ستون برابر '. $results['h'] .' سانتی متر
+تعداد ستون برابر '. $results['v'] .' عدد
+حجم کل بتن ریزی برابر '. $results['v3'] .' متر مکعب
 وزن سیمان مصرفی برابر '. $results['w1'] .' کیلوگرم
 وزن ماسه شسته برابر '. $results['w2'] .' کیلوگرم
 وزن شن نخودی و بادامی برابر '. $results['w3'] .' کیلوگرم
@@ -155,7 +158,7 @@ class ColumnConcretingBotResponse extends ColumnConcretingCalculation {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/columnconcretingresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

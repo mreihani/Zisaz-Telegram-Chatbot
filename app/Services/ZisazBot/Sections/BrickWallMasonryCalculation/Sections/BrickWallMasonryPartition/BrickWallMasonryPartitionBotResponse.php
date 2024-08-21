@@ -36,7 +36,7 @@ class BrickWallMasonryPartitionBotResponse extends BrickWallMasonryPartitionCalc
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -56,7 +56,7 @@ class BrickWallMasonryPartitionBotResponse extends BrickWallMasonryPartitionCalc
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('13', '', '/brickwallmasonrypartitionsendpamameterb13')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -99,7 +99,7 @@ class BrickWallMasonryPartitionBotResponse extends BrickWallMasonryPartitionCalc
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/brickwallmasonrypartitionresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

@@ -39,7 +39,7 @@ class StirrupWeightResult extends StirrupWeightCalculation {
         $w1 = $w * ($b + $l + 8) * 2 / 100;
 
         // وزن کل خاموت
-        $w2 = $w1 + $n;
+        $w2 = $w1 * $n;
 
         return [
             'd' => $d,

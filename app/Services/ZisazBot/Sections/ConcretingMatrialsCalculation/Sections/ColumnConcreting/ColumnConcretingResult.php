@@ -34,26 +34,30 @@ class ColumnConcretingResult extends ColumnConcretingCalculation {
         $c = !empty($this->columnConcreting->c) ? floatval($this->columnConcreting->c) : 0;
 
         // حجم بتن ریزی
-        $v = ($l * $b * $h) / 1000000;
+        $v3 = ($l * $b * $h) / 1000000 * $v;
 
         // وزن سیمان مصرفی
-        $w1 = $c * $v;
+        $w1 = $c * $v3;
 
         // وزن سیمان مصرفی     
-        $w2 = 0.55 * 1900 * $v;
+        $w2 = 0.55 * 1900 * $v3;
 
         // وزن شن نخودی و بادامی
-        $w3 = 0.45 * 1900 * $v;
+        $w3 = 0.45 * 1900 * $v3;
 
         // حجم آب
         $v1 = 0.5 * $w1;
-
+        
         return [
-            'v' => ceil($v),
+            'l' => $l,
+            'b' => $b,
+            'h' => $h,
+            'v' => $v,
+            'v3' => bcdiv($v3, 1, 2),
             'w1' => ceil($w1),
             'w2' => ceil($w2),
             'w3' => ceil($w3),
-            'v1' => ceil($v1),
+            'v1' => bcdiv($v1, 1, 2),
         ];
     }
 }

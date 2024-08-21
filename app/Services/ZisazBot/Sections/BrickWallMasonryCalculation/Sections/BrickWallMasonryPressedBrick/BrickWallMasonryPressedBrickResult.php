@@ -27,17 +27,17 @@ class BrickWallMasonryPressedBrickResult extends BrickWallMasonryPressedBrickCal
         // دریافت طول آجر از دیتابیس 
         $r = !empty($this->brickWallMasonryPressedBrick->r) ? floatval($this->brickWallMasonryPressedBrick->r) : 22;
 
-        // دریفا عرض آجر از دیتابیس
+        // دریافت عرض آجر از دیتابیس
         $e = !empty($this->brickWallMasonryPressedBrick->e) ? floatval($this->brickWallMasonryPressedBrick->e) : 10.5;
 
-        // دریفا ضخامت آجر از دیتابیس
+        // دریافت ضخامت آجر از دیتابیس
         $f = !empty($this->brickWallMasonryPressedBrick->f) ? floatval($this->brickWallMasonryPressedBrick->f) : 5.5;
 
-        // دریاف عیار ملات از دیتابیس
+        // دریافت عیار ملات از دیتابیس
         $c = !empty($this->brickWallMasonryPressedBrick->c) ? floatval($this->brickWallMasonryPressedBrick->c) : 250;
 
         // مساحت آجر
-        $a4 = $r * $f;
+        $a4 = $r * $e / 10000;
 
         // تعداد رج آجر در یک متر ارتفاع
         $r2 = 100 / ($f + 1.7);
@@ -46,7 +46,7 @@ class BrickWallMasonryPressedBrickResult extends BrickWallMasonryPressedBrickCal
         $b1 = $b / 100 ;
 
         // تعداد آجر
-        $n = $r2 * ($b1 * 1) / $a4;
+        $n = $r2 * ($b1 * 1 / $a4);
 
         // حجم ملات
         $v = ($b1 * 0.018 * 1 * $r2 * 1.06 ) * $a;

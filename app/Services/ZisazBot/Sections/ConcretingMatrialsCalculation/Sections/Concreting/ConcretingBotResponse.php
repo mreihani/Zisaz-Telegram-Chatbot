@@ -36,7 +36,7 @@ class ConcretingBotResponse extends ConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -53,7 +53,7 @@ class ConcretingBotResponse extends ConcretingCalculation {
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -75,10 +75,11 @@ class ConcretingBotResponse extends ConcretingCalculation {
         ';
 
         $text .= '
+حجم بتن '. $results['v'] .' متر مکعب
 وزن سیمان مصرفی '. $results['w1'] .' کیلوگرم
 وزن ماسه شسته '. $results['w2'] .' کیلوگرم
 وزن شن نخودی و بادامی '. $results['w3'] .' کیلوگرم
-حجم آب '. $results['v'] .' لیتر
+حجم آب '. $results['v1'] .' لیتر
 ';
 
         $text .= '
@@ -97,7 +98,7 @@ class ConcretingBotResponse extends ConcretingCalculation {
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/concretingresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);

@@ -37,7 +37,7 @@ class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmen
 
             $option = array( 
                 // First row
-                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+                array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
             );
 
             $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -61,7 +61,7 @@ class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmen
             // Fourth row
             array($this->telegram->buildInlineKeyBoardButton('20', '', '/brickwallmasonryapartmentblocksendpamameterb20')), 
             // Fifth row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
@@ -104,7 +104,7 @@ class BrickWallMasonryApartmentBlockBotResponse extends BrickWallMasonryApartmen
             // Second row
             array($this->telegram->buildInlineKeyBoardButton('🔁 پروژه جدید', '', '/brickwallmasonryapartmentblockresetresults')), 
             // Third row
-            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت', '', '/start')), 
+            array($this->telegram->buildInlineKeyBoardButton('🔙 بازگشت به منوی اصلی', '', '/start')), 
         );
 
         $keyb = $this->telegram->buildInlineKeyBoard($option);
